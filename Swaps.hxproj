@@ -5,9 +5,9 @@
     <movie outputType="Application" />
     <movie input="" />
     <movie path="project.xml" />
-    <movie fps="30" />
-    <movie width="800" />
-    <movie height="600" />
+    <movie fps="60" />
+    <movie width="768" />
+    <movie height="1280" />
     <movie version="3" />
     <movie minorVersion="0" />
     <movie platform="NME" />
@@ -22,7 +22,7 @@
   <build>
     <option directives="" />
     <option flashStrict="False" />
-    <option mainClass="com.example.swaps" />
+    <option mainClass="com.mapisoft.swaps" />
     <option enabledebug="False" />
     <option additional="" />
   </build>

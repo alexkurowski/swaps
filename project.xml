@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <project>
 	
-	<meta title="Swaps" package="com.example.swaps" version="1.0.0" company="Company Name" />
+	<meta title="Swaps" package="com.mapisoft.swaps" version="1.0.0" company="MapiSoft" />
 	<app main="Main" path="Export" file="Swaps" />
+
+	<window fps="60" background="#ff3300" hardware="true" vsync="false" antialiasing="0" />
+	<window if="desktop" width="375" height="640" />
+	<window if="mobile" width="0" height="0" fullscreen="true" orientation="portrait" />
+
+	<!-- <certificate path="C:/Projects/swaps/License/swaps-key.keystroke" alias="swapskey" password="hidamarisketch" if="android"/> -->
 	
 	<source path="Source" />
 	
 	<haxelib name="openfl" />
+	<haxelib name="iap" />
 	
 	<assets path="Assets" rename="assets" exclude="openfl.svg" />
 	<icon path="Assets/openfl.svg" />
