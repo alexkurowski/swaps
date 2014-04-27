@@ -2,19 +2,115 @@ package;
 
 
 import flash.display.Sprite;
+import flash.display.Bitmap;
+import flash.display.BitmapData;
+import flash.display.StageAlign;
+import flash.display.StageQuality;
+import flash.display.StageScaleMode;
+import flash.events.Event;
+import flash.Lib;
+import openfl.Assets;
+import flash.net.SharedObject;
+
+import states.*;
 
 
 class Main extends Sprite {
 	
-	
+	private var state: State;
+
+	public var zoom: Float;
+
+	var firstStart: Bool;
+	var previousTime: Float;
+
 	public function new () {
 		
-		super ();
+		super();
+
+		load();
+
+		begin();
 		
-		generate();
-		
+		stage.addEventListener(Event.ENTER_FRAME, update);
+		stage.addEventListener(Event.RESIZE, resize);
 	}
 
+	public function setState(newState: Dynamic)
+	{
+		if (state != null) {
+			removeChild(state);
+		}
+
+		state = newState;
+		addChild(state);
+
+		resize();
+
+		G.state = state;
+	}
+
+	// load assets and options into the memory
+	private function load()
+	{
+		G.graphics = {};
+		G.graphics.block = Assets.getBitmapData("assets/img/block.png");
+
+		G.font = Assets.getFont("assets/Bariol_Bold.otf");
+
+
+
+		var file = SharedObject.getLocal("options");
+		var needSave: Bool = false;
+
+		file.close();
+	}
+
+	// game's entry point
+	private function begin()
+	{
+		G.game = this;
+
+		setState(new GameState());
+
+		IO.set();
+
+		previousTime = Lib.getTimer();
+	}
+
+	private function resize(?e: Event)
+	{
+		Lib.current.stage.align = StageAlign.TOP_LEFT;
+		Lib.current.stage.quality = flash.display.StageQuality.BEST;
+		Lib.current.stage.scaleMode = StageScaleMode.NO_SCALE;
+
+		var ratioX = Lib.current.stage.stageWidth / 768;
+		var ratioY = Lib.current.stage.stageHeight / 1280;
+		zoom = Math.min(ratioX, ratioY);
+
+		state.scaleX = zoom;
+		state.scaleY = zoom;
+
+		state.x = Lib.current.stage.stageWidth / 2 - 768 * zoom / 2;
+		state.y = Lib.current.stage.stageHeight / 2 - 1280 * zoom / 2;
+
+		IO.setZoom(zoom, state.x, state.y);
+	}
+
+	private function update(e: Event)
+	{
+		var currentTime = Lib.getTimer();
+		var deltaTime = currentTime - previousTime;
+		previousTime = currentTime;
+
+		G.dt = deltaTime * 0.001 * 60;
+
+		state.update();
+
+		IO.update();
+	}
+
+	// debug
 	private function generate()
 	{
 		var map: Array<Array<String>>;
