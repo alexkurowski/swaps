@@ -20,6 +20,48 @@ class Board extends Sprite
                 addChild(block[i][j]);
             }
         }
+
+        removeSquares();
+    }
+
+    private function removeSquares()
+    {
+        var done = true;
+
+        for (i in 0...5) {
+            for (j in 0...5) {
+                if (block[i][j].color == block[i+1][j].color &&
+                    block[i][j].color == block[i][j+1].color &&
+                    block[i][j].color == block[i+1][j+1].color) {
+                    done = false;
+                    setColor(i + Std.random(2), j + Std.random(2), H.randomNot(3, block[i][j].color));
+                }
+            }
+        }
+
+        if (!done) {
+            removeSquares();
+        }
+    }
+
+    public function findSquares(): Bool
+    {
+        var found = false;
+
+        for (i in 0...5) {
+            for (j in 0...5) {
+                if (!block[i][j].inSquare &&
+                    block[i][j].color == block[i+1][j].color &&
+                    block[i][j].color == block[i][j+1].color &&
+                    block[i][j].color == block[i+1][j+1].color) {
+                    found = true;
+
+                    block[i][j].inSquare = block[i+1][j].inSquare = block[i][j+1].inSquare = block[i+1][j+1].inSquare = true;
+                }
+            }
+        }
+
+        return found;
     }
 
     public function setColor(i: Int, j: Int, color: Int)
@@ -29,7 +71,8 @@ class Board extends Sprite
 
     public function setScale(mi: Int, mj: Int, scale: Float)
     {
-        block[mi][mj].targetScale = scale;
+        if (!block[mi][mj].inSquare)
+            block[mi][mj].targetScale = scale;
     }
 
     public function resetScale()

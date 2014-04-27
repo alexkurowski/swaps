@@ -18,6 +18,8 @@ class GameState extends State
     private var mi: Int;
     private var mj: Int;
 
+    private var controlable: Bool;
+
     public var turn: Int;
 
     public var selected: Bool;
@@ -36,6 +38,8 @@ class GameState extends State
     {
         selected = false;
 
+        controlable = true;
+
         turn = 0;
 
         addChild(new Background(G.scheme().bg));
@@ -43,21 +47,23 @@ class GameState extends State
         map = new Board();
         addChild(map);
 
-        addChild(new Bitmap(new BitmapData(768, map.y, false, G.scheme().bg)));
+        addChild(new Bitmap(new BitmapData(768, Math.floor(map.y), false, G.scheme().bg)));
     }
 
     override public function update()
     {
-        if (IO.pressed) {
+        if (controlable) {
+            if (IO.pressed) {
 
-        }
+            }
 
-        if (IO.down) {
-            onDown();
-        }
+            if (IO.down) {
+                onDown();
+            }
 
-        if (IO.released) {
-            onRelease();
+            if (IO.released) {
+                onRelease();
+            }
         }
 
         map.update();
@@ -99,6 +105,9 @@ class GameState extends State
             map.swap(selectX, selectY, mi, mj);
             turn++;
         }
+
+        if (map.findSquares())
+            controlable = false;
         selected = false;
     }
 

@@ -9,6 +9,8 @@ class Block extends Sprite
     public var i: Int;
     public var j: Int;
 
+    public var inSquare: Bool;
+
     private var speed: Float;
     private var lerpSpeed: Float;
 
@@ -32,6 +34,8 @@ class Block extends Sprite
         lerpSpeed = 0.35;
 
         targetScale = 1;
+        
+        inSquare = false;
 
         color = Std.random(3);
 

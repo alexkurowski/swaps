@@ -55,6 +55,7 @@ class Main extends Sprite {
 	{
 		G.graphics = {};
 		G.graphics.block = Assets.getBitmapData("assets/img/block.png");
+		G.graphics.blockSheet = Assets.getBitmapData("assets/img/blocksheet.png");
 
 		G.font = Assets.getFont("assets/Bariol_Bold.otf");
 
@@ -112,7 +113,7 @@ class Main extends Sprite {
 		G.dt = deltaTime * 0.001 * 60;
 
 		IO.update();
-		
+
 		state.update();
 	}
 
