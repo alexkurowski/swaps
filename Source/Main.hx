@@ -59,6 +59,12 @@ class Main extends Sprite {
 		G.font = Assets.getFont("assets/Bariol_Bold.otf");
 
 
+		G.colorScheme = [];
+		G.colorScheme[0] = {bg: 0xffffff,
+							color: [0xf50c5d, 0x8ffe3b, 0x455eff],
+							text: 0x232323};
+		G.currentScheme = 0;
+
 
 		var file = SharedObject.getLocal("options");
 		var needSave: Bool = false;
@@ -105,9 +111,9 @@ class Main extends Sprite {
 
 		G.dt = deltaTime * 0.001 * 60;
 
-		state.update();
-
 		IO.update();
+		
+		state.update();
 	}
 
 	// debug

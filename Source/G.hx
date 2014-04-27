@@ -9,6 +9,8 @@ import states.State;
 // Global variables
 class G
 {
+    static public var purchased: Bool;
+
     static public var game: Main;
 
     static public var state: State;
@@ -28,5 +30,11 @@ class G
     // Bariol_Bold
     static public var font: Font;
 
-    static public var purchased: Bool;
+    static public var currentScheme: Int;
+    static public var colorScheme: Array<Dynamic>;
+
+    static public function scheme(): Dynamic
+    {
+        return G.colorScheme[G.currentScheme];
+    }
 }
