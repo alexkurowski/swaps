@@ -1,3 +1,5 @@
+// DELETE ME PLS
+
 package objects.game;
 
 import flash.display.Sprite;

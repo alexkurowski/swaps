@@ -46,21 +46,49 @@ class Board extends Sprite
         }
     }
 
-    public function findSquares(mi: Int, mj: Int): Bool
+    public function setSquares(mi: Int, mj: Int, ni: Int, nj: Int): Bool
     {
         var found = false;
 
+        // merging ->
+        //   find squares, check its border [i-1], [j-1], [i+w+1], [j+h+1]
+        // new squares ->
+        //   check 8 neighbour blocks of two swapped blocks (if they aren't squared yet)
+
+        // merging old
         for (i in 0...5) {
             for (j in 0...5) {
-                if (!block[i][j].squareIndex == -1 &&
+                if (block[i][j].squared) {
+
+                    for (k in 0...block[i][j].squareInfo.w) {
+                        if (!block[i+k][j-1].squared && block[i+k][j-1].color == block[i][j].color) {
+                            if (k == block[i][j].squareInfo.w - 1) {
+                                // merge!
+                            }
+                        } else {
+                            break;
+                        }
+                    }
+
+                    for (l in 0...block[i][j].squareInfo.h) {
+
+                    }
+                }
+            }
+        }
+
+        // new squares
+        for (i in 0...5) {
+            for (j in 0...5) {
+                if (!block[i][j].squared && !block[i+1][j].squared &&
+                    !block[i][j+1].squared && !block[i+1][j+1].squared &&
                     block[i][j].color == block[i+1][j].color &&
                     block[i][j].color == block[i][j+1].color &&
                     block[i][j].color == block[i+1][j+1].color) {
+                    
                     found = true;
 
-                    var newIndex = placeSquare(i, j, mi, mj);
-                    block[i][j].visible = block[i+1][j].visible = block[i][j+1].visible = block[i+1][j+1].visible = false;
-                    block[i][j].squareIndex = block[i+1][j].squareIndex = block[i][j+1].squareIndex = block[i+1][j+1].squareIndex = newIndex;
+                    placeSquare(i, j);
                 }
             }
         }
@@ -68,23 +96,27 @@ class Board extends Sprite
         return found;
     }
 
-    public function placeSquare(i: Int, j: Int): Int
+    public function placeSquare(i: Int, j: Int)
     {
-        if (square == null) square = [];
+        var w = 2;
+        var h = 2;
 
-        var index = square.length;
+        // find size
+        var k = 2;
+        var l = 2;
 
-        for (k in 0...square.length) {
-            if (!square.active) {
-                index = k;
-                break;
-            }
+        var stop = false;
+        while(!stop) {
+            stop = true;
+
         }
 
-        square[index] = new Square(i, j, 2, 2, block[i][j].color, mi, mj);
-        addChild(square[index]);
-
-        return index;
+        // set blocks (frames, scales if mi and mj or ni and nj are inside of this square)
+        // for (k in 0...w) {
+        //     for (l in 0...h) {
+        //         block[i+k][j+l];
+        //     }
+        // }
     }
 
     public function setColor(i: Int, j: Int, color: Int)

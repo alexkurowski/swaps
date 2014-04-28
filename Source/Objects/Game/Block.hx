@@ -9,7 +9,7 @@ class Block extends Sprite
     public var i: Int;
     public var j: Int;
 
-    public var squareIndex: Int;
+    public var squared: Bool;
 
     private var speed: Float;
     private var lerpSpeed: Float;
@@ -35,7 +35,7 @@ class Block extends Sprite
 
         targetScale = 1;
         
-        squareIndex = -1;
+        squared = false;
 
         color = Std.random(3);
 

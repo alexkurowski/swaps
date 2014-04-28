@@ -86,7 +86,7 @@ class GameState extends State
         if (selected) {
             swap();
         } else {
-            if (map.block[mi][mj].inSquare) {
+            if (map.block[mi][mj].squared) {
                 pop();
             } else {
                 select();
@@ -110,8 +110,11 @@ class GameState extends State
             turn++;
         }
 
-        if (map.findSquares(mi, mj))
-            controlable = false;
+        // if (map.findSquares(mi, mj))
+            // controlable = false;
+
+        map.setSquares(mi, mj, selectX, selectY);
+
         selected = false;
     }
 
