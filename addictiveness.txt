@@ -1,0 +1,35 @@
+= Player have to do only one action during the game
+ - Stays the same, even if mechanics might change
+ + Swap squares on a 3x3 board
+ + Make one square touch its neighbour
+
+= Visuals must be present
+ - Simple, recognizable
+ - Tied to the gameplay
+ + Glossy square, robot, smile on its screen, white/pink on dark background
+
+= Gameplay is the same during the whole game
+ - Patterns might differ, but the main idea stays the same
+ - End goal is not available from the beginning
+  - Goals progressively adds with player's achievments
+ - End goal isn't recognized by the player from the start
+ - First introduce bricks, then introduce walls, then whole buildings, and so on
+
+= Rewards are fast in the beginning, but get harder over time
+ - It will come, if player will have to build on same main bricks even in the end
+ - Less space to work with or tasks needed to progress gets longer
+
+= Progress is easily recognized
+ - Simply score system is a bad idea
+ - Small or consistant numbers, or collectible objects
+  - First you find banana, then mango, then pineapple
+ + Show progress right there on the main menu screen
+
+= Timing matters
+ - Don't just do 'faster the better'
+ - Make player wait a little for the result
+
+= Social stuff
+ - Leaderboard is good, but community platform is better
+  - Too hard to do?
+
