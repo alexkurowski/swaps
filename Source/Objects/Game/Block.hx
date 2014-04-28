@@ -10,6 +10,8 @@ class Block extends Sprite
     public var j: Int;
 
     public var squared: Bool;
+    public var squareInfo: Dynamic;
+
 
     private var speed: Float;
     private var lerpSpeed: Float;

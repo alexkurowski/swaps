@@ -46,54 +46,16 @@ class Board extends Sprite
         }
     }
 
-    public function setSquares(mi: Int, mj: Int, ni: Int, nj: Int): Bool
+    public function checkSquares(mi: Int, mj: Int)
     {
-        var found = false;
-
         // merging ->
         //   find squares, check its border [i-1], [j-1], [i+w+1], [j+h+1]
         // new squares ->
         //   check 8 neighbour blocks of two swapped blocks (if they aren't squared yet)
 
-        // merging old
-        for (i in 0...5) {
-            for (j in 0...5) {
-                if (block[i][j].squared) {
+        // make new squares
+        
 
-                    for (k in 0...block[i][j].squareInfo.w) {
-                        if (!block[i+k][j-1].squared && block[i+k][j-1].color == block[i][j].color) {
-                            if (k == block[i][j].squareInfo.w - 1) {
-                                // merge!
-                            }
-                        } else {
-                            break;
-                        }
-                    }
-
-                    for (l in 0...block[i][j].squareInfo.h) {
-
-                    }
-                }
-            }
-        }
-
-        // new squares
-        for (i in 0...5) {
-            for (j in 0...5) {
-                if (!block[i][j].squared && !block[i+1][j].squared &&
-                    !block[i][j+1].squared && !block[i+1][j+1].squared &&
-                    block[i][j].color == block[i+1][j].color &&
-                    block[i][j].color == block[i][j+1].color &&
-                    block[i][j].color == block[i+1][j+1].color) {
-                    
-                    found = true;
-
-                    placeSquare(i, j);
-                }
-            }
-        }
-
-        return found;
     }
 
     public function placeSquare(i: Int, j: Int)

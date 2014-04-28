@@ -113,7 +113,8 @@ class GameState extends State
         // if (map.findSquares(mi, mj))
             // controlable = false;
 
-        map.setSquares(mi, mj, selectX, selectY);
+        map.checkSquares(mi, mj);
+        map.checkSquares(selectX, selectY);
 
         selected = false;
     }
