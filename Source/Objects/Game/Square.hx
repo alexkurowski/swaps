@@ -21,7 +21,7 @@ class Square extends Sprite
 
     public var targetScale: Float;
 
-    public function new(i: Int, j: Int, w: Int, h: Int, color: Int)
+    public function new(i: Int, j: Int, w: Int, h: Int, color: Int, mi: Int, mj: Int)
     {
         super();
         x = i*128 + w*64;
@@ -38,6 +38,7 @@ class Square extends Sprite
         lerpSpeed = 0.35;
 
         scaleX = scaleY = 1;
+        // scale = 0 if mi and mj inside of this square
         targetScale = 1;
 
         var frame = 0;

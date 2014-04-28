@@ -110,7 +110,7 @@ class GameState extends State
             turn++;
         }
 
-        if (map.findSquares())
+        if (map.findSquares(mi, mj))
             controlable = false;
         selected = false;
     }

@@ -46,21 +46,21 @@ class Board extends Sprite
         }
     }
 
-    public function findSquares(): Bool
+    public function findSquares(mi: Int, mj: Int): Bool
     {
         var found = false;
 
         for (i in 0...5) {
             for (j in 0...5) {
-                if (!block[i][j].inSquare &&
+                if (!block[i][j].squareIndex == -1 &&
                     block[i][j].color == block[i+1][j].color &&
                     block[i][j].color == block[i][j+1].color &&
                     block[i][j].color == block[i+1][j+1].color) {
                     found = true;
 
-                    block[i][j].inSquare = block[i+1][j].inSquare = block[i][j+1].inSquare = block[i+1][j+1].inSquare = true;
+                    var newIndex = placeSquare(i, j, mi, mj);
                     block[i][j].visible = block[i+1][j].visible = block[i][j+1].visible = block[i+1][j+1].visible = false;
-                    placeSquare(i, j);
+                    block[i][j].squareIndex = block[i+1][j].squareIndex = block[i][j+1].squareIndex = block[i+1][j+1].squareIndex = newIndex;
                 }
             }
         }
@@ -68,12 +68,23 @@ class Board extends Sprite
         return found;
     }
 
-    public function placeSquare(i: Int, j: Int)
+    public function placeSquare(i: Int, j: Int): Int
     {
         if (square == null) square = [];
 
-        square[square.length] = new Square(i, j, 2, 2, block[i][j].color);
-        addChild(square[square.length-1]);
+        var index = square.length;
+
+        for (k in 0...square.length) {
+            if (!square.active) {
+                index = k;
+                break;
+            }
+        }
+
+        square[index] = new Square(i, j, 2, 2, block[i][j].color, mi, mj);
+        addChild(square[index]);
+
+        return index;
     }
 
     public function setColor(i: Int, j: Int, color: Int)
