@@ -86,7 +86,11 @@ class GameState extends State
         if (selected) {
             swap();
         } else {
-            select();
+            if (map.block[mi][mj].inSquare) {
+                pop();
+            } else {
+                select();
+            }
         }
     }
 

@@ -5,6 +5,8 @@ import flash.display.Sprite;
 class Board extends Sprite
 {
     public var block: Array<Array<Block>>;
+
+    public var square: Array<Square>;
     
     public function new()
     {
@@ -57,11 +59,21 @@ class Board extends Sprite
                     found = true;
 
                     block[i][j].inSquare = block[i+1][j].inSquare = block[i][j+1].inSquare = block[i+1][j+1].inSquare = true;
+                    block[i][j].visible = block[i+1][j].visible = block[i][j+1].visible = block[i+1][j+1].visible = false;
+                    placeSquare(i, j);
                 }
             }
         }
 
         return found;
+    }
+
+    public function placeSquare(i: Int, j: Int)
+    {
+        if (square == null) square = [];
+
+        square[square.length] = new Square(i, j, 2, 2, block[i][j].color);
+        addChild(square[square.length-1]);
     }
 
     public function setColor(i: Int, j: Int, color: Int)

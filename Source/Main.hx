@@ -57,6 +57,10 @@ class Main extends Sprite {
 		G.graphics.block = Assets.getBitmapData("assets/img/block.png");
 		G.graphics.blockSheet = Assets.getBitmapData("assets/img/blocksheet.png");
 
+		G.graphics.square = [];
+		for (i in 0...9)
+			G.graphics.square[i] = Assets.getBitmapData("assets/img/square" + i + ".png");
+
 		G.font = Assets.getFont("assets/Bariol_Bold.otf");
 
 
