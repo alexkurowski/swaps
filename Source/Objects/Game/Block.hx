@@ -87,23 +87,23 @@ class Block extends Sprite
 
     public function update()
     {
-        if (bmp.scaleX != targetScale) {
+        if (bmp.scaleX != targetScale || bmp.scaleY != targetScale) {
             bmp.scaleX = H.lerp(bmp.scaleX, targetScale, lerpSpeed);
-            bmp.scaleY = H.lerp(bmp.scaleX, targetScale, lerpSpeed);
+            bmp.scaleY = H.lerp(bmp.scaleY, targetScale, lerpSpeed);
             if (squared) {
+                if (frame == 1 || frame == 7) bmp.scaleX = targetScale;
+                if (frame == 3 || frame == 5) bmp.scaleY = targetScale;
+                if (frame == 4) bmp.scaleX = bmp.scaleY = targetScale;
+
                 if (frame == 0 || frame == 3 || frame == 6) bmp.x = 128 - bmp.width;
-                if (frame == 1 || frame == 7)               bmp.x = 64 - bmp.width / 2;
+                if (frame == 1 || frame == 4 || frame == 7) bmp.x = 64 - bmp.width / 2;
                 if (frame == 2 || frame == 5 || frame == 8) bmp.x = 0;
 
                 if (frame == 0 || frame == 1 || frame == 2) bmp.y = 128 - bmp.height;
-                if (frame == 3 || frame == 5)               bmp.y = 64 - bmp.height / 2;
+                if (frame == 3 || frame == 4 || frame == 5) bmp.y = 64 - bmp.height / 2;
                 if (frame == 6 || frame == 7 || frame == 8) bmp.y = 0;
 
-                if (frame == 4) {
-                    bmp.scaleX = bmp.scaleY = targetScale;
-                    bmp.x = 64 - bmp.width / 2;
-                    bmp.y = 64 - bmp.height / 2;
-                }
+                // trace('['+i+']['+j+'] frame='+frame+' scaleX='+bmp.scaleX+' scaleY='+bmp.scaleY);
             } else {
                 bmp.x = 64 - bmp.width / 2;
                 bmp.y = 64 - bmp.height / 2;
