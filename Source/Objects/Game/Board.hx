@@ -61,38 +61,29 @@ class Board extends Sprite
 
         // place new square
         // TODO: make it look for 3x2, 2x3 and 3x3 sizes as well
-        if (mi > 0) mi--;
-        if (mj > 0) mj--;
-
-        for (k in 0...2) {
-            for (l in 0...2) {
-                if (mi+k < 5 && mj+l < 5) {
-                    if (!block[mi+k][mj+l].squared && !block[mi+1+k][mj+l].squared &&
-                        !block[mi+k][mj+1+l].squared && !block[mi+1+k][mj+1+l].squared &&
-                        block[mi+k][mj+l].color == col && block[mi+1+k][mj+l].color == col &&
-                        block[mi+k][mj+1+l].color == col && block[mi+1+k][mj+1+l].color == col) {
-
-                        placeSquare(mi+k, mj+l, 2, 2);
-                        break;
-                    }
-                }
-            }
-        }
     }
 
-    public function placeSquare(i: Int, j: Int, w: Int = 2, h: Int = 2)
+    public function placeSquare(i: Int, j: Int, w: Int, h: Int)
     {
-        for (k in 0...2)
-            for (l in 0...2) {
+        var frame = 0;
+        for (k in 0...w) {
+            for (l in 0...w) {
                 block[i+k][j+l].squared = true;
                 block[i+k][j+l].bmp.scaleX = block[i+k][j+l].bmp.scaleY = 0;
-                // block[i+k][j+l].bmp.x = block[i+k][j+l].bmp.y = 0;
-            }
 
-        block[i][j].redraw(0);
-        block[i+1][j].redraw(2);
-        block[i][j+1].redraw(6);
-        block[i+1][j+1].redraw(8);
+                if (k == 0 && l == 0) frame = 0;
+                if (k > 0 && k < w-1 && l == 0) frame = 1;
+                if (k == w-1 && l == 0) frame = 2;
+                if (k == 0 && l > 0 && l < h-1) frame = 3;
+                if (k > 0 && k < w-1 && l > 0 && l < h-1) frame = 4;
+                if (k == w-1 && l > 0 && l < h-1) frame = 5;
+                if (k == 0 && l == h-1) frame = 6;
+                if (k > 0 && k < w-1 && l == h-1) frame = 7;
+                if (k == w-1 && l == h-1) frame = 8;
+
+                block[i+k][j+l].redraw(frame);
+            }
+        }
     }
 
     public function setColor(i: Int, j: Int, color: Int)
