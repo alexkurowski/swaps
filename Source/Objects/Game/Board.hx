@@ -68,8 +68,8 @@ class Board extends Sprite
         if (mi > 0)
         if (validMerge(mi-1, mj, col)) {
             a = b = mj;
-            while (block[mi-1][a].frame != 2) a--;
-            while (block[mi-1][b].frame != 8) b++;
+            while (a > 0 && block[mi-1][a].frame != 2) a--;
+            while (b < 5 && block[mi-1][b].frame != 8) b++;
 
             valid = true;
             for (j in a...b+1)
@@ -77,6 +77,7 @@ class Board extends Sprite
 
             if (valid) {
                 mergeSquare(mi-1, mj, 'right');
+                if (mi < 5) checkSquaresMerge(mi+1, mj, col);
                 return true;
             }
         }
@@ -84,8 +85,8 @@ class Board extends Sprite
         if (mi < 5)
         if (validMerge(mi+1, mj, col)) {
             a = b = mj;
-            while (block[mi+1][a].frame != 0) a--;
-            while (block[mi+1][b].frame != 6) b++;
+            while (a > 0 && block[mi+1][a].frame != 0) a--;
+            while (b < 5 && block[mi+1][b].frame != 6) b++;
 
             valid = true;
             for (j in a...b+1)
@@ -93,6 +94,7 @@ class Board extends Sprite
 
             if (valid) {
                 mergeSquare(mi+1, mj, 'left');
+                if (mi > 0) checkSquaresMerge(mi-1, mj, col);
                 return true;
             }
         }
@@ -100,8 +102,8 @@ class Board extends Sprite
         if (mj > 0)
         if (validMerge(mi, mj-1, col)) {
             a = b = mi;
-            while (block[a][mj-1].frame != 6) a--;
-            while (block[b][mj-1].frame != 8) b++;
+            while (a > 0 && block[a][mj-1].frame != 6) a--;
+            while (b < 5 && block[b][mj-1].frame != 8) b++;
 
             valid = true;
             for (i in a...b+1)
@@ -109,6 +111,7 @@ class Board extends Sprite
 
             if (valid) {
                 mergeSquare(mi, mj-1, 'down');
+                if (mj < 5) checkSquaresMerge(mi, mj+1, col);
                 return true;
             }
         }
@@ -116,8 +119,8 @@ class Board extends Sprite
         if (mj < 5)
         if (validMerge(mi, mj+1, col)) {
             a = b = mi;
-            while (block[a][mj+1].frame != 0) a--;
-            while (block[b][mj+1].frame != 2) b++;
+            while (a > 0 && block[a][mj+1].frame != 0) a--;
+            while (b < 5 && block[b][mj+1].frame != 2) b++;
 
             valid = true;
             for (i in a...b+1)
@@ -125,6 +128,7 @@ class Board extends Sprite
 
             if (valid) {
                 mergeSquare(mi, mj+1, 'up');
+                if (mj > 0) checkSquaresMerge(mi, mj-1, col);
                 return true;
             }
         }
@@ -134,6 +138,7 @@ class Board extends Sprite
 
     private function validMerge(i: Int, j: Int, col: Int): Bool
     {
+        if (i < 0 || i > 5 || j < 0 || j > 5) return false;
         if (block[i][j].squared && block[i][j].color == col) return true;
         return false;
     }
