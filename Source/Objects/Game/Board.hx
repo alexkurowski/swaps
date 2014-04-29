@@ -59,6 +59,7 @@ class Board extends Sprite
 
         if (checkSquaresNew(mi, mj, col)) return;
     }
+    
     // merging with existed squares
     private function checkSquaresMerge(mi: Int, mj: Int, col: Int): Bool
     {
@@ -72,8 +73,14 @@ class Board extends Sprite
             while (b < 5 && block[mi-1][b].frame != 8) b++;
 
             valid = true;
-            for (j in a...b+1)
-                if (block[mi][j].squared || block[mi][j].color != col) valid = false;
+            for (j in a...b+1) {
+                if (block[mi][j].squared) {
+                    if (j == a && block[mi][j].frame != 0 && block[mi][j].frame != 1 && block[mi][j].frame != 2) valid = false;
+                    if (j == b && block[mi][j].frame != 6 && block[mi][j].frame != 7 && block[mi][j].frame != 8) valid = false;
+                    if (j != a && j != b && block[mi][j].frame != 3 && block[mi][j].frame != 4 && block[mi][j].frame != 5) valid = false;
+                }
+                if (block[mi][j].color != col) valid = false;
+            }
 
             if (valid) {
                 mergeSquare(mi-1, mj, 'right');
@@ -89,8 +96,14 @@ class Board extends Sprite
             while (b < 5 && block[mi+1][b].frame != 6) b++;
 
             valid = true;
-            for (j in a...b+1)
-                if (block[mi][j].squared || block[mi][j].color != col) valid = false;
+            for (j in a...b+1) {
+                if (block[mi][j].squared) {
+                    if (j == a && block[mi][j].frame != 2 && block[mi][j].frame != 1 && block[mi][j].frame != 0) valid = false;
+                    if (j == b && block[mi][j].frame != 8 && block[mi][j].frame != 7 && block[mi][j].frame != 6) valid = false;
+                    if (j != a && j != b && block[mi][j].frame != 5 && block[mi][j].frame != 4 && block[mi][j].frame != 3) valid = false;
+                }
+                if (block[mi][j].color != col) valid = false;
+            }
 
             if (valid) {
                 mergeSquare(mi+1, mj, 'left');
@@ -106,8 +119,14 @@ class Board extends Sprite
             while (b < 5 && block[b][mj-1].frame != 8) b++;
 
             valid = true;
-            for (i in a...b+1)
-                if (block[i][mj].squared || block[i][mj].color != col) valid = false;
+            for (i in a...b+1) {
+                if (block[i][mj].squared) {
+                    if (i == a && block[i][mj].frame != 0 && block[i][mj].frame != 3 && block[i][mj].frame != 6) valid = false;
+                    if (i == b && block[i][mj].frame != 2 && block[i][mj].frame != 5 && block[i][mj].frame != 8) valid = false;
+                    if (i != a && i != b && block[i][mj].frame != 1 && block[i][mj].frame != 4 && block[i][mj].frame != 7) valid = false;
+                }
+                if (block[i][mj].color != col) valid = false;
+            }
 
             if (valid) {
                 mergeSquare(mi, mj-1, 'down');
@@ -123,8 +142,14 @@ class Board extends Sprite
             while (b < 5 && block[b][mj+1].frame != 2) b++;
 
             valid = true;
-            for (i in a...b+1)
-                if (block[i][mj].squared || block[i][mj].color != col) valid = false;
+            for (i in a...b+1) {
+                if (block[i][mj].squared) {
+                    if (i == a && block[i][mj].frame != 6 && block[i][mj].frame != 3 && block[i][mj].frame != 0) valid = false;
+                    if (i == b && block[i][mj].frame != 8 && block[i][mj].frame != 5 && block[i][mj].frame != 2) valid = false;
+                    if (i != a && i != b && block[i][mj].frame != 7 && block[i][mj].frame != 4 && block[i][mj].frame != 1) valid = false;
+                }
+                if (block[i][mj].color != col) valid = false;
+            }
 
             if (valid) {
                 mergeSquare(mi, mj+1, 'up');
