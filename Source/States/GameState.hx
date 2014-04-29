@@ -82,6 +82,7 @@ class GameState extends State
 
     private function onRelease()
     {
+        if (map.block[mi][mj].color == -1) return;
         map.resetScale();
         if (map.block[mi][mj].squared) {
             pop();
@@ -109,9 +110,6 @@ class GameState extends State
             map.swap(selectX, selectY, mi, mj);
             turn++;
         }
-
-        // if (map.findSquares(mi, mj))
-            // controlable = false;
 
         map.checkSquares(mi, mj);
         map.checkSquares(selectX, selectY);
