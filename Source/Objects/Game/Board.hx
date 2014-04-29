@@ -55,16 +55,24 @@ class Board extends Sprite
 
         var col = block[mi][mj].color;
 
+        // merging with existed squares
+        // TODO: check every side for .squared block
+        //   if found: check if it can be extended in the direction of a swapped block ([mi][mj])
+
+        // place new square
+        // TODO: make it look for 3x2, 2x3 and 3x3 sizes as well
         if (mi > 0) mi--;
         if (mj > 0) mj--;
 
         for (k in 0...2) {
             for (l in 0...2) {
                 if (mi+k < 5 && mj+l < 5) {
-                    if (block[mi+k][mj+l].color == col && block[mi+1+k][mj+l].color == col &&
+                    if (!block[mi+k][mj+l].squared && !block[mi+1+k][mj+l].squared &&
+                        !block[mi+k][mj+1+l].squared && !block[mi+1+k][mj+1+l].squared &&
+                        block[mi+k][mj+l].color == col && block[mi+1+k][mj+l].color == col &&
                         block[mi+k][mj+1+l].color == col && block[mi+1+k][mj+1+l].color == col) {
 
-                        placeSquare(mi+k, mj+l);
+                        placeSquare(mi+k, mj+l, 2, 2);
                         break;
                     }
                 }
@@ -72,30 +80,19 @@ class Board extends Sprite
         }
     }
 
-    public function placeSquare(i: Int, j: Int)
+    public function placeSquare(i: Int, j: Int, w: Int = 2, h: Int = 2)
     {
-        var w = 2;
-        var h = 2;
-
-        // find size
         for (k in 0...2)
             for (l in 0...2) {
                 block[i+k][j+l].squared = true;
-                block[i+k][j+l].bmp.scaleX = block[i+k][j+l].bmp.scaleY = 1;
-                block[i+k][j+l].bmp.x = block[i+k][j+l].bmp.y = 0;
+                block[i+k][j+l].bmp.scaleX = block[i+k][j+l].bmp.scaleY = 0;
+                // block[i+k][j+l].bmp.x = block[i+k][j+l].bmp.y = 0;
             }
 
         block[i][j].redraw(0);
         block[i+1][j].redraw(2);
         block[i][j+1].redraw(6);
         block[i+1][j+1].redraw(8);
-
-        // set blocks (frames, scales if mi and mj or ni and nj are inside of this square)
-        // for (k in 0...w) {
-        //     for (l in 0...h) {
-        //         block[i+k][j+l];
-        //     }
-        // }
     }
 
     public function setColor(i: Int, j: Int, color: Int)

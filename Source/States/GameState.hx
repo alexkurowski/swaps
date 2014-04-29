@@ -83,11 +83,11 @@ class GameState extends State
     private function onRelease()
     {
         map.resetScale();
-        if (selected) {
-            swap();
+        if (map.block[mi][mj].squared) {
+            pop();
         } else {
-            if (map.block[mi][mj].squared) {
-                pop();
+            if (selected) {
+                swap();
             } else {
                 select();
             }
