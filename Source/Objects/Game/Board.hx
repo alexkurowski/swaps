@@ -53,9 +53,23 @@ class Board extends Sprite
         // new squares ->
         //   check 8 neighbour blocks of two swapped blocks (if they aren't squared yet)
 
-        // make new squares
-        
+        var col = block[mi][mj].color;
 
+        if (mi > 0) mi--;
+        if (mj > 0) mj--;
+
+        for (k in 0...2) {
+            for (l in 0...2) {
+                if (mi+k < 5 && mj+l < 5) {
+                    if (block[mi+k][mj+l].color == col && block[mi+1+k][mj+l].color == col &&
+                        block[mi+k][mj+1+l].color == col && block[mi+1+k][mj+1+l].color == col) {
+
+                        placeSquare(mi+k, mj+l);
+                        break;
+                    }
+                }
+            }
+        }
     }
 
     public function placeSquare(i: Int, j: Int)
@@ -64,14 +78,17 @@ class Board extends Sprite
         var h = 2;
 
         // find size
-        var k = 2;
-        var l = 2;
+        for (k in 0...2)
+            for (l in 0...2) {
+                block[i+k][j+l].squared = true;
+                block[i+k][j+l].bmp.scaleX = block[i+k][j+l].bmp.scaleY = 1;
+                block[i+k][j+l].bmp.x = block[i+k][j+l].bmp.y = 0;
+            }
 
-        var stop = false;
-        while(!stop) {
-            stop = true;
-
-        }
+        block[i][j].redraw(0);
+        block[i+1][j].redraw(2);
+        block[i][j+1].redraw(6);
+        block[i+1][j+1].redraw(8);
 
         // set blocks (frames, scales if mi and mj or ni and nj are inside of this square)
         // for (k in 0...w) {
@@ -88,7 +105,7 @@ class Board extends Sprite
 
     public function setScale(mi: Int, mj: Int, scale: Float)
     {
-        if (!block[mi][mj].inSquare)
+        if (!block[mi][mj].squared)
             block[mi][mj].targetScale = scale;
     }
 

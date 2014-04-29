@@ -10,13 +10,12 @@ class Block extends Sprite
     public var j: Int;
 
     public var squared: Bool;
-    public var squareInfo: Dynamic;
-
 
     private var speed: Float;
     private var lerpSpeed: Float;
 
     public var bmp: Bitmap;
+    public var frame: Int;
     public var color: Int;
     private var colorTransform: ColorTransform;
 
@@ -58,13 +57,24 @@ class Block extends Sprite
         redraw();
     }
 
-    public function redraw()
+    public function redraw(?frame: Int)
     {
         if (color == -1) {
             bmp.visible = false;
-        } else {
+        }
+        if (color >= 0 && !squared) {
             bmp.visible = true;
             bmp.bitmapData = G.graphics.block.clone();
+            colorTransform.color = G.scheme().color[color];
+            colorTransform.redMultiplier = colorTransform.greenMultiplier = colorTransform.blueMultiplier = 1;
+            colorTransform.redOffset = -255 + colorTransform.redOffset;
+            colorTransform.greenOffset = -255 + colorTransform.greenOffset;
+            colorTransform.blueOffset = -255 + colorTransform.blueOffset;
+            bmp.bitmapData.colorTransform(bmp.bitmapData.rect, colorTransform);
+        }
+        if (color >= 0 && squared) {
+            bmp.visible = true;
+            bmp.bitmapData = G.graphics.square[frame].clone();
             colorTransform.color = G.scheme().color[color];
             colorTransform.redMultiplier = colorTransform.greenMultiplier = colorTransform.blueMultiplier = 1;
             colorTransform.redOffset = -255 + colorTransform.redOffset;
