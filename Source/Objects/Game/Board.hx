@@ -5,6 +5,7 @@ import flash.display.Sprite;
 class Board extends Sprite
 {
     public var block: Array<Array<Block>>;
+    public var old: Array<Array<Block>>;
 
     public var square: Array<Square>;
     
@@ -22,6 +23,8 @@ class Board extends Sprite
                 addChild(block[i][j]);
             }
         }
+
+        old = block.copy();
 
         removeSquares();
     }
@@ -46,7 +49,7 @@ class Board extends Sprite
         }
     }
 
-    public function checkSquares(mi: Int, mj: Int)
+    public function checkSquares(mi: Int, mj: Int): Bool
     {
         // merging ->
         //   find squares, check its border [i-1], [j-1], [i+w+1], [j+h+1]
@@ -60,9 +63,11 @@ class Board extends Sprite
 
         if (checkAllSquaresMerge()) squared = true;
 
-        if (squared) return;
+        if (squared) return true;
 
-        if (checkSquaresNew(mi, mj, col)) return;
+        if (checkSquaresNew(mi, mj, col)) return true;
+
+        return false;
     }
 
     // merging with existed squares
@@ -454,6 +459,24 @@ class Board extends Sprite
 
         setScale(sx, sy, 1);
         setScale(ex, ey, 1);
+    }
+
+    public function makeBackup()
+    {
+        // TODO backup
+        // old = block.copy();
+        // old = [];
+        // for (i in 0...6) {
+        //     old[i] = [];
+        //     for (j in 0...6) {
+                
+        //     }
+        // }
+    }
+
+    private function useBackup()
+    {
+
     }
 
     public function pop(i: Int, j: Int)

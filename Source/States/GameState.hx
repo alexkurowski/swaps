@@ -107,12 +107,21 @@ class GameState extends State
     {
         if ((mi != selectX || mj != selectY)
           && map.block[mi][mj].color != map.block[selectX][selectY].color) {
+            map.makeBackup();
+
             map.swap(selectX, selectY, mi, mj);
             turn++;
+            
+            // check if backup doesn't change with current map
+            // map.block[0][0].bmp.x = 200;
+            // trace(map.old[0][0].bmp.x);
         }
 
-        map.checkSquares(mi, mj);
-        map.checkSquares(selectX, selectY);
+        var squared = false;
+        if (map.checkSquares(mi, mj)) squared = true;
+        if (map.checkSquares(selectX, selectY)) squared = true;
+
+        if (!squared) map.useBackup();
 
         selected = false;
     }
