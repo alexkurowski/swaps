@@ -47,7 +47,7 @@ class GameState extends State
         map = new Board();
         addChild(map);
 
-        addChild(new Bitmap(new BitmapData(768, Math.floor(map.y), false, G.scheme().bg)));
+        addChild(new Bitmap(new BitmapData(768, Math.floor(map.y)*2, false, G.scheme().bg))).y = -Math.floor(map.y);
     }
 
     override public function update()

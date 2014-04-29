@@ -60,8 +60,6 @@ class Board extends Sprite
         if (checkSquaresNew(mi, mj, col)) return;
     }
     // merging with existed squares
-    // check every side for .squared block and same color
-    //   if found: check if it can be extended in the direction of a swapped block ([mi][mj])
     private function checkSquaresMerge(mi: Int, mj: Int, col: Int): Bool
     {
         var valid: Bool;
@@ -201,7 +199,6 @@ class Board extends Sprite
     }
 
     // place new square
-    // make it look for 3x2, 2x3 and 3x3 sizes as well
     private function checkSquaresNew(mi: Int, mj: Int, col: Int): Bool
     {
         if (mi > 0 && mi < 5 && mj > 0 && mj < 5)
@@ -336,7 +333,29 @@ class Board extends Sprite
 
     public function pop(i: Int, j: Int)
     {
+        var w = 1;
+        var h = 1;
 
+        // find top left corner
+        while (block[i][j].frame != 0) {
+            if (block[i][j].frame != 0 && block[i][j].frame != 3 && block[i][j].frame != 6) i--;
+            if (block[i][j].frame >= 3) j--;
+        }
+
+        // find width and height
+        while (block[i+w][j+h].frame != 8) {
+            if (block[i+w][j].frame != 2) w++;
+            if (block[i][j+h].frame != 6) h++;
+        }
+
+        for (k in 0...w+1) {
+            for (l in 0...h+1) {
+                block[i+k][j+l].squared = false;
+                setColor(i+k, j+l, Std.random(3));
+                block[i+k][j+l].bmp.scaleX = block[i+k][j+l].bmp.scaleY = 0;
+                // TODO: make them fall
+            }
+        }
     }
 
     public function update()
