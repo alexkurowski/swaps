@@ -351,9 +351,9 @@ class Board extends Sprite
         for (k in 0...w+1) {
             for (l in 0...h+1) {
                 block[i+k][j+l].squared = false;
+                // TODO: make them fall instead
                 setColor(i+k, j+l, Std.random(3));
                 block[i+k][j+l].bmp.scaleX = block[i+k][j+l].bmp.scaleY = 0;
-                // TODO: make them fall
             }
         }
     }
