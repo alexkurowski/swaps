@@ -54,12 +54,17 @@ class Board extends Sprite
         //   check 8 neighbour blocks of two swapped blocks (if they aren't squared yet)
 
         var col = block[mi][mj].color;
+        var squared = false;
 
-        if (checkSquaresMerge(mi, mj, col)) return;
+        if (checkSquaresMerge(mi, mj, col)) squared = true;
+
+        if (checkAllSquaresMerge()) squared = true;
+
+        if (squared) return;
 
         if (checkSquaresNew(mi, mj, col)) return;
     }
-    
+
     // merging with existed squares
     private function checkSquaresMerge(mi: Int, mj: Int, col: Int): Bool
     {
@@ -226,6 +231,96 @@ class Board extends Sprite
                 block[i+k][j+l].redraw(frame);
             }
         }
+    }
+
+    private function checkAllSquaresMerge(): Bool
+    {
+        var w: Int;
+        var h: Int;
+        var doMerge: Bool;
+
+        for (i in 0...5) {
+            for (j in 0...5) {
+                if (block[i][j].squared && block[i][j].frame == 0) {
+                    // find size
+                    w = h = 1;
+                    while (i+w < 5 && block[i+w][j].frame != 2) w++;
+                    while (j+h < 5 && block[i][j+h].frame != 6) h++;
+                    w++;
+                    h++;
+
+                    // to the right
+                    doMerge = true;
+                    if (i+w <= 5) {
+                        for (l in 0...h) {
+                            if (block[i+w][j+l].squared)
+                                if (l == 0 && block[i+w][j+l].frame != 0 && block[i+w][j+l].frame != 1 && block[i+w][j+l].frame != 2) doMerge = false;
+                                if (l == h-1 && block[i+w][j+l].frame != 6 && block[i+w][j+l].frame != 7 && block[i+w][j+l].frame != 8) doMerge = false;
+                                if (l != 0 && l != h-1 && block[i+w][j+l].frame != 3 && block[i+w][j+l].frame != 4 && block[i+w][j+l].frame != 5) doMerge = false;
+                            if (block[i+w][j+l].color != block[i][j].color) doMerge = false;
+                        }
+                        if (doMerge) {
+                            mergeSquare(i, j, 'right');
+                            checkAllSquaresMerge();
+                            return true;
+                        }
+                    }
+
+                    // to the left
+                    doMerge = true;
+                    if (i-1 >= 0) {
+                        for (l in 0...h) {
+                            if (block[i-1][j+l].squared)
+                                if (l == 0 && block[i-1][j+l].frame != 0 && block[i-1][j+l].frame != 1 && block[i-1][j+l].frame != 2) doMerge = false;
+                                if (l == h-1 && block[i-1][j+l].frame != 6 && block[i-1][j+l].frame != 7 && block[i-1][j+l].frame != 8) doMerge = false;
+                                if (l != 0 && l != h-1 && block[i-1][j+l].frame != 3 && block[i-1][j+l].frame != 4 && block[i-1][j+l].frame != 5) doMerge = false;
+                            if (block[i-1][j+l].color != block[i][j].color) doMerge = false;
+                        }
+                        if (doMerge) {
+                            mergeSquare(i, j, 'left');
+                            checkAllSquaresMerge();
+                            return true;
+                        }
+                    }
+
+                    // downwards
+                    doMerge = true;
+                    if (j+h <= 5) {
+                        for (k in 0...w) {
+                            if (block[i+k][j+h].squared)
+                                if (k == 0 && block[i+k][j+h].frame != 0 && block[i+k][j+h].frame != 3 && block[i+k][j+h].frame != 6) doMerge = false;
+                                if (k == w-1 && block[i+k][j+h].frame != 2 && block[i+k][j+h].frame != 5 && block[i+k][j+h].frame != 8) doMerge = false;
+                                if (k != 0 && k != w-1 && block[i+k][j+h].frame != 1 && block[i+k][j+h].frame != 4 && block[i+k][j+h].frame != 7) doMerge = false;
+                            if (block[i+k][j+h].color != block[i][j].color) doMerge = false;
+                        }
+                        if (doMerge) {
+                            mergeSquare(i, j, 'down');
+                            checkAllSquaresMerge();
+                            return true;
+                        }
+                    }
+
+                    // upwards
+                    doMerge = true;
+                    if (j-1 >= 0) {
+                        for (k in 0...w) {
+                            if (block[i+k][j-1].squared)
+                                if (k == 0 && block[i+k][j-1].frame != 0 && block[i+k][j-1].frame != 3 && block[i+k][j-1].frame != 6) doMerge = false;
+                                if (k == w-1 && block[i+k][j-1].frame != 2 && block[i+k][j-1].frame != 5 && block[i+k][j-1].frame != 8) doMerge = false;
+                                if (k != 0 && k != w-1 && block[i+k][j-1].frame != 1 && block[i+k][j-1].frame != 4 && block[i+k][j-1].frame != 7) doMerge = false;
+                            if (block[i+k][j-1].color != block[i][j].color) doMerge = false;
+                        }
+                        if (doMerge) {
+                            mergeSquare(i, j, 'up');
+                            checkAllSquaresMerge();
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+
+        return false;
     }
 
     // place new square
