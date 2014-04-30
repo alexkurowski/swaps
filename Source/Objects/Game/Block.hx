@@ -11,8 +11,13 @@ class Block extends Sprite
 
     public var squared: Bool;
 
+    public var fall: Bool;
+    public var fallDown: Bool;
+    public var preFallTimer: Int;
+
     private var speed: Float;
     private var lerpSpeed: Float;
+    private var lerpFallSpeed: Float;
 
     public var bmp: Bitmap;
     public var frame: Int;
@@ -33,10 +38,15 @@ class Block extends Sprite
 
         speed = 10;
         lerpSpeed = 0.35;
+        lerpFallSpeed = 0.15;
 
         targetScale = 1;
         
         squared = false;
+        fall = false;
+        fallDown = false;
+
+        preFallTimer = 0;
 
         color = Std.random(3);
 
@@ -113,9 +123,15 @@ class Block extends Sprite
             x += speed * H.sign(i*128 - x);
             if (Math.abs(x - i*128) < speed) x = i*128;
         }
-        if (y != j*128) {
-            y += speed * H.sign(j*128 - y);
-            if (Math.abs(y - j*128) < speed) y = j*128;
+        if (y < j*128 + 30 && fallDown) {
+            fall = true;
+            if (preFallTimer > 0) preFallTimer--;
+            else y += speed;
+            if (y >= j*128 + 30) fallDown = false;
         }
+        if (y > j*128 && !fallDown) {
+            y = H.lerp(y, j*128, lerpFallSpeed);
+        }
+        if (y == j*128) fall = false;
     }
 }

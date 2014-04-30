@@ -469,6 +469,13 @@ class Board extends Sprite
         }
     }
 
+    private function fallSwap(sx: Int, sy: Int, ex: Int, ey: Int)
+    {
+        var col = block[sx][sy].color;
+        setColor(sx, sy, block[ex][ey].color);
+        setColor(ex, ey, col);        
+    }
+
     public function pop(i: Int, j: Int)
     {
         var w = 1;
@@ -489,10 +496,56 @@ class Board extends Sprite
         for (k in 0...w+1) {
             for (l in 0...h+1) {
                 block[i+k][j+l].squared = false;
-                // setColor(i+k, j+l, -1);
-                // TODO: make them fall instead
-                setColor(i+k, j+l, Std.random(3));
-                block[i+k][j+l].bmp.scaleX = block[i+k][j+l].bmp.scaleY = 0;
+                setColor(i+k, j+l, -1);
+                // setColor(i+k, j+l, Std.random(3));
+                // block[i+k][j+l].bmp.scaleX = block[i+k][j+l].bmp.scaleY = 0;
+            }
+        }
+
+        fall(true);
+
+        fallNew();
+    }
+
+    private function fall(first: Bool = false)
+    {
+        var done = true;
+
+        for (i in 0...6) {
+            for (j in 0...5) {
+                if (!block[i][4-j].squared && block[i][4-j].color != -1 && block[i][5-j].color == -1) {
+                    fallSwap(i, 4-j, i, 5-j);
+                    block[i][5-j].y = block[i][4-j].y;
+                    block[i][4-j].y = (4-j)*128;
+
+                    block[i][5-j].preFallTimer = 10;
+                    block[i][5-j].fallDown = true;
+                    done = false;
+                    break;
+                }
+            }
+        }
+
+        if (!done) fall();
+    }
+
+    private function fallNew()
+    {
+        var newBlocks = [0, 0, 0, 0, 0, 0];
+
+        for (i in 0...6) {
+            for (j in 0...6) {
+                if (block[i][j].color != -1) break;
+                newBlocks[i]++;
+            }
+        }
+
+        for (i in 0...6) {
+            for (j in 0...newBlocks[i]) {
+                setColor(i, j, Std.random(3));
+                block[i][j].y = -128 - 128*(newBlocks[i] - j);
+                block[i][j].preFallTimer = 10;
+                block[i][j].fallDown = true;
             }
         }
     }
