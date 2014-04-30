@@ -11,3 +11,8 @@
 
 ** Leaderboard with best score in X amount of turns (best 30, best 50, best 100) -- ?
    Your best + 5/10 top players
+
+*** Two versions for googe play store: swaps FREE (with 50 turns limitation and $1 iap to unlock endless game)
+    and paid version for $1.5 (or maybe it should be the other way around)
+*** Post this game to Amazon App store as well
+*** Look into iOS App Store
