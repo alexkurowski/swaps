@@ -448,35 +448,25 @@ class Board extends Sprite
                 block[i][j].targetScale = 1;
     }
 
-    public function swap(sx: Int, sy: Int, ex: Int, ey: Int)
+    public function swap(sx: Int, sy: Int, ex: Int, ey: Int, rescale: Bool = true)
     {
         var col = block[sx][sy].color;
         setColor(sx, sy, block[ex][ey].color);
         setColor(ex, ey, col);
 
-        block[sx][sy].bmp.scaleX = block[sx][sy].bmp.scaleY = 0;
-        block[ex][ey].bmp.scaleX = block[ex][ey].bmp.scaleY = 0;
+        if (rescale) {
+            block[sx][sy].bmp.scaleX = block[sx][sy].bmp.scaleY = 0;
+            block[ex][ey].bmp.scaleX = block[ex][ey].bmp.scaleY = 0;
 
-        setScale(sx, sy, 1);
-        setScale(ex, ey, 1);
-    }
+            setScale(sx, sy, 1);
+            setScale(ex, ey, 1);
+        } else {
+            block[sx][sy].bmp.scaleX = block[sx][sy].bmp.scaleY = 0.8;
+            block[ex][ey].bmp.scaleX = block[ex][ey].bmp.scaleY = 1.4;
 
-    public function makeBackup()
-    {
-        // TODO backup
-        // old = block.copy();
-        // old = [];
-        // for (i in 0...6) {
-        //     old[i] = [];
-        //     for (j in 0...6) {
-                
-        //     }
-        // }
-    }
-
-    private function useBackup()
-    {
-
+            setScale(sx, sy, 1);
+            setScale(ex, ey, 1);
+        }
     }
 
     public function pop(i: Int, j: Int)

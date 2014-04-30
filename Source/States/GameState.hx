@@ -105,23 +105,21 @@ class GameState extends State
 
     private function swap()
     {
-        if ((mi != selectX || mj != selectY)
-          && map.block[mi][mj].color != map.block[selectX][selectY].color) {
-            map.makeBackup();
-
+        if ((mi != selectX || mj != selectY) &&
+          map.block[mi][mj].color != map.block[selectX][selectY].color) {
             map.swap(selectX, selectY, mi, mj);
             turn++;
-            
-            // check if backup doesn't change with current map
-            // map.block[0][0].bmp.x = 200;
-            // trace(map.old[0][0].bmp.x);
         }
 
         var squared = false;
         if (map.checkSquares(mi, mj)) squared = true;
         if (map.checkSquares(selectX, selectY)) squared = true;
 
-        if (!squared) map.useBackup();
+        if (!squared && (mi != selectX || mj != selectY) &&
+            map.block[mi][mj].color != map.block[selectX][selectY].color) {
+            map.swap(selectX, selectY, mi, mj, false);
+            turn--;
+        }
 
         selected = false;
     }
