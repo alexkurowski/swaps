@@ -1,0 +1,13 @@
+** 15 (or 25) animated emoticons
+
+** Menu with [play], [settings], [scores] & [about] buttons ("PLAY!", gear icon, leader piedestal, "?" respectively)
+  Also shows unlocked emoticons (but doesn't show number of locked emoticons, no one will probably see 6x6 one)
+
+* Settings screen with [music] toggle (slider if desktop), [sound], [name], [color theme] & [reset] options.
+
+* About screen with mapiSOFT name, music author, links to sites and twitters.
+
+* Score counting and turn counting (should pop counts as a turn?)
+
+** Leaderboard with best score in X amount of turns (best 30, best 50, best 100) -- ?
+   Your best + 5/10 top players
