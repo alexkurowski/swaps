@@ -65,6 +65,7 @@ class GameState extends State
                 onRelease();
             }
         } else {
+            // TODO: make it possible to pop (at least visibly, put it in stack for actual pop later) squares while something is falling
             if (map.doneFalling()) {
                 for (i in 0...3) {
                     for (j in 0...3) {
@@ -92,7 +93,7 @@ class GameState extends State
     private function onRelease()
     {
         if (IO.y > map.y) {
-            if (map.block[mi][mj].color == -1) return;
+            if (map.block[mi][mj].color == -1 || map.block[mi][mj].fall) return;
             map.resetScale();
             if (map.block[mi][mj].squared) {
                 pop();
