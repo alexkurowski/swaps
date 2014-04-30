@@ -64,6 +64,15 @@ class GameState extends State
             if (IO.released) {
                 onRelease();
             }
+        } else {
+            if (map.doneFalling()) {
+                for (i in 0...3) {
+                    for (j in 0...3) {
+                        map.checkSquares(i*2, j*2);
+                    }
+                }
+                controlable = true;
+            }
         }
 
         map.update();
@@ -82,15 +91,17 @@ class GameState extends State
 
     private function onRelease()
     {
-        if (map.block[mi][mj].color == -1) return;
-        map.resetScale();
-        if (map.block[mi][mj].squared) {
-            pop();
-        } else {
-            if (selected) {
-                swap();
+        if (IO.y > map.y) {
+            if (map.block[mi][mj].color == -1) return;
+            map.resetScale();
+            if (map.block[mi][mj].squared) {
+                pop();
             } else {
-                select();
+                if (selected) {
+                    swap();
+                } else {
+                    select();
+                }
             }
         }
     }
@@ -116,7 +127,7 @@ class GameState extends State
         if (map.checkSquares(selectX, selectY)) squared = true;
 
         if (!squared && (mi != selectX || mj != selectY) &&
-            map.block[mi][mj].color != map.block[selectX][selectY].color) {
+          map.block[mi][mj].color != map.block[selectX][selectY].color) {
             map.swap(selectX, selectY, mi, mj, false);
             turn--;
         }
@@ -127,6 +138,7 @@ class GameState extends State
     private function pop()
     {
         map.pop(mi, mj);
+        controlable = false;
         selected = false;
     }
 }

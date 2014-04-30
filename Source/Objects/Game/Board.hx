@@ -435,6 +435,11 @@ class Board extends Sprite
         block[i][j].setColor(color);
     }
 
+    public function setColorFrame(i: Int, j: Int, color: Int, frame: Int)
+    {
+        block[i][j].setColorFrame(color, frame);
+    }    
+
     public function setScale(mi: Int, mj: Int, scale: Float)
     {
         if (!block[mi][mj].squared)
@@ -471,9 +476,16 @@ class Board extends Sprite
 
     private function fallSwap(sx: Int, sy: Int, ex: Int, ey: Int)
     {
-        var col = block[sx][sy].color;
-        setColor(sx, sy, block[ex][ey].color);
-        setColor(ex, ey, col);        
+        var swap: Dynamic;
+        if (block[sx][sy].squared) {
+            block[sx][sy].squared = false;
+            block[ex][ey].squared = true;
+            setColorFrame(ex, ey, block[sx][sy].color, block[sx][sy].frame);
+            setColor(sx, sy, -1);
+        } else {
+            setColor(ex, ey, block[sx][sy].color);
+            setColor(sx, sy, -1);
+        }
     }
 
     public function pop(i: Int, j: Int)
@@ -510,6 +522,9 @@ class Board extends Sprite
     private function fall(first: Bool = false)
     {
         var done = true;
+        var a: Int;
+        var b: Int;
+        var valid: Bool;
 
         for (i in 0...6) {
             for (j in 0...5) {
@@ -522,6 +537,31 @@ class Board extends Sprite
                     block[i][5-j].fallDown = true;
                     done = false;
                     break;
+                } else
+                if (block[i][4-j].squared && block[i][4-j].color != -1 && block[i][5-j].color == -1) {
+                    a = b = i;
+                    while (block[a][4-j].frame != 6 && block[a][4-j].frame != 3 && block[a][4-j].frame != 0) a--;
+                    while (block[b][4-j].frame != 8 && block[b][4-j].frame != 5 && block[b][4-j].frame != 2) b++;
+
+                    valid = true;
+                    for (k in a...b+1)
+                        if (block[k][5-j].color != -1) valid = false;
+
+                    if (valid) {
+                        for (k in a...b+1) {
+                            fallSwap(k, 4-j, k, 5-j);
+                            block[k][5-j].y = block[k][4-j].y;
+                            block[k][4-j].y = (4-j)*128;
+
+                            block[k][5-j].preFallTimer = 10;
+                            block[k][5-j].fallDown = true;
+                        }
+                        done = false;
+                        break;
+                    }
+                    // find frames 6 and 8, 3 and 5 or 0 and 2
+                    // check if all blocks under them are -1
+                    // if true, do a fall
                 }
             }
         }
@@ -548,6 +588,16 @@ class Board extends Sprite
                 block[i][j].fallDown = true;
             }
         }
+    }
+
+    public function doneFalling(): Bool
+    {
+        for (i in 0...6) {
+            for (j in 0...6) {
+                if (block[i][j].fall) return false;
+            }
+        }
+        return true;
     }
 
     public function update()
