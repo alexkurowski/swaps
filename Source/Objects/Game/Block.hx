@@ -37,9 +37,9 @@ class Block extends Sprite
         this.x = x;
         this.y = y;
 
-        speed = 10;
+        speed = 12;
         lerpSpeed = 0.35;
-        lerpFallSpeed = 0.25;
+        lerpFallSpeed = 0.45;
 
         targetScale = 1;
         
