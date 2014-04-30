@@ -9,10 +9,20 @@
 
 * Score counting and turn counting (should pop counts as a turn?)
 
+* Count overall pops, unlock more story or something else with overall progress (and don't cut it from free version!)
+
 ** Leaderboard with best score in X amount of turns (best 30, best 50, best 100) -- ?
    Your best + 5/10 top players
 
-*** Two versions for googe play store: swaps FREE (with 50 turns limitation and $1 iap to unlock endless game)
-    and paid version for $1.5 (or maybe it should be the other way around)
+
+*** Look into something grabbing, like a story in original Async Corp.
+
+
+*** Look for YouTube let's players for promotion
+
+*** Two versions for googe play store: "swaps FREE" (with 50 turns limitation and $1 iap to unlock endless game)
+    and a paid version for $1.5 (or maybe it should be the other way around)
+    Make it deadly obvious that you have a 50 turns limitation right there on a "PLAY!" button
+    IAP purchase available in the settings screen, and right after you've played your 50 turns limit (with the possibility to continue current play!)
 *** Post this game to Amazon App store as well
 *** Look into iOS App Store
