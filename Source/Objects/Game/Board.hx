@@ -167,6 +167,7 @@ class Board extends Sprite
     private function validMerge(i: Int, j: Int, col: Int): Bool
     {
         if (i < 0 || i > 5 || j < 0 || j > 5) return false;
+        if (block[i][j].color == -1) return false;
         if (block[i][j].squared && block[i][j].color == col) return true;
         return false;
     }
@@ -239,7 +240,7 @@ class Board extends Sprite
 
         for (i in 0...5) {
             for (j in 0...5) {
-                if (block[i][j].squared && block[i][j].frame == 0) {
+                if (block[i][j].squared && block[i][j].frame == 0 && block[i][j].color != -1) {
                     // find size
                     w = h = 1;
                     while (i+w < 5 && block[i+w][j].frame != 2) w++;
@@ -329,6 +330,7 @@ class Board extends Sprite
     private function checkSquaresNew(mi: Int, mj: Int, col: Int): Bool
     {
         if (block[mi][mj].squared) return false;
+        if (block[mi][mj].color == -1) return false;
 
         if (mi > 0 && mi < 5 && mj > 0 && mj < 5)
         if (validNew(mi-1, mj-1, col) && validNew(mi, mj-1, col) && validNew(mi+1, mj-1, col) &&

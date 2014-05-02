@@ -117,6 +117,11 @@ class GameState extends State
 
     private function swap()
     {
+        if (map.block[mi][mj].color == map.block[selectX][selectY].color) {
+            select();
+            return;
+        }
+
         if ((mi != selectX || mj != selectY) &&
           map.block[mi][mj].color != map.block[selectX][selectY].color) {
             map.swap(selectX, selectY, mi, mj);
@@ -127,11 +132,11 @@ class GameState extends State
         if (map.checkSquares(mi, mj)) squared = true;
         if (map.checkSquares(selectX, selectY)) squared = true;
 
-        if (!squared && (mi != selectX || mj != selectY) &&
-          map.block[mi][mj].color != map.block[selectX][selectY].color) {
-            map.swap(selectX, selectY, mi, mj, false);
-            turn--;
-        }
+        // if (!squared && (mi != selectX || mj != selectY) &&
+        //   map.block[mi][mj].color != map.block[selectX][selectY].color) {
+        //     map.swap(selectX, selectY, mi, mj, false);
+        //     turn--;
+        // }
 
         selected = false;
     }

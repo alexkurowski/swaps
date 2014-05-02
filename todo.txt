@@ -7,7 +7,7 @@
 
 * About screen with mapiSOFT name, music author, links to sites and twitters.
 
-* Score counting and turn counting (should pop counts as a turn?)
+* Score counting and turn counting (should pop counts as a turn? *Or only pops should count as turns instead*)
 
 * Count overall pops, unlock more story or something else with overall progress (and don't cut it from free version!)
 
