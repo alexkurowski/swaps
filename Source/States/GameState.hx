@@ -42,7 +42,9 @@ class GameState extends State
 
         turn = 0;
 
-        addChild(new Background(G.scheme().bg));
+        // addChild(new Background(G.scheme().bg));
+        // flash.Lib.current.stage.color = G.scheme().bg;
+        flash.Lib.stage.opaqueBackground = G.scheme().bg;
 
         map = new Board();
         addChild(map);
