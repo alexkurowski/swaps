@@ -8,7 +8,6 @@ import flash.events.TimerEvent;
 import flash.utils.Timer;
 
 import objects.game.*;
-import objects.Background;
 
 class GameState extends State
 {
@@ -42,7 +41,6 @@ class GameState extends State
 
         turn = 0;
 
-        // addChild(new Background(G.scheme().bg));
         // flash.Lib.current.stage.color = G.scheme().bg;
         flash.Lib.stage.opaqueBackground = G.scheme().bg;
 

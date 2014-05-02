@@ -5,9 +5,6 @@ import flash.display.Sprite;
 class Board extends Sprite
 {
     public var block: Array<Array<Block>>;
-    public var old: Array<Array<Block>>;
-
-    public var square: Array<Square>;
     
     public function new()
     {
@@ -23,8 +20,6 @@ class Board extends Sprite
                 addChild(block[i][j]);
             }
         }
-
-        old = block.copy();
 
         removeSquares();
     }
