@@ -71,7 +71,7 @@ class Main extends Sprite {
 		G.colorScheme = [];
 		G.colorScheme[0] = {bg: 0xffffff,
 							color: [0xf50c5d, 0x8ffe3b, 0x455eff],
-							text: 0x232323};
+							fg: 0x535353};
 		G.currentScheme = 0;
 
 

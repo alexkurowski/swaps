@@ -26,3 +26,48 @@
     IAP purchase available in the settings screen, and right after you've played your 50 turns limit (with the possibility to continue current play!)
 *** Post this game to Amazon App store as well
 *** Look into iOS App Store
+
+
+
+Names:
+Jim
+Aaron
+Williams
+Martin
+Larry
+Lando
+Perry
+Mattew
+Peterson
+Folio
+Dmitry
+Pixie
+Jumbo
+Levy
+Dan
+
+4
+6
+8
+9
+10
+12
+12
+15
+16
+18
+20
+24
+25
+30
+36
+
+
+
+   2  3  4  5  6
+2  4  6  8  10 12
+3     9  12 15 18
+4        16 20 24
+5           25 30
+6              36
+

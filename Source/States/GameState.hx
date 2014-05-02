@@ -25,6 +25,8 @@ class GameState extends State
     public var selectX: Int;
     public var selectY: Int;
 
+    private var info: InfoBar;
+
 
     public function new()
     {
@@ -48,6 +50,8 @@ class GameState extends State
         addChild(map);
 
         addChild(new Bitmap(new BitmapData(768, Math.floor(map.y)*2, false, G.scheme().bg))).y = -Math.floor(map.y);
+
+        addChild(info = new InfoBar());
     }
 
     override public function update()
@@ -77,6 +81,8 @@ class GameState extends State
         }
 
         map.update();
+
+        info.update(10 ,turn);
     }
 
     private function onDown()
@@ -133,11 +139,11 @@ class GameState extends State
         if (map.checkSquares(mi, mj)) squared = true;
         if (map.checkSquares(selectX, selectY)) squared = true;
 
-        // if (!squared && (mi != selectX || mj != selectY) &&
-        //   map.block[mi][mj].color != map.block[selectX][selectY].color) {
-        //     map.swap(selectX, selectY, mi, mj, false);
-        //     turn--;
-        // }
+        if (!squared && (mi != selectX || mj != selectY) &&
+          map.block[mi][mj].color != map.block[selectX][selectY].color) {
+            map.swap(selectX, selectY, mi, mj, false);
+            turn--;
+        }
 
         selected = false;
     }
