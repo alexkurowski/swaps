@@ -66,6 +66,8 @@ class Board extends Sprite
     // merging with existed squares
     private function checkSquaresMerge(mi: Int, mj: Int, col: Int): Bool
     {
+        if (block[mi][mj].squared || block[mi][mj].color == -1) return false;
+
         var valid: Bool;
         var a: Int;
         var b: Int;

@@ -140,6 +140,7 @@ class Block extends Sprite
         }
         if (y > j*128 && !fallDown) {
             y = H.lerp(y, j*128, lerpFallSpeed / G.dt);
+            if (y < j*128) y = j*128;
         }
         if (y == j*128) fall = false;
     }

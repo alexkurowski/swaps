@@ -117,7 +117,8 @@ class GameState extends State
 
     private function swap()
     {
-        if (map.block[mi][mj].color == map.block[selectX][selectY].color) {
+        if ((mi != selectX || mj != selectY) &&
+          map.block[mi][mj].color == map.block[selectX][selectY].color) {
             select();
             return;
         }
