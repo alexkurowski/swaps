@@ -7,8 +7,8 @@ class Background extends Bitmap
 {
     public function new(color: Int)
     {
-        super(new BitmapData(1536, 2560, false, color));
+        super(new BitmapData(1536, 1920, false, color));
         x = -384;
-        y = -640;
+        y = -320;
     }
 }

@@ -69,7 +69,7 @@ class GameState extends State
             if (map.doneFalling()) {
                 for (i in 0...3) {
                     for (j in 0...3) {
-                        map.checkSquares(i*2, j*2);
+                        map.checkSquares(i*2, j*2, false);
                     }
                 }
                 controlable = true;

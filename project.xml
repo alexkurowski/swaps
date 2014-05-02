@@ -9,6 +9,8 @@
 	<window if="mobile" width="0" height="0" fullscreen="true" orientation="portrait" />
 
 	<!-- <certificate path="C:/Projects/swaps/License/swaps-key.keystroke" alias="swapskey" password="hidamarisketch" if="android"/> -->
+
+	<!-- <template path="Templates/android/AndroidManifest.xml" rename="AndroidManifest.xml" if="android" /> -->
 	
 	<source path="Source" />
 	

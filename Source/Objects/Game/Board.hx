@@ -49,7 +49,7 @@ class Board extends Sprite
         }
     }
 
-    public function checkSquares(mi: Int, mj: Int): Bool
+    public function checkSquares(mi: Int, mj: Int, mergeCheck: Bool = true): Bool
     {
         // merging ->
         //   find squares, check its border [i-1], [j-1], [i+w+1], [j+h+1]
@@ -59,15 +59,13 @@ class Board extends Sprite
         var col = block[mi][mj].color;
         var squared = false;
 
-        if (checkSquaresMerge(mi, mj, col)) squared = true;
+        if (mergeCheck) if (checkSquaresMerge(mi, mj, col)) squared = true;
 
         if (checkAllSquaresMerge()) squared = true;
 
-        if (squared) return true;
+        if (checkSquaresNew(mi, mj, col)) squared = true;
 
-        if (checkSquaresNew(mi, mj, col)) return true;
-
-        return false;
+        return squared;
     }
 
     // merging with existed squares
@@ -222,16 +220,16 @@ class Board extends Sprite
                 block[i+k][j+l].squared = true;
                 block[i+k][j+l].bmp.scaleX = block[i+k][j+l].bmp.scaleY = 0;
 
-                frame = -1;
-                if (frame == -1) if (k == 0 && l == 0) frame = 0;
-                if (frame == -1) if (k > 0 && k < w-1 && l == 0) frame = 1;
-                if (frame == -1) if (k == w-1 && l == 0) frame = 2;
-                if (frame == -1) if (k == 0 && l > 0 && l < h-1) frame = 3;
-                if (frame == -1) if (k > 0 && k < w-1 && l > 0 && l < h-1) frame = 4;
-                if (frame == -1) if (k == w-1 && l > 0 && l < h-1) frame = 5;
-                if (frame == -1) if (k == 0 && l == h-1) frame = 6;
-                if (frame == -1) if (k > 0 && k < w-1 && l == h-1) frame = 7;
-                if (frame == -1) if (k == w-1 && l == h-1) frame = 8;
+                if (k == 0 && l == 0) frame = 0;
+                else if (k > 0 && k < w-1 && l == 0) frame = 1;
+                else if (k == w-1 && l == 0) frame = 2;
+                else if (k == 0 && l > 0 && l < h-1) frame = 3;
+                else if (k > 0 && k < w-1 && l > 0 && l < h-1) frame = 4;
+                else if (k == w-1 && l > 0 && l < h-1) frame = 5;
+                else if (k == 0 && l == h-1) frame = 6;
+                else if (k > 0 && k < w-1 && l == h-1) frame = 7;
+                else if (k == w-1 && l == h-1) frame = 8;
+                else frame = -1;
 
                 block[i+k][j+l].redraw(frame);
             }
@@ -258,10 +256,11 @@ class Board extends Sprite
                     doMerge = true;
                     if (i+w <= 5) {
                         for (l in 0...h) {
-                            if (block[i+w][j+l].squared)
+                            if (block[i+w][j+l].squared) {
                                 if (l == 0 && block[i+w][j+l].frame != 0 && block[i+w][j+l].frame != 1 && block[i+w][j+l].frame != 2) doMerge = false;
                                 if (l == h-1 && block[i+w][j+l].frame != 6 && block[i+w][j+l].frame != 7 && block[i+w][j+l].frame != 8) doMerge = false;
                                 if (l != 0 && l != h-1 && block[i+w][j+l].frame != 3 && block[i+w][j+l].frame != 4 && block[i+w][j+l].frame != 5) doMerge = false;
+                            }
                             if (block[i+w][j+l].color != block[i][j].color) doMerge = false;
                         }
                         if (doMerge) {
@@ -275,10 +274,11 @@ class Board extends Sprite
                     doMerge = true;
                     if (i-1 >= 0) {
                         for (l in 0...h) {
-                            if (block[i-1][j+l].squared)
+                            if (block[i-1][j+l].squared) {
                                 if (l == 0 && block[i-1][j+l].frame != 0 && block[i-1][j+l].frame != 1 && block[i-1][j+l].frame != 2) doMerge = false;
                                 if (l == h-1 && block[i-1][j+l].frame != 6 && block[i-1][j+l].frame != 7 && block[i-1][j+l].frame != 8) doMerge = false;
                                 if (l != 0 && l != h-1 && block[i-1][j+l].frame != 3 && block[i-1][j+l].frame != 4 && block[i-1][j+l].frame != 5) doMerge = false;
+                            }
                             if (block[i-1][j+l].color != block[i][j].color) doMerge = false;
                         }
                         if (doMerge) {
@@ -292,10 +292,11 @@ class Board extends Sprite
                     doMerge = true;
                     if (j+h <= 5) {
                         for (k in 0...w) {
-                            if (block[i+k][j+h].squared)
+                            if (block[i+k][j+h].squared) {
                                 if (k == 0 && block[i+k][j+h].frame != 0 && block[i+k][j+h].frame != 3 && block[i+k][j+h].frame != 6) doMerge = false;
                                 if (k == w-1 && block[i+k][j+h].frame != 2 && block[i+k][j+h].frame != 5 && block[i+k][j+h].frame != 8) doMerge = false;
                                 if (k != 0 && k != w-1 && block[i+k][j+h].frame != 1 && block[i+k][j+h].frame != 4 && block[i+k][j+h].frame != 7) doMerge = false;
+                            }
                             if (block[i+k][j+h].color != block[i][j].color) doMerge = false;
                         }
                         if (doMerge) {
@@ -309,10 +310,11 @@ class Board extends Sprite
                     doMerge = true;
                     if (j-1 >= 0) {
                         for (k in 0...w) {
-                            if (block[i+k][j-1].squared)
+                            if (block[i+k][j-1].squared) {
                                 if (k == 0 && block[i+k][j-1].frame != 0 && block[i+k][j-1].frame != 3 && block[i+k][j-1].frame != 6) doMerge = false;
                                 if (k == w-1 && block[i+k][j-1].frame != 2 && block[i+k][j-1].frame != 5 && block[i+k][j-1].frame != 8) doMerge = false;
                                 if (k != 0 && k != w-1 && block[i+k][j-1].frame != 1 && block[i+k][j-1].frame != 4 && block[i+k][j-1].frame != 7) doMerge = false;
+                            }
                             if (block[i+k][j-1].color != block[i][j].color) doMerge = false;
                         }
                         if (doMerge) {
@@ -331,6 +333,8 @@ class Board extends Sprite
     // place new square
     private function checkSquaresNew(mi: Int, mj: Int, col: Int): Bool
     {
+        if (block[mi][mj].squared) return false;
+
         if (mi > 0 && mi < 5 && mj > 0 && mj < 5)
         if (validNew(mi-1, mj-1, col) && validNew(mi, mj-1, col) && validNew(mi+1, mj-1, col) &&
             validNew(mi-1, mj, col) && validNew(mi, mj, col) && validNew(mi+1, mj, col) &&
@@ -415,15 +419,16 @@ class Board extends Sprite
                 block[i+k][j+l].bmp.scaleX = block[i+k][j+l].bmp.scaleY = 0;
 
                 frame = -1;
-                if (frame == -1) if (k == 0 && l == 0) frame = 0;
-                if (frame == -1) if (k > 0 && k < w-1 && l == 0) frame = 1;
-                if (frame == -1) if (k == w-1 && l == 0) frame = 2;
-                if (frame == -1) if (k == 0 && l > 0 && l < h-1) frame = 3;
-                if (frame == -1) if (k > 0 && k < w-1 && l > 0 && l < h-1) frame = 4;
-                if (frame == -1) if (k == w-1 && l > 0 && l < h-1) frame = 5;
-                if (frame == -1) if (k == 0 && l == h-1) frame = 6;
-                if (frame == -1) if (k > 0 && k < w-1 && l == h-1) frame = 7;
-                if (frame == -1) if (k == w-1 && l == h-1) frame = 8;
+                if (k == 0 && l == 0) frame = 0;
+                else if (k > 0 && k < w-1 && l == 0) frame = 1;
+                else if (k == w-1 && l == 0) frame = 2;
+                else if (k == 0 && l > 0 && l < h-1) frame = 3;
+                else if (k > 0 && k < w-1 && l > 0 && l < h-1) frame = 4;
+                else if (k == w-1 && l > 0 && l < h-1) frame = 5;
+                else if (k == 0 && l == h-1) frame = 6;
+                else if (k > 0 && k < w-1 && l == h-1) frame = 7;
+                else if (k == w-1 && l == h-1) frame = 8;
+                else frame = -1;
 
                 block[i+k][j+l].redraw(frame);
             }
@@ -476,13 +481,13 @@ class Board extends Sprite
 
     private function fallSwap(sx: Int, sy: Int, ex: Int, ey: Int)
     {
-        var swap: Dynamic;
         if (block[sx][sy].squared) {
             block[sx][sy].squared = false;
             block[ex][ey].squared = true;
             setColorFrame(ex, ey, block[sx][sy].color, block[sx][sy].frame);
             setColor(sx, sy, -1);
         } else {
+            if (block[ex][ey].squared) block[ex][ey].squared = false;
             setColor(ex, ey, block[sx][sy].color);
             setColor(sx, sy, -1);
         }
@@ -514,12 +519,12 @@ class Board extends Sprite
             }
         }
 
-        fall(true);
+        fall();
 
         fallNew();
     }
 
-    private function fall(first: Bool = false)
+    private function fall()
     {
         var done = true;
         var a: Int;
@@ -582,6 +587,7 @@ class Board extends Sprite
 
         for (i in 0...6) {
             for (j in 0...newBlocks[i]) {
+                block[i][j].squared = false;
                 setColor(i, j, Std.random(3));
                 block[i][j].y = -128 - 128*(newBlocks[i] - j);
                 block[i][j].preFallTimer = 10;

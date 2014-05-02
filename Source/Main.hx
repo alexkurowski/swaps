@@ -1,6 +1,5 @@
 package;
 
-
 import flash.display.Sprite;
 import flash.display.Bitmap;
 import flash.display.BitmapData;
@@ -27,6 +26,12 @@ class Main extends Sprite {
 	public function new () {
 		
 		super();
+
+		stage.addEventListener(Event.ENTER_FRAME, start);
+	}
+
+	private function start(e: Event) {
+		stage.removeEventListener(Event.ENTER_FRAME, start);
 
 		load();
 
@@ -55,7 +60,6 @@ class Main extends Sprite {
 	{
 		G.graphics = {};
 		G.graphics.block = Assets.getBitmapData("assets/img/block.png");
-		G.graphics.blockSheet = Assets.getBitmapData("assets/img/blocksheet.png");
 
 		G.graphics.square = [];
 		for (i in 0...9)
