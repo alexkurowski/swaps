@@ -19,7 +19,10 @@ class GameState extends State
 
     private var controlable: Bool;
 
+    public var score: Int;
     public var turn: Int;
+
+    private var pauseBtn: Bitmap;
 
     public var selected: Bool;
     public var selectX: Int;
@@ -41,6 +44,7 @@ class GameState extends State
 
         controlable = true;
 
+        score = 0;
         turn = 0;
 
         // flash.Lib.current.stage.color = G.scheme().bg;
@@ -82,7 +86,7 @@ class GameState extends State
 
         map.update();
 
-        info.update(10 ,turn);
+        info.update(score, turn);
     }
 
     private function onDown()
@@ -132,7 +136,7 @@ class GameState extends State
         if ((mi != selectX || mj != selectY) &&
           map.block[mi][mj].color != map.block[selectX][selectY].color) {
             map.swap(selectX, selectY, mi, mj);
-            turn++;
+            // turn++;
         }
 
         var squared = false;
@@ -142,7 +146,7 @@ class GameState extends State
         if (!squared && (mi != selectX || mj != selectY) &&
           map.block[mi][mj].color != map.block[selectX][selectY].color) {
             map.swap(selectX, selectY, mi, mj, false);
-            turn--;
+            // turn--;
         }
 
         selected = false;
@@ -150,7 +154,9 @@ class GameState extends State
 
     private function pop()
     {
-        map.pop(mi, mj);
+        var addScore = map.pop(mi, mj);
+        score += addScore;
+        turn++;
         controlable = false;
         selected = false;
     }

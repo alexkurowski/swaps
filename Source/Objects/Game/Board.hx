@@ -492,7 +492,7 @@ class Board extends Sprite
         }
     }
 
-    public function pop(i: Int, j: Int)
+    public function pop(i: Int, j: Int): Int
     {
         var w = 1;
         var h = 1;
@@ -509,8 +509,11 @@ class Board extends Sprite
             if (block[i][j+h].frame != 6) h++;
         }
 
-        for (k in 0...w+1) {
-            for (l in 0...h+1) {
+        w++;
+        h++;
+
+        for (k in 0...w) {
+            for (l in 0...h) {
                 block[i+k][j+l].squared = false;
                 setColor(i+k, j+l, -1);
                 // setColor(i+k, j+l, Std.random(3));
@@ -521,6 +524,8 @@ class Board extends Sprite
         fall();
 
         fallNew();
+
+        return w*h;
     }
 
     private function fall()

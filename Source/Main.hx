@@ -65,6 +65,14 @@ class Main extends Sprite {
 		for (i in 0...9)
 			G.graphics.square[i] = Assets.getBitmapData("assets/img/square" + i + ".png");
 
+		G.graphics.infoRound = Assets.getBitmapData("assets/img/bar-rounder.png");
+		
+		G.graphics.pause = Assets.getBitmapData("assets/img/pause.png");
+
+		// G.graphics.infoCover = Assets.getBitmapData("assets/img/info-cover.png");
+		// G.graphics.infoBlock = Assets.getBitmapData("assets/img/blockbar.png");
+		// G.graphics.infoStar = Assets.getBitmapData("assets/img/star.png");
+
 		G.font = Assets.getFont("assets/Bariol_Bold.otf");
 
 
