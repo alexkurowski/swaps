@@ -65,6 +65,8 @@ class Main extends Sprite {
 		for (i in 0...9)
 			G.graphics.square[i] = Assets.getBitmapData("assets/img/square" + i + ".png");
 
+		G.graphics.face = Assets.getBitmapData("assets/img/fdeb.png");
+
 		G.graphics.infoRound = Assets.getBitmapData("assets/img/bar-rounder.png");
 		
 		G.graphics.pause = Assets.getBitmapData("assets/img/pause.png");

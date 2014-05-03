@@ -60,6 +60,8 @@ class Board extends Sprite
 
         if (checkSquaresNew(mi, mj, col)) squared = true;
 
+        if (squared) remapFaces();
+
         return squared;
     }
 
@@ -434,6 +436,17 @@ class Board extends Sprite
         }
     }
 
+    public function findWH (i: Int, j: Int): Dynamic
+    {
+        var res = {w: 1, h: 1};
+        if (!block[i][j].squared || block[i][j].frame != 0) return false;
+
+        while (block[i + res.w][j].frame != 2) res.w++;
+        while (block[i][j + res.h].frame != 6) res.h++;
+
+        return res;
+    }
+
     public function setColor(i: Int, j: Int, color: Int)
     {
         block[i][j].setColor(color);
@@ -525,6 +538,8 @@ class Board extends Sprite
 
         fallNew();
 
+        remapFaces();
+
         return w*h;
     }
 
@@ -608,6 +623,21 @@ class Board extends Sprite
             }
         }
         return true;
+    }
+
+    private function remapFaces()
+    {
+        for (i in 0...5) {
+            for (j in 0...5) {
+                if (block[i][j].squared && block[i][j].color >= 0 && block[i][j].frame == 0) {
+                    addChild(block[i][j]);
+                    var size = findWH(i, j);
+                    block[i][j].setFace(size.w, size.h);
+                } else {
+                    block[i][j].hideFace();
+                }
+            }
+        }
     }
 
     public function update()

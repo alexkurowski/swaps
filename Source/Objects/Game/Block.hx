@@ -25,6 +25,8 @@ class Block extends Sprite
     public var color: Int;
     private var colorTransform: ColorTransform;
 
+    private var face: Bitmap;
+
     public var targetScale: Float;
 
     public function new(i: Int, j: Int, x: Int, y: Int)
@@ -59,6 +61,11 @@ class Block extends Sprite
         bmp.x = bmp.y = 64;
         bmp.scaleX = bmp.scaleY = 0;
         addChild(bmp);
+
+        face = new Bitmap(G.graphics.face);
+        face.smoothing = true;
+        face.visible = false;
+        addChild(face);
 
         redraw();
     }
@@ -102,6 +109,20 @@ class Block extends Sprite
             colorTransform.blueOffset = -255 + colorTransform.blueOffset;
             bmp.bitmapData.colorTransform(bmp.bitmapData.rect, colorTransform);
         }
+    }
+
+    public function setFace(w: Int, h: Int)
+    {
+        face.visible = true;
+        w++;
+        h++;
+        face.x = (w*128) / 2 - 64;
+        face.y = (h*128) / 2 - 64;
+    }
+
+    public function hideFace()
+    {
+        face.visible = false;
     }
 
     public function update()
