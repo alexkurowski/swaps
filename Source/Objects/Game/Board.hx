@@ -12,6 +12,11 @@ class Board extends Sprite
 
         y = 340;
 
+        newGame();
+    }
+
+    public function newGame()
+    {
         block = [];
         for (i in 0...6) {
             block[i] = [];
@@ -505,7 +510,7 @@ class Board extends Sprite
         }
     }
 
-    public function pop(i: Int, j: Int): Int
+    public function pop(i: Int, j: Int): Dynamic
     {
         var w = 1;
         var h = 1;
@@ -540,7 +545,7 @@ class Board extends Sprite
 
         remapFaces();
 
-        return w*h;
+        return {i: i, j: j, w: w, h: h, score: w*h};
     }
 
     private function fall()

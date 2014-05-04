@@ -26,6 +26,7 @@ class Block extends Sprite
     private var colorTransform: ColorTransform;
 
     private var face: Bitmap;
+    private var txt: flash.text.TextField;
 
     public var targetScale: Float;
 
@@ -66,6 +67,16 @@ class Block extends Sprite
         face.smoothing = true;
         face.visible = false;
         addChild(face);
+
+        var textFormat = new flash.text.TextFormat(G.font.fontName, 72, G.scheme().bg, true);
+        textFormat.align = flash.text.TextFormatAlign.CENTER;
+        txt = new flash.text.TextField();
+        txt.visible = false;
+        txt.alpha = 0.5;
+        txt.selectable = false;
+        txt.defaultTextFormat = textFormat;
+        txt.text = "0";
+        addChild(txt);
 
         redraw();
     }
@@ -118,11 +129,17 @@ class Block extends Sprite
         h++;
         face.x = (w*128) / 2 - 64;
         face.y = (h*128) / 2 - 64;
+
+        // txt.visible = true;
+        txt.text = Std.string(w*h);
+        txt.width = w*128;
+        txt.y = (h*128)/2 - 32;
     }
 
     public function hideFace()
     {
         face.visible = false;
+        txt.visible = false;
     }
 
     public function update()

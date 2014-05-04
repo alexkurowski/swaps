@@ -6,6 +6,7 @@ import flash.display.BitmapData;
 import flash.events.Event;
 import flash.events.TimerEvent;
 import flash.utils.Timer;
+import flash.text.TextField;
 import openfl.feedback.Haptic;
 
 import objects.game.*;
@@ -13,6 +14,8 @@ import objects.game.*;
 class GameState extends State
 {
     public var map: Board;
+
+    public var txtScore: Array<TextField>;
 
     // block index under the cursor
     private var mi: Int;
@@ -67,6 +70,8 @@ class GameState extends State
         map = new Board();
         addChild(map);
 
+        txtScore = [];
+
         addChild(new Bitmap(new BitmapData(768, Math.floor(map.y)*2, false, G.scheme().bg))).y = -Math.floor(map.y);
 
         addChild(info = new InfoBar());
@@ -93,6 +98,10 @@ class GameState extends State
 
         pause.update();
 
+        if (IO.released) {
+            if (IO.y > map.y) paused = false;
+        }
+
         if (IO.key.BACK) paused = false;
     }
 
@@ -114,6 +123,15 @@ class GameState extends State
             }
         } else {
             // TODO: make it possible to pop (at least visibly, put it in stack for actual pop later) squares while something is falling
+
+            if (IO.down) {
+                onDown();
+            }
+
+            if (IO.released) {
+                onRelease();
+            }
+
             if (map.doneFalling()) {
                 for (i in 0...3) {
                     for (j in 0...3) {
@@ -125,6 +143,8 @@ class GameState extends State
         }
 
         map.update();
+
+        scoreUpdate();
 
         info.update(score, turn);
 
@@ -139,6 +159,7 @@ class GameState extends State
         if (IO.y > map.y) {
             mi = Math.floor(IO.x / 128);
             mj = Math.floor((IO.y - map.y) / 128);
+            if (map.block[mi][mj].fall || map.block[mi][0].fall) return;
             map.resetScale();
             map.setScale(mi, mj, 1.4);
             if (selected) map.setScale(selectX, selectY, 0.8);
@@ -162,6 +183,17 @@ class GameState extends State
         }
 
         if (IO.x > 660 && IO.y < 70) paused = true;
+    }
+
+    private function scoreUpdate()
+    {
+        for (i in 0...txtScore.length) {
+            if (txtScore[i].visible) {
+                txtScore[i].alpha -= fadeSpeed*0.5;
+                txtScore[i].y -= 3;
+                if (txtScore[i].alpha <= 0) txtScore[i].visible = false;
+            }
+        }
     }
 
     private function rewardUpdate()
@@ -213,13 +245,15 @@ class GameState extends State
 
     private function pop()
     {
-        var addScore = map.pop(mi, mj);
-        score += addScore;
+        var pop = map.pop(mi, mj);
+        score += pop.score;
         turn++;
         controlable = false;
         selected = false;
 
-        G.score += addScore;
+        showScore(pop.i, pop.j, pop.w, pop.h, pop.score);
+
+        G.score += pop.score;
         G.file.data.score = G.score;
         if (G.score >= G.nextScore) nextLevel();
         try {
@@ -229,6 +263,36 @@ class GameState extends State
         if (!G.purchased && turn >= G.maxPopsNotPurchased) {
             endDelay = 400;
         }
+    }
+
+    private function showScore(i: Int, j: Int, w: Int, h: Int, score: Int)
+    {
+        var t = 0;
+        
+        for (k in 0...txtScore.length) {
+            if (txtScore[k] == null) {
+                t = k;
+                break;
+            }
+
+            if (!txtScore[k].visible) {
+                t = k;
+                break;
+            }
+        }
+
+
+        if (txtScore[t] == null) {
+            addChild(txtScore[t] = H.newTextField(0, 0, 128, 82, G.scheme().fg));
+        }
+
+        txtScore[t].visible = true;
+        txtScore[t].alpha = 1;
+
+        txtScore[t].x = i*128;
+        txtScore[t].width = w*128;
+        txtScore[t].y = map.y + j*128 + h*64 - 32;
+        txtScore[t].text = Std.string(score);
     }
 
     private function nextLevel()

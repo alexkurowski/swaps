@@ -3,12 +3,12 @@ package objects.game;
 import flash.display.Sprite;
 import flash.display.Bitmap;
 import flash.display.BitmapData;
-
 import flash.text.TextField;
-import flash.text.TextFormat;
 
 class InfoBar extends Sprite
 {
+    private var lerpSpeed: Float;
+
     private var score: TextField;
     private var popBar: Bitmap;
     private var popBarEnd: Array<Bitmap>;
@@ -21,15 +21,10 @@ class InfoBar extends Sprite
     {
         super();
 
-        var textFormat = new TextFormat(G.font.fontName, 72, G.scheme().fg, true);
-        textFormat.align = flash.text.TextFormatAlign.CENTER;
+        lerpSpeed = 0.3;
 
-        score = new TextField();
-        score.y = 128;
-        score.width = 768;
-        score.selectable = false;
-        score.defaultTextFormat = textFormat;
-        score.text = "0";
+        
+        score = H.newTextField(0, 128, 768, 72, G.scheme().fg, "center", "0");
         addChild(score);
 
         pauseBar = [new Bitmap(new BitmapData(11, 42, false, G.scheme().fg)), new Bitmap(new BitmapData(11, 42, false, G.scheme().fg))];
@@ -44,9 +39,18 @@ class InfoBar extends Sprite
 
     }
 
-    public function update(score: Int, turns: Int)
+    public function update(stateScore: Int, turns: Int)
     {
-        if (this.score.text != Std.string(G.nextScore - G.score)) this.score.text = Std.string(G.nextScore - G.score);
+        if (score.text != Std.string(stateScore)) {
+            score.text = Std.string(stateScore);
+            score.scaleX = score.scaleY = 0.1;
+        }
+        if (score.scaleX != 1 || score.scaleY != 1) {
+            score.scaleX = H.lerp(score.scaleX, 1, lerpSpeed);
+            score.scaleY = H.lerp(score.scaleY, 1, lerpSpeed);
+            score.width = 768 / score.scaleX;
+            score.y = 128 + 72 * (1 - score.scaleY);
+        }
         // G.maxPopsNotPurchased
     }
 }
