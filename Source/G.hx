@@ -5,6 +5,7 @@ import flash.display.BitmapData;
 import flash.media.Sound;
 import flash.text.Font;
 import states.State;
+import flash.net.SharedObject;
 
 // Global variables
 class G
@@ -14,6 +15,12 @@ class G
     static public var game: Main;
 
     static public var state: State;
+
+    static public var score: Int;
+    static public var nextScore: Int;
+    static public var level: Int;
+
+    static public var file: SharedObject;
 
     // delta time
     static public var dt: Float;

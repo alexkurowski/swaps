@@ -159,5 +159,24 @@ class GameState extends State
         turn++;
         controlable = false;
         selected = false;
+
+        G.score += addScore;
+        G.file.data.score = G.score;
+
+        if (G.score >= G.nextScore) {
+            nextLevel();
+        }
+
+        try {
+            G.file.flush();
+        } catch (e: Dynamic) {}
+    }
+
+    private function nextLevel()
+    {
+        G.level++;
+        G.nextScore = G.level * 500;
+
+        G.file.data.level++;
     }
 }

@@ -85,10 +85,36 @@ class Main extends Sprite {
 		G.currentScheme = 0;
 
 
-		var file = SharedObject.getLocal("options");
+		G.file = SharedObject.getLocal("options");
 		var needSave: Bool = false;
 
-		file.close();
+		if (G.file.data.score == null) {
+			G.file.data.score = 0;
+			needSave = true;
+		}
+
+		if (G.file.data.level == null) {
+			G.file.data.level = 1;
+			needSave = true;
+		}
+
+		if (G.file.data.purchased == null) {
+			#if android
+				G.file.data.purchased = false;
+			#else
+				G.file.data.purchased = true;
+			#end
+		}
+
+		if (needSave) {
+			try {
+				G.file.flush();
+			} catch (e: Dynamic) {}
+		}
+
+		G.score = G.file.data.score;
+		G.level = G.file.data.level;
+		G.nextScore = G.level * 500;
 	}
 
 	// game's entry point
