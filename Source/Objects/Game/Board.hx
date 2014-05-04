@@ -441,10 +441,25 @@ class Board extends Sprite
         }
     }
 
+    public function findIJ (i: Int, j: Int): Dynamic
+    {
+        if (!block[i][j].squared || block[i][j].color == -1) return false;
+
+        while (block[i][j].frame != 0 && block[i][j].frame != 3 && block[i][j].frame != 6) i--;
+        while (block[i][j].frame != 0) j--;
+
+        return {i: i, j: j};
+    }
+
     public function findWH (i: Int, j: Int): Dynamic
     {
         var res = {w: 1, h: 1};
-        if (!block[i][j].squared || block[i][j].frame != 0) return false;
+        if (!block[i][j].squared || block[i][j].color == -1) return false;
+        if (block[i][j].frame != 0) {
+            var startPos = findIJ(i, j);
+            i = startPos.i;
+            j = startPos.j;
+        }
 
         while (block[i + res.w][j].frame != 2) res.w++;
         while (block[i][j + res.h].frame != 6) res.h++;
@@ -515,17 +530,13 @@ class Board extends Sprite
         var w = 1;
         var h = 1;
 
-        // find top left corner
-        while (block[i][j].frame != 0) {
-            if (block[i][j].frame != 0 && block[i][j].frame != 3 && block[i][j].frame != 6) i--;
-            if (block[i][j].frame >= 3) j--;
-        }
-
-        // find width and height
-        while (block[i+w][j+h].frame != 8) {
-            if (block[i+w][j].frame != 2) w++;
-            if (block[i][j+h].frame != 6) h++;
-        }
+        var s = findIJ(i, j);
+        i = s.i;
+        j = s.j;
+        
+        var e = findWH(i, j);
+        w = e.w;
+        h = e.h;
 
         w++;
         h++;
@@ -534,8 +545,6 @@ class Board extends Sprite
             for (l in 0...h) {
                 block[i+k][j+l].squared = false;
                 setColor(i+k, j+l, -1);
-                // setColor(i+k, j+l, Std.random(3));
-                // block[i+k][j+l].bmp.scaleX = block[i+k][j+l].bmp.scaleY = 0;
             }
         }
 
@@ -559,13 +568,15 @@ class Board extends Sprite
             for (j in 0...5) {
                 if (!block[i][4-j].squared && block[i][4-j].color != -1 && block[i][5-j].color == -1) {
                     fallSwap(i, 4-j, i, 5-j);
+                    var s = block[i][5-j].y;
                     block[i][5-j].y = block[i][4-j].y;
-                    block[i][4-j].y = (4-j)*128;
+                    // block[i][4-j].y = (4-j)*128;
+                    block[i][4-j].y = s;
 
                     block[i][5-j].preFallTimer = 10;
                     block[i][5-j].fallDown = true;
                     done = false;
-                    break;
+                    // break;
                 } else
                 if (block[i][4-j].squared && block[i][4-j].color != -1 && block[i][5-j].color == -1) {
                     a = b = i;
@@ -586,11 +597,7 @@ class Board extends Sprite
                             block[k][5-j].fallDown = true;
                         }
                         done = false;
-                        break;
                     }
-                    // find frames 6 and 8, 3 and 5 or 0 and 2
-                    // check if all blocks under them are -1
-                    // if true, do a fall
                 }
             }
         }
@@ -614,6 +621,8 @@ class Board extends Sprite
                 block[i][j].squared = false;
                 setColor(i, j, Std.random(3));
                 block[i][j].y = -128 - 128*(newBlocks[i] - j);
+                // block[i][j].y = -128*6 + j*128;
+                // if (j < 5 && block[i][j+1].fall && block[i][j+1].color != -1) block[i][j].y -= 256;
                 block[i][j].preFallTimer = 10;
                 block[i][j].fallDown = true;
             }
