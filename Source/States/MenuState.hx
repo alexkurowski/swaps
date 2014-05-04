@@ -29,7 +29,7 @@ class MenuState extends State
         score = H.newTextField(0, 540, 768, 92, G.scheme().fg, "center", Std.string(G.score));
         addChild(score);
 
-        playBtn = new Button(128, 880, "PLAY");
+        playBtn = new Button(128, 900, "PLAY");
         addChild(playBtn);
 
         // continueBtn = new Button(128, 1008, "CONTINUE");

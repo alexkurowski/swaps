@@ -81,7 +81,21 @@ class Main extends Sprite {
 		for (i in 0...9)
 			G.graphics.square[i] = Assets.getBitmapData("assets/img/square" + i + ".png");
 
-		G.graphics.face = Assets.getBitmapData("assets/img/fdeb.png");
+		G.graphics.face = [];
+		G.graphics.face[4] = Assets.getBitmapData("assets/img/face04.png");
+		G.graphics.face[6] = Assets.getBitmapData("assets/img/face06.png");
+		G.graphics.face[8] = Assets.getBitmapData("assets/img/face08.png");
+		G.graphics.face[9] = Assets.getBitmapData("assets/img/face09.png");
+		G.graphics.face[10] = Assets.getBitmapData("assets/img/face10.png");
+		G.graphics.face[12] = Assets.getBitmapData("assets/img/face12.png");
+		G.graphics.face[15] = Assets.getBitmapData("assets/img/face15.png");
+		G.graphics.face[16] = Assets.getBitmapData("assets/img/face16.png");
+		G.graphics.face[18] = Assets.getBitmapData("assets/img/face18.png");
+		G.graphics.face[20] = Assets.getBitmapData("assets/img/face20.png");
+		G.graphics.face[24] = Assets.getBitmapData("assets/img/face24.png");
+		G.graphics.face[25] = Assets.getBitmapData("assets/img/face25.png");
+		G.graphics.face[30] = Assets.getBitmapData("assets/img/face30.png");
+		G.graphics.face[36] = Assets.getBitmapData("assets/img/face36.png");
 
 		G.graphics.retry = Assets.getBitmapData("assets/img/retry.png");
 		G.graphics.menu = Assets.getBitmapData("assets/img/menu.png");

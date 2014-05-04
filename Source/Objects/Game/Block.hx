@@ -63,7 +63,7 @@ class Block extends Sprite
         bmp.scaleX = bmp.scaleY = 0;
         addChild(bmp);
 
-        face = new Bitmap(G.graphics.face);
+        face = new Bitmap();
         face.smoothing = true;
         face.visible = false;
         addChild(face);
@@ -117,6 +117,7 @@ class Block extends Sprite
         face.visible = true;
         w++;
         h++;
+        face.bitmapData = G.graphics.face[w*h];
         face.x = (w*128) / 2 - 64;
         face.y = (h*128) / 2 - 64;
 

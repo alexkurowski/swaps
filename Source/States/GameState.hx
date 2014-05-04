@@ -136,7 +136,7 @@ class GameState extends State
 
     private function onDown()
     {
-        if (IO.y > map.y) {
+        if (insideMap()) {
             mi = Math.floor(IO.x / 128);
             mj = Math.floor((IO.y - map.y) / 128);
             if (map.block[mi][mj].fall || map.block[mi][0].fall) return;
@@ -148,7 +148,7 @@ class GameState extends State
 
     private function onRelease()
     {
-        if (IO.y > map.y) {
+        if (insideMap()) {
             if (map.block[mi][mj].color == -1 || map.block[mi][mj].fall) return;
             map.resetScale();
             if (map.block[mi][mj].squared) {
@@ -168,6 +168,13 @@ class GameState extends State
             G.game.setState('menu');
             G.game.menuState.set();
         }
+    }
+
+    private function insideMap(): Bool
+    {
+        if (IO.x > 0 && IO.x < 768 &&
+            IO.y > map.y && IO.y < map.y+768) return true;
+        return false;
     }
 
     private function scoreUpdate()

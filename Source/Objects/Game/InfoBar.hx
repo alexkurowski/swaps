@@ -25,8 +25,8 @@ class InfoBar extends Sprite
         lerpSpeed = 0.3;
 
         
-        score = H.newTextField(0, 128, 768, 72, G.scheme().fg, "center", "0");
-        score.scaleX = score.scaleY = 0.1;
+        score = H.newTextField(0, 136, 768, 86, G.scheme().fg, "center", "0");
+        score.scaleX = score.scaleY = 0.001;
         addChild(score);
 
         addChild(retryBtn = new Bitmap(G.graphics.retry));
@@ -35,17 +35,6 @@ class InfoBar extends Sprite
         addChild(menuBtn = new Bitmap(G.graphics.menu)).x = 678;
         menuBtn.smoothing = true;
         menuBtn.bitmapData.colorTransform(menuBtn.bitmapData.rect, H.recolor(G.scheme().fg));
-
-        // pauseBar = [new Bitmap(new BitmapData(11, 42, false, G.scheme().fg)), new Bitmap(new BitmapData(11, 42, false, G.scheme().fg))];
-        // pauseBar[0].x = 674;
-        // pauseBar[1].x = 706;
-        // pauseBar[0].y = 28;
-        // pauseBar[1].y = 28;
-        // pauseBar[0].alpha = 0.8;
-        // pauseBar[1].alpha = 0.8;
-        // addChild(pauseBar[0]);
-        // addChild(pauseBar[1]);
-
     }
 
     public function update(stateScore: Int, turns: Int)
@@ -58,8 +47,14 @@ class InfoBar extends Sprite
             score.scaleX = H.lerp(score.scaleX, 1, lerpSpeed);
             score.scaleY = H.lerp(score.scaleY, 1, lerpSpeed);
             score.width = 768 / score.scaleX;
-            score.y = 128 + 72 * (1 - score.scaleY);
+            score.y = 136 + 72 * (1 - score.scaleY);
         }
+
+        if (IO.down && IO.x < 90 && IO.y < 80) retryBtn.alpha = 0.4;
+        else retryBtn.alpha = 1;
+
+        if (IO.down && IO.x > 678 && IO.y < 80) menuBtn.alpha = 0.4;
+        else menuBtn.alpha = 1;
         // G.maxPopsNotPurchased
     }
 }
