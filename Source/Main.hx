@@ -115,6 +115,7 @@ class Main extends Sprite {
 		G.score = G.file.data.score;
 		G.level = G.file.data.level;
 		G.nextScore = G.level * 500;
+		G.maxPopsNotPurchased = 20;
 	}
 
 	// game's entry point

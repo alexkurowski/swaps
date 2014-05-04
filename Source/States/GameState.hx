@@ -6,6 +6,7 @@ import flash.display.BitmapData;
 import flash.events.Event;
 import flash.events.TimerEvent;
 import flash.utils.Timer;
+import openfl.feedback.Haptic;
 
 import objects.game.*;
 
@@ -30,6 +31,8 @@ class GameState extends State
 
     private var info: InfoBar;
 
+    private var rewardDelay: Int;
+
 
     public function new()
     {
@@ -46,6 +49,8 @@ class GameState extends State
 
         score = 0;
         turn = 0;
+
+        rewardDelay = 0;
 
         // flash.Lib.current.stage.color = G.scheme().bg;
         flash.Lib.stage.opaqueBackground = G.scheme().bg;
@@ -87,6 +92,9 @@ class GameState extends State
         map.update();
 
         info.update(score, turn);
+
+        if (rewardDelay > 0) rewardUpdate();
+        if (endDelay > 0) endUpdate();
     }
 
     private function onDown()
@@ -115,6 +123,18 @@ class GameState extends State
                 }
             }
         }
+    }
+
+    private function rewardUpdate()
+    {
+        rewardDelay--;
+        if (rewardDelay <= 0) reward();
+    }
+
+    private function endUpdate()
+    {
+        endDelay--;
+        if (endDelay > 0) endGame();
     }
 
     private function select()
@@ -162,14 +182,14 @@ class GameState extends State
 
         G.score += addScore;
         G.file.data.score = G.score;
-
-        if (G.score >= G.nextScore) {
-            nextLevel();
-        }
-
+        if (G.score >= G.nextScore) nextLevel();
         try {
             G.file.flush();
         } catch (e: Dynamic) {}
+
+        if (!G.purchased && turns >= G.maxPopsNotPurchased) {
+            endDelay = 400;
+        }
     }
 
     private function nextLevel()
@@ -178,5 +198,18 @@ class GameState extends State
         G.nextScore = G.level * 500;
 
         G.file.data.level++;
+
+        rewardDelay = 400;
+    }
+
+    private function reward()
+    {
+        Haptic.vibrate(35);
+        // play reward sound
+    }
+
+    private function endGame()
+    {
+        //
     }
 }

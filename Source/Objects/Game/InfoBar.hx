@@ -7,8 +7,6 @@ import flash.display.BitmapData;
 import flash.text.TextField;
 import flash.text.TextFormat;
 
-import openfl.feedback.Haptic;
-
 class InfoBar extends Sprite
 {
     private var score: TextField;
@@ -16,15 +14,12 @@ class InfoBar extends Sprite
     private var popBarEnd: Array<Bitmap>;
 
     private var scores: Int;
-    private var pops: Int;
 
     private var pauseBar: Array<Bitmap>;
 
     public function new()
     {
         super();
-
-        pops = 20;
 
         var textFormat = new TextFormat(G.font.fontName, 72, G.scheme().fg, true);
         textFormat.align = flash.text.TextFormatAlign.CENTER;
@@ -52,9 +47,6 @@ class InfoBar extends Sprite
     public function update(score: Int, turns: Int)
     {
         if (this.score.text != Std.string(G.nextScore - G.score)) this.score.text = Std.string(G.nextScore - G.score);
-        
-        if (IO.pressed) {
-            if (IO.x > 660 && IO.y < 70) Haptic.vibrate(30);
-        }
+        // G.maxPopsNotPurchased
     }
 }
