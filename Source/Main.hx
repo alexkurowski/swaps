@@ -114,7 +114,7 @@ class Main extends Sprite {
 
 		G.score = G.file.data.score;
 		G.level = G.file.data.level;
-		G.nextScore = G.level * 500;
+		G.nextScore = G.level * 400;
 		G.maxPopsNotPurchased = 20;
 	}
 
@@ -157,9 +157,11 @@ class Main extends Sprite {
 
 		G.dt = deltaTime * 0.001 * 60;
 
-		IO.update();
+		IO.touchUpdate();
 
 		state.update();
+
+		IO.keyUpdate();
 	}
 
 	// debug

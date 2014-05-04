@@ -100,7 +100,7 @@ class IO
         key.last = e.keyCode;
     }
 
-    static public function update()
+    static public function touchUpdate()
     {
         if (_pressed) pressed = false;
         if (_released) released = false;
@@ -109,7 +109,10 @@ class IO
 
         _x = x;
         _y = y;
+    }
 
+    static public function keyUpdate()
+    {
         if (key.BACK) key.BACK = false;
         if (key.OPTION) key.OPTION = false;
     }

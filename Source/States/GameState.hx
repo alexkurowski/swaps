@@ -23,6 +23,8 @@ class GameState extends State
     public var score: Int;
     public var turn: Int;
 
+    private var fadeSpeed: Float;
+
     private var pauseBtn: Bitmap;
 
     public var selected: Bool;
@@ -31,7 +33,11 @@ class GameState extends State
 
     private var info: InfoBar;
 
+    private var pause: Pause;
+    private var paused: Bool;
+
     private var rewardDelay: Int;
+    private var endDelay: Int;
 
 
     public function new()
@@ -50,7 +56,10 @@ class GameState extends State
         score = 0;
         turn = 0;
 
+        fadeSpeed = 0.1;
+
         rewardDelay = 0;
+        endDelay = 0;
 
         // flash.Lib.current.stage.color = G.scheme().bg;
         flash.Lib.stage.opaqueBackground = G.scheme().bg;
@@ -61,10 +70,36 @@ class GameState extends State
         addChild(new Bitmap(new BitmapData(768, Math.floor(map.y)*2, false, G.scheme().bg))).y = -Math.floor(map.y);
 
         addChild(info = new InfoBar());
+
+        addChild(pause = new Pause());
     }
 
     override public function update()
     {
+        if (paused) {
+            pauseUpdate();
+            return;
+        }
+
+        if (!paused) {
+            playUpdate();
+            return;
+        }
+    }
+
+    private function pauseUpdate()
+    {
+        if (pause.alpha < 1) pause.alpha += fadeSpeed;
+
+        pause.update();
+
+        if (IO.key.BACK) paused = false;
+    }
+
+    private function playUpdate()
+    {
+        if (pause.alpha > 0) pause.alpha -= fadeSpeed;
+
         if (controlable) {
             if (IO.pressed) {
 
@@ -95,6 +130,8 @@ class GameState extends State
 
         if (rewardDelay > 0) rewardUpdate();
         if (endDelay > 0) endUpdate();
+
+        if (IO.key.BACK) paused = true;
     }
 
     private function onDown()
@@ -123,6 +160,8 @@ class GameState extends State
                 }
             }
         }
+
+        if (IO.x > 660 && IO.y < 70) paused = true;
     }
 
     private function rewardUpdate()
@@ -187,7 +226,7 @@ class GameState extends State
             G.file.flush();
         } catch (e: Dynamic) {}
 
-        if (!G.purchased && turns >= G.maxPopsNotPurchased) {
+        if (!G.purchased && turn >= G.maxPopsNotPurchased) {
             endDelay = 400;
         }
     }
@@ -195,7 +234,7 @@ class GameState extends State
     private function nextLevel()
     {
         G.level++;
-        G.nextScore = G.level * 500;
+        G.nextScore = G.level * 400;
 
         G.file.data.level++;
 
