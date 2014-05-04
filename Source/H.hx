@@ -3,6 +3,7 @@ package;
 import flash.text.TextField;
 import flash.text.TextFormat;
 import flash.text.TextFormatAlign;
+import flash.geom.ColorTransform;
 
 // helper class
 class H
@@ -32,6 +33,17 @@ class H
         return result;
     }
 
+
+    static public function recolor(color: Int): ColorTransform
+    {
+        var colorTransform = new ColorTransform();
+        colorTransform.color = color;
+        colorTransform.redMultiplier = colorTransform.greenMultiplier = colorTransform.blueMultiplier = 1;
+        colorTransform.redOffset = -255 + colorTransform.redOffset;
+        colorTransform.greenOffset = -255 + colorTransform.greenOffset;
+        colorTransform.blueOffset = -255 + colorTransform.blueOffset;
+        return colorTransform;
+    }
 
     static public function newTextField(x: Int, y: Int, width: Int, size: Int, color: Int, align: String = "center", text: String = ""): TextField
     {

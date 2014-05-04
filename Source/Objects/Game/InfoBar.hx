@@ -15,7 +15,8 @@ class InfoBar extends Sprite
 
     private var scores: Int;
 
-    private var pauseBar: Array<Bitmap>;
+    private var retryBtn: Bitmap;
+    private var menuBtn: Bitmap;
 
     public function new()
     {
@@ -25,17 +26,25 @@ class InfoBar extends Sprite
 
         
         score = H.newTextField(0, 128, 768, 72, G.scheme().fg, "center", "0");
+        score.scaleX = score.scaleY = 0.1;
         addChild(score);
 
-        pauseBar = [new Bitmap(new BitmapData(11, 42, false, G.scheme().fg)), new Bitmap(new BitmapData(11, 42, false, G.scheme().fg))];
-        pauseBar[0].x = 674;
-        pauseBar[1].x = 706;
-        pauseBar[0].y = 28;
-        pauseBar[1].y = 28;
-        pauseBar[0].alpha = 0.8;
-        pauseBar[1].alpha = 0.8;
-        addChild(pauseBar[0]);
-        addChild(pauseBar[1]);
+        addChild(retryBtn = new Bitmap(G.graphics.retry));
+        retryBtn.smoothing = true;
+        retryBtn.bitmapData.colorTransform(retryBtn.bitmapData.rect, H.recolor(G.scheme().fg));
+        addChild(menuBtn = new Bitmap(G.graphics.menu)).x = 678;
+        menuBtn.smoothing = true;
+        menuBtn.bitmapData.colorTransform(menuBtn.bitmapData.rect, H.recolor(G.scheme().fg));
+
+        // pauseBar = [new Bitmap(new BitmapData(11, 42, false, G.scheme().fg)), new Bitmap(new BitmapData(11, 42, false, G.scheme().fg))];
+        // pauseBar[0].x = 674;
+        // pauseBar[1].x = 706;
+        // pauseBar[0].y = 28;
+        // pauseBar[1].y = 28;
+        // pauseBar[0].alpha = 0.8;
+        // pauseBar[1].alpha = 0.8;
+        // addChild(pauseBar[0]);
+        // addChild(pauseBar[1]);
 
     }
 

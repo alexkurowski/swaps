@@ -28,16 +28,14 @@ class GameState extends State
 
     private var fadeSpeed: Float;
 
-    private var pauseBtn: Bitmap;
+    private var retryBtn: Bitmap;
+    private var menuBtn: Bitmap;
 
     public var selected: Bool;
     public var selectX: Int;
     public var selectY: Int;
 
     private var info: InfoBar;
-
-    private var pause: Pause;
-    private var paused: Bool;
 
     private var rewardDelay: Int;
     private var endDelay: Int;
@@ -52,6 +50,8 @@ class GameState extends State
 
     override private function begin()
     {
+        removeChildren(0, numChildren-1);
+
         selected = false;
 
         controlable = true;
@@ -64,6 +64,8 @@ class GameState extends State
         rewardDelay = 0;
         endDelay = 0;
 
+        mi = mj = 0;
+
         // flash.Lib.current.stage.color = G.scheme().bg;
         flash.Lib.stage.opaqueBackground = G.scheme().bg;
 
@@ -75,40 +77,15 @@ class GameState extends State
         addChild(new Bitmap(new BitmapData(768, Math.floor(map.y)*2, false, G.scheme().bg))).y = -Math.floor(map.y);
 
         addChild(info = new InfoBar());
-
-        addChild(pause = new Pause());
     }
 
     override public function update()
     {
-        if (paused) {
-            pauseUpdate();
-            return;
-        }
-
-        if (!paused) {
-            playUpdate();
-            return;
-        }
-    }
-
-    private function pauseUpdate()
-    {
-        if (pause.alpha < 1) pause.alpha += fadeSpeed;
-
-        pause.update();
-
-        if (IO.released) {
-            if (IO.y > map.y) paused = false;
-        }
-
-        if (IO.key.BACK) paused = false;
+        playUpdate();
     }
 
     private function playUpdate()
     {
-        if (pause.alpha > 0) pause.alpha -= fadeSpeed;
-
         if (controlable) {
             if (IO.pressed) {
 
@@ -151,7 +128,10 @@ class GameState extends State
         if (rewardDelay > 0) rewardUpdate();
         if (endDelay > 0) endUpdate();
 
-        if (IO.key.BACK) paused = true;
+        if (IO.key.BACK) {
+            G.game.setState('menu');
+            G.game.menuState.set();
+        }
     }
 
     private function onDown()
@@ -182,7 +162,12 @@ class GameState extends State
             }
         }
 
-        if (IO.x > 660 && IO.y < 70) paused = true;
+        if (IO.x < 90 && IO.y < 80) begin();
+
+        if (IO.x > 678 && IO.y < 80) {
+            G.game.setState('menu');
+            G.game.menuState.set();
+        }
     }
 
     private function scoreUpdate()

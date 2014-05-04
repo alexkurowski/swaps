@@ -102,23 +102,13 @@ class Block extends Sprite
         if (color >= 0 && !squared) {
             bmp.visible = true;
             bmp.bitmapData = G.graphics.block.clone();
-            colorTransform.color = G.scheme().color[color];
-            colorTransform.redMultiplier = colorTransform.greenMultiplier = colorTransform.blueMultiplier = 1;
-            colorTransform.redOffset = -255 + colorTransform.redOffset;
-            colorTransform.greenOffset = -255 + colorTransform.greenOffset;
-            colorTransform.blueOffset = -255 + colorTransform.blueOffset;
-            bmp.bitmapData.colorTransform(bmp.bitmapData.rect, colorTransform);
+            bmp.bitmapData.colorTransform(bmp.bitmapData.rect, H.recolor(G.scheme().color[color]));
         }
         if (color >= 0 && squared) {
             this.frame = frame;
             bmp.visible = true;
             bmp.bitmapData = G.graphics.square[frame].clone();
-            colorTransform.color = G.scheme().color[color];
-            colorTransform.redMultiplier = colorTransform.greenMultiplier = colorTransform.blueMultiplier = 1;
-            colorTransform.redOffset = -255 + colorTransform.redOffset;
-            colorTransform.greenOffset = -255 + colorTransform.greenOffset;
-            colorTransform.blueOffset = -255 + colorTransform.blueOffset;
-            bmp.bitmapData.colorTransform(bmp.bitmapData.rect, colorTransform);
+            bmp.bitmapData.colorTransform(bmp.bitmapData.rect, H.recolor(G.scheme().color[color]));
         }
     }
 

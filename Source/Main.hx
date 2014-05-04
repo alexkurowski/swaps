@@ -18,6 +18,16 @@ class Main extends Sprite {
 	
 	private var state: State;
 
+	public var menuState: MenuState;
+	public var gameState: GameState;
+
+	private var currentState: String;
+
+	private var centerStateX: Int;
+	private var centerStateY: Int;
+
+	private var lerpSpeed: Float;
+
 	public var zoom: Float;
 
 	var firstStart: Bool;
@@ -41,18 +51,24 @@ class Main extends Sprite {
 		stage.addEventListener(Event.RESIZE, resize);
 	}
 
-	public function setState(newState: Dynamic)
-	{
-		if (state != null) {
-			removeChild(state);
-		}
+	// public function setState(newState: Dynamic)
+	// {
+	// 	if (state != null) {
+	// 		removeChild(state);
+	// 	}
 
-		state = newState;
-		addChild(state);
+	// 	state = newState;
+	// 	addChild(state);
+
+	// 	resize();
+
+	// 	G.state = state;
+	// }
+	public function setState(newState: String)
+	{
+		currentState = newState;
 
 		resize();
-
-		G.state = state;
 	}
 
 	// load assets and options into the memory
@@ -67,9 +83,10 @@ class Main extends Sprite {
 
 		G.graphics.face = Assets.getBitmapData("assets/img/fdeb.png");
 
-		G.graphics.infoRound = Assets.getBitmapData("assets/img/bar-rounder.png");
-		
-		G.graphics.pause = Assets.getBitmapData("assets/img/pause.png");
+		G.graphics.retry = Assets.getBitmapData("assets/img/retry.png");
+		G.graphics.menu = Assets.getBitmapData("assets/img/menu.png");
+
+		G.graphics.button = Assets.getBitmapData("assets/img/button.png");
 
 		// G.graphics.infoCover = Assets.getBitmapData("assets/img/info-cover.png");
 		// G.graphics.infoBlock = Assets.getBitmapData("assets/img/blockbar.png");
@@ -123,8 +140,13 @@ class Main extends Sprite {
 	{
 		G.game = this;
 
-		setState(new MenuState());
-		setState(new GameState());
+		lerpSpeed = 0.4;
+		centerStateX = 0;
+
+		addChild(menuState = new MenuState());
+		addChild(gameState = new GameState());
+
+		setState("menu");
 
 		IO.set();
 
@@ -141,17 +163,21 @@ class Main extends Sprite {
 		var ratioY = Lib.current.stage.stageHeight / 1280;
 		zoom = Math.min(ratioX, ratioY);
 
-		state.scaleX = zoom;
-		state.scaleY = zoom;
+		menuState.scaleX = menuState.scaleY = zoom;
+		gameState.scaleX = gameState.scaleY = zoom;
 
-		state.x = Lib.current.stage.stageWidth / 2 - 768 * zoom / 2;
-		state.y = Lib.current.stage.stageHeight / 2 - 1280 * zoom / 2;
+		centerStateX = Std.int(Lib.current.stage.stageWidth / 2 - 768 * zoom / 2);
+		
+		menuState.y = gameState.y = Lib.current.stage.stageHeight / 2 - 1280 * zoom / 2;
 
-		IO.setZoom(zoom, state.x, state.y);
+		IO.setZoom(zoom, centerStateX, menuState.y);
 	}
 
 	private function update(e: Event)
 	{
+		menuState.x = H.lerp(menuState.x, (currentState == "menu" ? centerStateX : centerStateX - 1000), lerpSpeed);
+		gameState.x = H.lerp(gameState.x, (currentState == "game" ? centerStateX : centerStateX + 1000), lerpSpeed);
+
 		var currentTime = Lib.getTimer();
 		var deltaTime = currentTime - previousTime;
 		previousTime = currentTime;
@@ -160,7 +186,8 @@ class Main extends Sprite {
 
 		IO.touchUpdate();
 
-		state.update();
+		if (currentState == "menu" && menuState.x == centerStateX) menuState.update();
+		if (currentState == "game" && gameState.x == centerStateX) gameState.update();
 
 		IO.keyUpdate();
 	}

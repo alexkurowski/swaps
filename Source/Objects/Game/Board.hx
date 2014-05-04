@@ -621,8 +621,6 @@ class Board extends Sprite
                 block[i][j].squared = false;
                 setColor(i, j, Std.random(3));
                 block[i][j].y = -128 - 128*(newBlocks[i] - j);
-                // block[i][j].y = -128*6 + j*128;
-                // if (j < 5 && block[i][j+1].fall && block[i][j+1].color != -1) block[i][j].y -= 256;
                 block[i][j].preFallTimer = 10;
                 block[i][j].fallDown = true;
             }
