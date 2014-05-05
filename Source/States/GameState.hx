@@ -145,7 +145,7 @@ class GameState extends State
         if (insideMap()) {
             if (map.block[mi][mj].color == -1 || map.block[mi][mj].fall) return;
             map.resetScale();
-            if (map.block[mi][mj].squared) {
+            if (!selected && map.block[mi][mj].squared) {
                 pop();
             } else {
                 if (selected) {
