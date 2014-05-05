@@ -66,6 +66,7 @@ class Block extends Sprite
         face = new Bitmap();
         face.smoothing = true;
         face.visible = false;
+        // face.alpha = 0.8;
         addChild(face);
 
         var textFormat = new flash.text.TextFormat(G.font.fontName, 72, G.scheme().bg, true);
@@ -118,6 +119,7 @@ class Block extends Sprite
         w++;
         h++;
         face.bitmapData = G.graphics.face[w*h];
+        face.bitmapData.colorTransform(face.bitmapData.rect, H.recolor(G.scheme().bg));
         face.x = (w*128) / 2 - 64;
         face.y = (h*128) / 2 - 64;
 

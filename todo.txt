@@ -2,8 +2,6 @@ Current:
 
 Main menu buttons for [about], [scores], [settings] & [messages], and put them on the screen.
 
-Replays some of scary faces to happy and smiley ones. (like 9)
-
 Read into Haptic.vibrate, it's too long & too weak currently.
 
 Start thinking up tweets.
