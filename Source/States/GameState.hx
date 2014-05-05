@@ -66,7 +66,6 @@ class GameState extends State
 
         mi = mj = 0;
 
-        // flash.Lib.current.stage.color = G.scheme().bg;
         flash.Lib.stage.opaqueBackground = G.scheme().bg;
 
         map = new Board();
@@ -80,11 +79,6 @@ class GameState extends State
     }
 
     override public function update()
-    {
-        playUpdate();
-    }
-
-    private function playUpdate()
     {
         if (controlable) {
             if (IO.pressed) {

@@ -1,3 +1,17 @@
+Current:
+
+Main menu buttons for [about], [scores], [settings] & [messages], and put them on the screen.
+
+Replays some of scary faces to happy and smiley ones. (like 9)
+
+Read into Haptic.vibrate, it's too long & too weak currently.
+
+Start thinking up tweets.
+
+
+
+
+
 ** Menu with [play], [settings], [scores] & [about] buttons ("PLAY!", gear icon, leader piedestal, "?" respectively)
   Also shows unlocked emoticons (but doesn't show number of locked emoticons, no one will probably see 6x6 one)
 

@@ -27,6 +27,7 @@ class InfoBar extends Sprite
         
         score = H.newTextField(0, 136, 768, 86, G.scheme().fg, "center", "0");
         score.scaleX = score.scaleY = 0.001;
+        score.width = 768 / score.scaleX;
         addChild(score);
 
         addChild(retryBtn = new Bitmap(G.graphics.retry));
