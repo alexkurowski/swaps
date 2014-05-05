@@ -93,8 +93,6 @@ class GameState extends State
                 onRelease();
             }
         } else {
-            // TODO: make it possible to pop (at least visibly, put it in stack for actual pop later) squares while something is falling
-
             if (IO.down) {
                 onDown();
             }
