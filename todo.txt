@@ -1,10 +1,6 @@
 Current:
 
-Main menu buttons for [about], [scores], [settings] & [messages], and put them on the screen.
-
-Read into Haptic.vibrate, it's too long & too weak currently.
-
-Start thinking up tweets.
+Start thinking up tweets. "blokr+".
 
 
 

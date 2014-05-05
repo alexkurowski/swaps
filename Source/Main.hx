@@ -51,19 +51,6 @@ class Main extends Sprite {
 		stage.addEventListener(Event.RESIZE, resize);
 	}
 
-	// public function setState(newState: Dynamic)
-	// {
-	// 	if (state != null) {
-	// 		removeChild(state);
-	// 	}
-
-	// 	state = newState;
-	// 	addChild(state);
-
-	// 	resize();
-
-	// 	G.state = state;
-	// }
 	public function setState(newState: String)
 	{
 		currentState = newState;
@@ -100,11 +87,12 @@ class Main extends Sprite {
 		G.graphics.retry = Assets.getBitmapData("assets/img/retry.png");
 		G.graphics.menu = Assets.getBitmapData("assets/img/menu.png");
 
+		G.graphics.about = Assets.getBitmapData("assets/img/about.png");
+		G.graphics.scores = Assets.getBitmapData("assets/img/scores.png");
+		G.graphics.settings = Assets.getBitmapData("assets/img/settings.png");
+		G.graphics.messages = Assets.getBitmapData("assets/img/messages.png");
 		G.graphics.button = Assets.getBitmapData("assets/img/button.png");
-
-		// G.graphics.infoCover = Assets.getBitmapData("assets/img/info-cover.png");
-		// G.graphics.infoBlock = Assets.getBitmapData("assets/img/blockbar.png");
-		// G.graphics.infoStar = Assets.getBitmapData("assets/img/star.png");
+		
 
 		G.font = Assets.getFont("assets/Bariol_Bold.otf");
 

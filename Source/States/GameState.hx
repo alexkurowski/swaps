@@ -293,7 +293,7 @@ class GameState extends State
 
     private function reward()
     {
-        Haptic.vibrate(35);
+        Haptic.vibrate(2, 500);
         // play reward sound
     }
 

@@ -11,9 +11,11 @@ class MenuState extends State
     private var score: TextField;
 
     private var playBtn: Button;
-    // private var continueBtn: Button;
-
-    // public var continuable: Bool;
+    
+    private var aboutIco: Icon;
+    private var scoresIco: Icon;
+    private var settingsIco: Icon;
+    private var messagesIco: Icon;
 
     public function new()
     {
@@ -29,29 +31,42 @@ class MenuState extends State
         score = H.newTextField(0, 540, 768, 92, G.scheme().fg, "center", Std.string(G.score));
         addChild(score);
 
-        playBtn = new Button(128, 900, "PLAY");
-        addChild(playBtn);
+        addChild(playBtn = new Button(128, 900, "PLAY"));
 
-        // continueBtn = new Button(128, 1008, "CONTINUE");
-        // continueBtn.visible = false;
-        // addChild(continueBtn);
-
-        // continuable = false;
+        addChild(settingsIco = new Icon(0, 0, "settings"));
+        addChild(scoresIco = new Icon(192, 0, "scores"));
+        addChild(aboutIco = new Icon(384, 0, "about"));
+        addChild(messagesIco = new Icon(576, 0, "messages"));
     }
 
     override public function update()
     {
         playBtn.update();
-        // if (continuable) continueBtn.update();
+
+        settingsIco.update();
+        scoresIco.update();
+        aboutIco.update();
+        messagesIco.update();
 
         if (playBtn.isDown()) {
             G.game.setState("game");
-            // G.game.gameState.begin();
         }
 
-        // if (continueBtn.isDown()) {
-        //     G.game.setState("game");
-        // }
+        if (aboutIco.isDown()) {
+            trace('about');
+        }
+
+        if (scoresIco.isDown()) {
+            trace('scores');
+        }
+
+        if (settingsIco.isDown()) {
+            trace('settings');
+        }
+
+        if (messagesIco.isDown()) {
+            trace('messages');
+        }
     }
 
     public function set()
