@@ -143,15 +143,18 @@ class GameState extends State
         if (insideMap()) {
             if (map.block[mi][mj].color == -1 || map.block[mi][mj].fall) return;
             map.resetScale();
-            if (!selected && map.block[mi][mj].squared) {
+
+            if (map.block[mi][mj].squared && selected)
+                unselect();
+            else if (map.block[mi][mj].squared)
                 pop();
-            } else {
-                if (selected) {
-                    swap();
-                } else {
-                    select();
-                }
-            }
+            else if (selected)
+                swap();
+            else
+                select();
+        } else {
+            map.resetScale();
+            unselect();
         }
 
         if (IO.x < 90 && IO.y < 80) begin();
@@ -198,6 +201,11 @@ class GameState extends State
         selectY = mj;
         map.setScale(selectX, selectY, 0.8);
         selected = true;
+    }
+
+    private function unselect()
+    {
+        selected = false;
     }
 
     private function swap()
@@ -291,7 +299,7 @@ class GameState extends State
 
     private function reward()
     {
-        Haptic.vibrate(2, 500);
+        Haptic.vibrate(1000, 1000);
         // play reward sound
     }
 
