@@ -25,7 +25,7 @@ class MenuState extends State
 
     override private function begin()
     {
-        score = H.newTextField(0, 546, 768, 92, G.scheme().fg, "center", '[ '+Std.string(G.score)+' ]');
+        score = H.newTextField(0, 546, 768, 92, G.scheme().fg, "center", Std.string(G.score));
         addChild(score);
 
         addChild(playBtn = new Button(128, 1000, "PLAY", G.scheme().color[0], G.scheme().fg));
@@ -49,7 +49,7 @@ class MenuState extends State
         }
 
         if (aboutIco.isDown()) {
-            trace('about');
+            G.game.setState("about");
         }
 
         if (settingsIco.isDown()) {
@@ -67,6 +67,6 @@ class MenuState extends State
 
     public function set()
     {
-        score.text = '[ '+Std.string(G.score)+' ]';
+        score.text = Std.string(G.score);
     }
 }

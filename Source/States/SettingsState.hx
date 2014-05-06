@@ -4,7 +4,7 @@ import flash.display.Sprite;
 import flash.display.Bitmap;
 import flash.text.TextField;
 
-import objects.menu.*;
+import objects.menu.Button;
 import objects.settings.*;
 
 class SettingsState extends State
@@ -46,8 +46,8 @@ class SettingsState extends State
 		nameTxt.needsSoftKeyboard = true;
 		#end
 
-		addChild(musicBtn = new ToggleButton(384-76-164, 555, "music", G.music));
-		addChild(vibroBtn = new ToggleButton(384+76, 555, "vibro", G.vibro));
+		addChild(musicBtn = new ToggleButton(384-76-164, 620, "music", G.music));
+		addChild(vibroBtn = new ToggleButton(384+76, 620, "vibro", G.vibro));
 
 		// if (!G.purchased)
 			addChild(buyBtn = new Button(128, 870, "BUY ($0.99)", G.scheme().color[1], G.scheme().color[0]));
