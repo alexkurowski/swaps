@@ -1,11 +1,27 @@
 Current:
 
-Start thinking up tweets. "blokr+".
+Think up more tweets. "blokr+".
 
 
-Settings screen:
-[Name], [music], [sounds], [vibration], [color scheme]. Use flat icon set.
+   nickname
 
+ color  theme
+
+music | vibration
+
+
+
+
+* Make an underline for score on menu screen (it's clickable, after all)
+  Or maybe make some other button.
+
+*** Menu redesign?
+    Fuck global score system
+    Only leave purchase option on the screen when you done your amount of pops?..
+    There are only 2 options, if we remove name. Might as well fit them right on the main menu screen.
+    Maybe there is a gear icon on top-left, and when you tap it, it opens a small container of two more icons for music and vibro.
+    Then there is a small icon on top-right for "?" about screen.
+    Blockr+ is integred with main screen, or maybe the "?" icon moves to the center, while "b" button is on top-right.
 
 
 ** Menu with [play], [settings], [scores] & [about] buttons ("PLAY!", gear icon, leader piedestal, "?" respectively)
@@ -28,7 +44,7 @@ Settings screen:
 
 *** Look for YouTube let's players for promotion
 
-*** Two versions for googe play store: "swaps FREE" (with 50 turns limitation and $1 iap to unlock endless game)
+*** Two versions for google play store: "swaps FREE" (with 50 turns limitation and $1 iap to unlock endless game)
     and a paid version for $1.5 (or maybe it should be the other way around)
     Make it deadly obvious that you have a 50 turns limitation right there on a "PLAY!" button
     IAP purchase available in the settings screen, and right after you've played your 50 turns limit (with the possibility to continue current play!)

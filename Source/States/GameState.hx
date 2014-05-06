@@ -66,8 +66,6 @@ class GameState extends State
 
         mi = mj = 0;
 
-        flash.Lib.stage.opaqueBackground = G.scheme().bg;
-
         map = new Board();
         addChild(map);
 

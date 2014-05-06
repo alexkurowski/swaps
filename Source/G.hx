@@ -18,9 +18,13 @@ class G
 
     static public var maxPopsNotPurchased: Int;
 
+    static public var name: String;
     static public var score: Int;
     static public var nextScore: Int;
     static public var level: Int;
+
+    static public var music: Bool;
+    static public var vibro: Bool;
 
     static public var file: SharedObject;
 
