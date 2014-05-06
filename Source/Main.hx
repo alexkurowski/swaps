@@ -116,11 +116,6 @@ class Main extends Sprite {
 		G.file = SharedObject.getLocal("options");
 		var needSave: Bool = false;
 
-		if (G.file.data.name == null) {
-			G.file.data.name = "Player";
-			needSave = true;
-		}
-
 		if (G.file.data.music == null) {
 			G.file.data.music = true;
 			needSave = true;
@@ -155,11 +150,11 @@ class Main extends Sprite {
 			} catch (e: Dynamic) {}
 		}
 
-		G.name = G.file.data.name;
 		G.music = G.file.data.music;
 		G.vibro = G.file.data.vibro;
 		G.score = G.file.data.score;
 		G.level = G.file.data.level;
+		G.purchased = G.file.data.purchased;
 		G.nextScore = G.level * 400;
 		G.maxPopsNotPurchased = 20;
 	}

@@ -13,7 +13,6 @@ class MenuState extends State
     private var playBtn: Button;
     
     private var aboutIco: Icon;
-    private var scoresIco: Icon;
     private var settingsIco: Icon;
     private var messagesIco: Icon;
 
@@ -31,10 +30,9 @@ class MenuState extends State
 
         addChild(playBtn = new Button(128, 900, "PLAY", G.scheme().color[0], G.scheme().fg));
 
-        addChild(settingsIco = new Icon(0, 0, "settings"));
-        addChild(scoresIco = new Icon(192, 0, "scores"));
-        addChild(aboutIco = new Icon(384, 0, "about"));
-        addChild(messagesIco = new Icon(576, 0, "messages"));
+        addChild(settingsIco = new Icon(48, 0, "settings"));
+        addChild(aboutIco = new Icon(288, 0, "about"));
+        addChild(messagesIco = new Icon(528, 0, "messages"));
     }
 
     override public function update()
@@ -42,7 +40,6 @@ class MenuState extends State
         playBtn.update();
 
         settingsIco.update();
-        scoresIco.update();
         aboutIco.update();
         messagesIco.update();
 
@@ -53,10 +50,6 @@ class MenuState extends State
 
         if (aboutIco.isDown()) {
             trace('about');
-        }
-
-        if (scoresIco.isDown()) {
-            trace('scores');
         }
 
         if (settingsIco.isDown()) {
@@ -71,6 +64,5 @@ class MenuState extends State
     public function set()
     {
         score.text = Std.string(G.score);
-        // continueBtn.visible = continuable = cont;
     }
 }
