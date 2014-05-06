@@ -20,8 +20,8 @@ class Main extends Sprite {
 
 	public var menuState: MenuState;
 	public var gameState: GameState;
-	public var settingsState: SettingsState;
-	public var aboutState: AboutState;
+	// public var settingsState: SettingsState;
+	// public var aboutState: AboutState;
 
 	private var currentState: String;
 
@@ -66,12 +66,8 @@ class Main extends Sprite {
 		G.graphics = {};
 
 		// menu
-		G.graphics.about = Assets.getBitmapData("assets/img/about.png");
-		G.graphics.scores = Assets.getBitmapData("assets/img/scores.png");
-		G.graphics.settings = Assets.getBitmapData("assets/img/settings.png");
-		G.graphics.messages = Assets.getBitmapData("assets/img/messages.png");
-		G.graphics.button = Assets.getBitmapData("assets/img/button.png");
-
+		G.graphics.info = Assets.getBitmapData("assets/img/info.png");
+		
 		// game
 		G.graphics.block = Assets.getBitmapData("assets/img/block.png");
 
@@ -99,7 +95,6 @@ class Main extends Sprite {
 		G.graphics.menu = Assets.getBitmapData("assets/img/menu.png");
 
 		// settings
-		G.graphics.nameBg = Assets.getBitmapData("assets/img/namebg.png");
 		G.graphics.music = Assets.getBitmapData("assets/img/music.png");
 		G.graphics.vibro = Assets.getBitmapData("assets/img/vibro.png");
 		
@@ -178,8 +173,8 @@ class Main extends Sprite {
 
 		addChild(menuState = new MenuState());
 		addChild(gameState = new GameState());
-		addChild(settingsState = new SettingsState());
-		addChild(aboutState = new AboutState());
+		// addChild(settingsState = new SettingsState());
+		// addChild(aboutState = new AboutState());
 
 		setState("menu");
 
@@ -200,12 +195,13 @@ class Main extends Sprite {
 
 		menuState.scaleX = menuState.scaleY = zoom;
 		gameState.scaleX = gameState.scaleY = zoom;
-		settingsState.scaleX = settingsState.scaleY = zoom;
-		aboutState.scaleX = aboutState.scaleY = zoom;
+		// settingsState.scaleX = settingsState.scaleY = zoom;
+		// aboutState.scaleX = aboutState.scaleY = zoom;
 
 		centerStateX = Std.int(Lib.current.stage.stageWidth / 2 - 768 * zoom / 2);
 		
-		menuState.y = gameState.y = settingsState.y = aboutState.y = Lib.current.stage.stageHeight / 2 - 1280 * zoom / 2;
+		// menuState.y = gameState.y = settingsState.y = aboutState.y = Lib.current.stage.stageHeight / 2 - 1280 * zoom / 2;
+		menuState.y = gameState.y = Lib.current.stage.stageHeight / 2 - 1280 * zoom / 2;
 
 		IO.setZoom(zoom, centerStateX, menuState.y);
 	}
@@ -214,8 +210,8 @@ class Main extends Sprite {
 	{
 		menuState.x = H.lerp(menuState.x, (currentState == "menu" ? centerStateX : (currentState == "game" ? centerStateX - 1000 : centerStateX + 1000)), lerpSpeed);
 		gameState.x = H.lerp(gameState.x, (currentState == "game" ? centerStateX : centerStateX + 1000), lerpSpeed);
-		settingsState.x = H.lerp(settingsState.x, (currentState == "settings" ? centerStateX : centerStateX - 1000), lerpSpeed);
-		aboutState.x = H.lerp(aboutState.x, (currentState == "about" ? centerStateX : centerStateX - 1000), lerpSpeed);
+		// settingsState.x = H.lerp(settingsState.x, (currentState == "settings" ? centerStateX : centerStateX - 1000), lerpSpeed);
+		// aboutState.x = H.lerp(aboutState.x, (currentState == "about" ? centerStateX : centerStateX - 1000), lerpSpeed);
 
 		var currentTime = Lib.getTimer();
 		var deltaTime = currentTime - previousTime;
@@ -227,8 +223,8 @@ class Main extends Sprite {
 
 		if (currentState == "menu" && menuState.x == centerStateX) menuState.update();
 		if (currentState == "game" && gameState.x == centerStateX) gameState.update();
-		if (currentState == "settings" && settingsState.x == centerStateX) settingsState.update();
-		if (currentState == "about" && aboutState.x == centerStateX) aboutState.update();
+		// if (currentState == "settings" && settingsState.x == centerStateX) settingsState.update();
+		// if (currentState == "about" && aboutState.x == centerStateX) aboutState.update();
 
 		IO.keyUpdate();
 	}

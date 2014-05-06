@@ -32,9 +32,11 @@ class InfoBar extends Sprite
 
         addChild(retryBtn = new Bitmap(G.graphics.retry));
         retryBtn.smoothing = true;
+        retryBtn.alpha = 0.5;
         retryBtn.bitmapData.colorTransform(retryBtn.bitmapData.rect, H.recolor(G.scheme().fg));
         addChild(menuBtn = new Bitmap(G.graphics.menu)).x = 678;
         menuBtn.smoothing = true;
+        menuBtn.alpha = 0.5;
         menuBtn.bitmapData.colorTransform(menuBtn.bitmapData.rect, H.recolor(G.scheme().fg));
     }
 
@@ -51,11 +53,11 @@ class InfoBar extends Sprite
             score.y = 136 + 72 * (1 - score.scaleY);
         }
 
-        if (IO.down && IO.x < 90 && IO.y < 80) retryBtn.alpha = 0.4;
-        else retryBtn.alpha = 1;
+        if (IO.down && IO.x < 90 && IO.y < 80) retryBtn.alpha = 0.8;
+        else retryBtn.alpha = 0.5;
 
-        if (IO.down && IO.x > 678 && IO.y < 80) menuBtn.alpha = 0.4;
-        else menuBtn.alpha = 1;
+        if (IO.down && IO.x > 678 && IO.y < 80) menuBtn.alpha = 0.8;
+        else menuBtn.alpha = 0.5;
         // G.maxPopsNotPurchased
     }
 }

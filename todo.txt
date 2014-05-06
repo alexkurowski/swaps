@@ -10,9 +10,16 @@ Think up more tweets. "blokr+".
 music | vibration
 
 
+music | vibro | color theme | | [b]
+___________________________________
+    a game by mapisoft [w][t]
+
+[b], [w] & [t] - icons
 
 
-* Make an underline for score on menu screen (it's clickable, after all)
+
+
+* Make an underline for score on menu screen
   Or maybe make some other button.
 
 *** Menu redesign?
