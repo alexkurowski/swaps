@@ -15,6 +15,11 @@ music | vibration
 * Make an underline for score on menu screen (it's clickable, after all)
   Or maybe make some other button
 
+*** Menu redesign?
+    Fuck global score system
+    Only leave purchase option on the screen when you done your amount of pops?..
+    There are only 2 options, if we remove name. Might as well fit them right on the main menu screen.
+
 
 ** Menu with [play], [settings], [scores] & [about] buttons ("PLAY!", gear icon, leader piedestal, "?" respectively)
   Also shows unlocked emoticons (but doesn't show number of locked emoticons, no one will probably see 6x6 one)
