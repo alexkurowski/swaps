@@ -20,6 +20,7 @@ class Main extends Sprite {
 
 	public var menuState: MenuState;
 	public var gameState: GameState;
+	public var settingsState: SettingsState;
 
 	private var currentState: String;
 
@@ -62,6 +63,15 @@ class Main extends Sprite {
 	private function load()
 	{
 		G.graphics = {};
+
+		// menu
+		G.graphics.about = Assets.getBitmapData("assets/img/about.png");
+		G.graphics.scores = Assets.getBitmapData("assets/img/scores.png");
+		G.graphics.settings = Assets.getBitmapData("assets/img/settings.png");
+		G.graphics.messages = Assets.getBitmapData("assets/img/messages.png");
+		G.graphics.button = Assets.getBitmapData("assets/img/button.png");
+
+		// game
 		G.graphics.block = Assets.getBitmapData("assets/img/block.png");
 
 		G.graphics.square = [];
@@ -87,11 +97,10 @@ class Main extends Sprite {
 		G.graphics.retry = Assets.getBitmapData("assets/img/retry.png");
 		G.graphics.menu = Assets.getBitmapData("assets/img/menu.png");
 
-		G.graphics.about = Assets.getBitmapData("assets/img/about.png");
-		G.graphics.scores = Assets.getBitmapData("assets/img/scores.png");
-		G.graphics.settings = Assets.getBitmapData("assets/img/settings.png");
-		G.graphics.messages = Assets.getBitmapData("assets/img/messages.png");
-		G.graphics.button = Assets.getBitmapData("assets/img/button.png");
+		// settings
+		G.graphics.nameBg = Assets.getBitmapData("assets/img/namebg.png");
+		G.graphics.music = Assets.getBitmapData("assets/img/music.png");
+		G.graphics.vibro = Assets.getBitmapData("assets/img/vibro.png");
 		
 
 		G.font = Assets.getFont("assets/Bariol_Bold.otf");
@@ -106,6 +115,21 @@ class Main extends Sprite {
 
 		G.file = SharedObject.getLocal("options");
 		var needSave: Bool = false;
+
+		if (G.file.data.name == null) {
+			G.file.data.name = "Player";
+			needSave = true;
+		}
+
+		if (G.file.data.music == null) {
+			G.file.data.music = true;
+			needSave = true;
+		}
+
+		if (G.file.data.vibro == null) {
+			G.file.data.vibro = true;
+			needSave = true;
+		}
 
 		if (G.file.data.score == null) {
 			G.file.data.score = 0;
@@ -131,6 +155,9 @@ class Main extends Sprite {
 			} catch (e: Dynamic) {}
 		}
 
+		G.name = G.file.data.name;
+		G.music = G.file.data.music;
+		G.vibro = G.file.data.vibro;
 		G.score = G.file.data.score;
 		G.level = G.file.data.level;
 		G.nextScore = G.level * 400;
@@ -145,8 +172,11 @@ class Main extends Sprite {
 		lerpSpeed = 0.4;
 		centerStateX = 0;
 
+		flash.Lib.stage.opaqueBackground = G.scheme().bg;
+
 		addChild(menuState = new MenuState());
 		addChild(gameState = new GameState());
+		addChild(settingsState = new SettingsState());
 
 		setState("menu");
 
@@ -167,6 +197,7 @@ class Main extends Sprite {
 
 		menuState.scaleX = menuState.scaleY = zoom;
 		gameState.scaleX = gameState.scaleY = zoom;
+		settingsState.scaleX = settingsState.scaleY = zoom;
 
 		centerStateX = Std.int(Lib.current.stage.stageWidth / 2 - 768 * zoom / 2);
 		
@@ -179,6 +210,7 @@ class Main extends Sprite {
 	{
 		menuState.x = H.lerp(menuState.x, (currentState == "menu" ? centerStateX : centerStateX - 1000), lerpSpeed);
 		gameState.x = H.lerp(gameState.x, (currentState == "game" ? centerStateX : centerStateX + 1000), lerpSpeed);
+		settingsState.x = H.lerp(settingsState.x, (currentState == "settings" ? centerStateX : centerStateX - 1000), lerpSpeed);
 
 		var currentTime = Lib.getTimer();
 		var deltaTime = currentTime - previousTime;
@@ -190,6 +222,7 @@ class Main extends Sprite {
 
 		if (currentState == "menu" && menuState.x == centerStateX) menuState.update();
 		if (currentState == "game" && gameState.x == centerStateX) gameState.update();
+		if (currentState == "settings" && settingsState.x == centerStateX) settingsState.update();
 
 		IO.keyUpdate();
 	}

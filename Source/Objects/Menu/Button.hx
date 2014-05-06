@@ -9,14 +9,20 @@ class Button extends Sprite
     private var bmp: Bitmap;
     private var txt: TextField;
 
-    private var state: String;
+    private var colorNorm: Int;
+    private var colorHover: Int;
 
-    public function new(x: Int, y: Int, text: String)
+    public var state: String;
+
+    public function new(x: Int, y: Int, text: String, color1: Int, color2: Int)
     {
         super();
 
         this.x = x;
         this.y = y;
+
+        colorNorm = color1;
+        colorHover = color2;
 
         bmp = new Bitmap();
         bmp.smoothing = true;
@@ -41,9 +47,9 @@ class Button extends Sprite
         if (state != newState) {
             bmp.bitmapData = G.graphics.button.clone();
             switch (newState) {
-                case "normal": bmp.bitmapData.colorTransform(bmp.bitmapData.rect, H.recolor(G.scheme().color[0]));
-                case "hover":  bmp.bitmapData.colorTransform(bmp.bitmapData.rect, H.recolor(G.scheme().fg));
-                case "down":   bmp.bitmapData.colorTransform(bmp.bitmapData.rect, H.recolor(G.scheme().color[0]));
+                case "normal": bmp.bitmapData.colorTransform(bmp.bitmapData.rect, H.recolor(colorNorm));
+                case "hover":  bmp.bitmapData.colorTransform(bmp.bitmapData.rect, H.recolor(colorHover));
+                case "down":   bmp.bitmapData.colorTransform(bmp.bitmapData.rect, H.recolor(colorNorm));
             }
             
             state = newState;

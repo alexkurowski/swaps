@@ -26,12 +26,10 @@ class MenuState extends State
 
     override private function begin()
     {
-        flash.Lib.stage.opaqueBackground = G.scheme().bg;
-
         score = H.newTextField(0, 540, 768, 92, G.scheme().fg, "center", Std.string(G.score));
         addChild(score);
 
-        addChild(playBtn = new Button(128, 900, "PLAY"));
+        addChild(playBtn = new Button(128, 900, "PLAY", G.scheme().color[0], G.scheme().fg));
 
         addChild(settingsIco = new Icon(0, 0, "settings"));
         addChild(scoresIco = new Icon(192, 0, "scores"));
@@ -50,6 +48,7 @@ class MenuState extends State
 
         if (playBtn.isDown()) {
             G.game.setState("game");
+            G.game.settingsState.reset();
         }
 
         if (aboutIco.isDown()) {
@@ -61,7 +60,7 @@ class MenuState extends State
         }
 
         if (settingsIco.isDown()) {
-            trace('settings');
+            G.game.setState("settings");
         }
 
         if (messagesIco.isDown()) {
