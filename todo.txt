@@ -3,6 +3,8 @@ Current:
 Start thinking up tweets. "blokr+".
 
 
+Settings screen:
+[Name], [music], [sounds], [vibration], [color scheme]. Use flat icon set.
 
 
 
