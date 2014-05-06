@@ -25,10 +25,10 @@ class MenuState extends State
 
     override private function begin()
     {
-        score = H.newTextField(0, 540, 768, 92, G.scheme().fg, "center", Std.string(G.score));
+        score = H.newTextField(0, 546, 768, 92, G.scheme().fg, "center", '[ '+Std.string(G.score)+' ]');
         addChild(score);
 
-        addChild(playBtn = new Button(128, 900, "PLAY", G.scheme().color[0], G.scheme().fg));
+        addChild(playBtn = new Button(128, 1000, "PLAY", G.scheme().color[0], G.scheme().fg));
 
         addChild(settingsIco = new Icon(48, 0, "settings"));
         addChild(aboutIco = new Icon(288, 0, "about"));
@@ -59,10 +59,14 @@ class MenuState extends State
         if (messagesIco.isDown()) {
             trace('messages');
         }
+
+        if (IO.x > 128 && IO.x < 640 && IO.y > score.y - 64 && IO.y < score.y + 156 && IO.released) {
+            trace('scores');
+        }
     }
 
     public function set()
     {
-        score.text = Std.string(G.score);
+        score.text = '[ '+Std.string(G.score)+' ]';
     }
 }
