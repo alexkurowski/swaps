@@ -21,6 +21,9 @@ class MenuState extends State
 
     private var fadeSpeed: Float;
 
+    private var sx: Int;
+    private var ox: Float;
+
     public function new()
     {
         super();
@@ -55,44 +58,60 @@ class MenuState extends State
 
     override public function update()
     {
-        if (showInfo) {
-            infoTimer--;
-            if (infoTimer <= 0) showInfo = false;
+        // if (showInfo) {
+        //     infoTimer--;
+        //     if (infoTimer <= 0) showInfo = false;
 
-            if (info.alpha > 0) info.alpha -= fadeSpeed;
-            if (author.alpha < 0.5) author.alpha += fadeSpeed;
-            if (G.music) {
-                if (musicBtn.alpha < 1) musicBtn.alpha += fadeSpeed;
-            } else {
-                if (musicBtn.alpha > 0.6) musicBtn.alpha -= fadeSpeed;
-                if (musicBtn.alpha < 0.6) musicBtn.alpha += fadeSpeed;
-            }
-            if (G.vibro) {
-                if (vibroBtn.alpha < 1) vibroBtn.alpha += fadeSpeed;
-            } else {
-                if (vibroBtn.alpha > 0.6) vibroBtn.alpha -= fadeSpeed;
-                if (vibroBtn.alpha < 0.6) vibroBtn.alpha += fadeSpeed;
-            }
+        //     if (info.alpha > 0) info.alpha -= fadeSpeed;
+        //     if (author.alpha < 0.5) author.alpha += fadeSpeed;
+        //     if (G.music) {
+        //         if (musicBtn.alpha < 1) musicBtn.alpha += fadeSpeed;
+        //     } else {
+        //         if (musicBtn.alpha > 0.6) musicBtn.alpha -= fadeSpeed;
+        //         if (musicBtn.alpha < 0.6) musicBtn.alpha += fadeSpeed;
+        //     }
+        //     if (G.vibro) {
+        //         if (vibroBtn.alpha < 1) vibroBtn.alpha += fadeSpeed;
+        //     } else {
+        //         if (vibroBtn.alpha > 0.6) vibroBtn.alpha -= fadeSpeed;
+        //         if (vibroBtn.alpha < 0.6) vibroBtn.alpha += fadeSpeed;
+        //     }
 
-            updateButtons();
-        } else {
-            infoTimer = 0;
+        //     updateButtons();
+        // } else {
+        //     infoTimer = 0;
 
-            if (info.alpha < 0.25) info.alpha += fadeSpeed;
-            if (author.alpha > 0) author.alpha -= fadeSpeed*0.5;
-            if (musicBtn.alpha > 0) musicBtn.alpha -= fadeSpeed*0.5;
-            if (vibroBtn.alpha > 0) vibroBtn.alpha -= fadeSpeed*0.5;
-            if (IO.x > 384-64 && IO.x < 384+64 && IO.y < 64 && IO.released) {
-                showInfo = true;
-                infoTimer = 420;
-            }
+        //     if (info.alpha < 0.25) info.alpha += fadeSpeed;
+        //     if (author.alpha > 0) author.alpha -= fadeSpeed*0.5;
+        //     if (musicBtn.alpha > 0) musicBtn.alpha -= fadeSpeed*0.5;
+        //     if (vibroBtn.alpha > 0) vibroBtn.alpha -= fadeSpeed*0.5;
+        //     if (IO.x > 384-64 && IO.x < 384+64 && IO.y < 64 && IO.released) {
+        //         showInfo = true;
+        //         infoTimer = 420;
+        //     }
+        // }
+
+        // if (IO.x > 384-64 && IO.x < 384+64 && IO.y < 64 && IO.released) {
+        //     G.game.setState("info");
+        // }
+
+        // if (IO.y > 120 && IO.y < 1160 && IO.released) {
+        //     G.game.setState("game");
+        // }
+
+        if (IO.pressed) {
+            sx = IO.x;
+            ox = x;
         }
 
-        if (IO.y > 120 && IO.y < 1160 && IO.released) {
-            if (showInfo) {
-                save();
-            }
-            G.game.setState("game");
+        if (IO.down) {
+            x = ox - (sx - IO.x) * scaleX;
+        }
+
+        if (IO.released) {
+            // x = ox;
+            if (sx - IO.x > 100) G.game.setState("game");
+            else if (sx - IO.x < -100) G.game.setState("info");
         }
     }
 
