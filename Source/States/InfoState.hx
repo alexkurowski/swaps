@@ -165,8 +165,15 @@ class InfoState extends State
                 square[i].x = 384 - square[i].width / 2;
                 square[i].y = square[i].oy = 500 + 768*i;
                 addChild(square[i]);
+                
                 label[i].text = G.names[i];
+                label[i].y = resolveY(i);
+            } else {
+                square[i].y = square[i].oy;
+                label[i].y = resolveY(i);
             }
         }
+
+        drag = 0;
     }
 }

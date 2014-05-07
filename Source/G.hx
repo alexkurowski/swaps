@@ -53,9 +53,12 @@ class G
 
     static public function getName(s: Int): String
     {
-        if (s == 62) s = 43;
+        var w: Int;
+        var h: Int;
         for (i in 0...names.length) {
-            if (game.infoState.sizeList[i] == s) return names[i];
+            w = Math.floor(game.infoState.sizeList[i] / 10);
+            h = game.infoState.sizeList[i] % 10;
+            if (w*h == s) return names[i];
         }
         return "???";
     }

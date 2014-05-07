@@ -161,8 +161,9 @@ class GameState extends State
         }
 
         if (IO.x < 90 && IO.y < 80) {
-            if (info.restartConfirm) begin();
-            else info.restartConfirm = true;
+            // if (info.restartConfirm) begin();
+            // else info.restartConfirm = true;
+            begin();
         }
 
         if (IO.x > 678 && IO.y < 80) {
@@ -307,7 +308,7 @@ class GameState extends State
     {
         if (G.file.data.unlocked[pop.score] == null) {
             rewardTimer = 260;
-            rewardTxt.text = G.getName(pop.w*10 + pop.h) + ' is added to the collection!';
+            rewardTxt.text = G.getName(pop.score) + ' is added to the collection!';
             // unlock yay!
             G.file.data.unlocked[pop.score] = pop.color;
             try {

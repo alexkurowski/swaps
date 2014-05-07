@@ -18,16 +18,15 @@ class InfoBar extends Sprite
 
     private var restartBtn: Bitmap;
     private var restartLabel: TextField;
-    public var restartConfirm: Bool;
+    private var restartDelay: Int;
     private var menuBtn: Bitmap;
 
     public function new()
     {
         super();
 
-        fadeSpeed = 0.1;
+        fadeSpeed = 0.02;
         lerpSpeed = 0.3;
-        restartConfirm = false;
 
         
         score = H.newTextField(0, 136, 768, 86, G.scheme().fg, "center", "0");
@@ -40,7 +39,8 @@ class InfoBar extends Sprite
         restartBtn.alpha = 0.5;
         restartBtn.bitmapData.colorTransform(restartBtn.bitmapData.rect, H.recolor(G.scheme().fg));
 
-        addChild(restartLabel = H.newTextField(95, 8, 200, 50, G.scheme().fg, "left", "restart")).alpha = 0;
+        addChild(restartLabel = H.newTextField(95, 8, 200, 50, G.scheme().fg, "left", "restart")).alpha = 0.8;
+        restartDelay = 200;
 
         addChild(menuBtn = new Bitmap(G.graphics.menu));
         menuBtn.x = 678;
@@ -62,8 +62,10 @@ class InfoBar extends Sprite
             score.y = 136 + 72 * (1 - score.scaleY);
         }
 
-        if (restartConfirm) {
-            if (restartLabel.alpha < 0.7) restartLabel.alpha += fadeSpeed;
+        if (restartDelay > 0) {
+            restartDelay--;
+        } else {
+            if (restartLabel.alpha > 0) restartLabel.alpha -= fadeSpeed;
         }
 
         if (IO.down && IO.x < 90 && IO.y < 80) restartBtn.alpha = 0.8;
