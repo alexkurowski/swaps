@@ -21,7 +21,6 @@ class MenuState extends State
     private var infoTimer: Int;
 
     private var musicBtn: ToggleButton;
-    private var vibroBtn: ToggleButton;
 
     private var fadeDelay: Int;
     private var fadeSpeed: Float;
@@ -75,12 +74,11 @@ class MenuState extends State
         }
 
         if (IO.down) {
-            // if (IO.x > sx) sx = IO.x;
             x = ox - (sx - IO.x) * scaleX;
         }
 
         if (IO.released) {
-            // x = ox;
+            if (G.file.data.music != G.music) save();
             if (sx - IO.x > 100) G.game.setState("game");
             else if (sx - IO.x < -100) G.game.setState("info");
         }
@@ -89,7 +87,6 @@ class MenuState extends State
     private function save()
     {
         G.file.data.music = G.music;
-        G.file.data.vibro = G.vibro;
         // color scheme here
         try {
             G.file.flush();

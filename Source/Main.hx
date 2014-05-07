@@ -165,8 +165,8 @@ class Main extends Sprite {
 		flash.Lib.stage.opaqueBackground = G.scheme().bg;
 
 		addChild(menuState = new MenuState());
-		addChild(gameState = new GameState());
-		addChild(infoState = new InfoState());
+		addChild(gameState = new GameState()).x = 1000;
+		addChild(infoState = new InfoState()).x = -1000;
 
 		setState("menu");
 

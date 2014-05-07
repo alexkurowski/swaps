@@ -308,6 +308,9 @@ class GameState extends State
         if (G.file.data.unlocked[pop.score] == null) {
             // unlock yay!
             G.file.data.unlocked[pop.score] = pop.color;
+            try {
+                G.file.data.flush();
+            } catch(e: Dynamic) {}
         }
     }
 
