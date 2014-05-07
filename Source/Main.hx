@@ -142,10 +142,10 @@ class Main extends Sprite {
 			needSave = true;
 		}
 
-		// if (G.file.data.unlocked == null) {
+		if (G.file.data.unlocked == null) {
 			G.file.data.unlocked = [];
 			needSave = true;
-		// }
+		}
 
 		if (G.file.data.purchased == null) {
 			#if android
