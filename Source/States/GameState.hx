@@ -243,6 +243,8 @@ class GameState extends State
 
         showScore(pop.i, pop.j, pop.w, pop.h, pop.score);
 
+        unlock(pop);
+
         G.score += pop.score;
         G.file.data.score = G.score;
         if (G.score >= G.nextScore) nextLevel();
@@ -297,8 +299,16 @@ class GameState extends State
 
     private function reward()
     {
-        Haptic.vibrate(1000, 1000);
+        // Haptic.vibrate(1000, 1000);
         // play reward sound
+    }
+
+    private function unlock(pop: Dynamic)
+    {
+        if (G.file.data.unlocked[pop.score] == null) {
+            // unlock yay!
+            G.file.data.unlocked[pop.score] = pop.color;
+        }
     }
 
     private function endGame()

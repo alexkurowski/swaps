@@ -527,6 +527,8 @@ class Board extends Sprite
 
     public function pop(i: Int, j: Int): Dynamic
     {
+        var color = block[i][j].color;
+
         var w = 1;
         var h = 1;
 
@@ -554,7 +556,7 @@ class Board extends Sprite
 
         remapFaces();
 
-        return {i: i, j: j, w: w, h: h, score: w*h};
+        return {i: i, j: j, w: w, h: h, score: w*h, color: color};
     }
 
     private function fall()

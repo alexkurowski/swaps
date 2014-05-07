@@ -8,10 +8,11 @@ import objects.menu.*;
 
 class InfoState extends State
 {
-    private var musicBtn: ToggleButton;
-    private var vibroBtn: ToggleButton;
-
-    private var author: TextField;
+    private var sx: Int;
+    private var sy: Int;
+    private var ox: Float;
+    private var hScroll: Bool;
+    private var vScroll: Bool;
 
     public function new ()
     {
@@ -22,17 +23,45 @@ class InfoState extends State
 
     override public function begin()
     {
-        addChild(musicBtn = new ToggleButton(384 - 120 - 64, 100, "music", G.music));
-        addChild(vibroBtn = new ToggleButton(384 + 120, 100, "vibro", G.vibro));
+        sx = sy = 0;
+        ox = 0;
 
-        author = H.newTextField(0, 1220, 768, 40, G.scheme().fg, "center", "a game by mapisoft");
-        author.alpha = 0.5;
-        addChild(author);
+        hScroll = vScroll = false;
     }
 
     override public function update()
     {
-        musicBtn.update();
-        vibroBtn.update();
+        if (IO.pressed) {
+            sx = IO.x;
+            sy = IO.y;
+            ox = x;
+        }
+
+        if (IO.down) {
+            if (!hScroll && !vScroll) {
+                if (Math.abs(sx - IO.x) > 50) hScroll = true;
+                else if (Math.abs(sy - IO.y) > 50) vScroll = true;
+            }
+            if (hScroll) {
+                if (IO.x > sx) sx = IO.x;
+                x = ox - (sx - IO.x) * scaleX;
+            }
+        }
+
+        if (IO.released) {
+            if (hScroll) {
+                if (sx - IO.x > 100) G.game.setState("menu");
+                G.game.menuState.set();
+            }
+            if (vScroll) {
+                snap();
+            }
+            hScroll = vScroll = false;
+        }
+    }
+
+    private function snap()
+    {
+        // snaps scrolled blocks to nearest
     }
 }

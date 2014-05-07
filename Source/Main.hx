@@ -126,8 +126,8 @@ class Main extends Sprite {
 			needSave = true;
 		}
 
-		if (G.file.data.level == null) {
-			G.file.data.level = 1;
+		if (G.file.data.unlocked == null) {
+			G.file.data.unlocked = [];
 			needSave = true;
 		}
 
@@ -212,8 +212,8 @@ class Main extends Sprite {
 		IO.touchUpdate();
 
 		if (currentState == "menu") menuState.update();
-		if (currentState == "game" && gameState.x == centerStateX) gameState.update();
-		if (currentState == "info") infoState.update();
+		else if (currentState == "game" && gameState.x == centerStateX) gameState.update();
+		else if (currentState == "info") infoState.update();
 
 		IO.keyUpdate();
 	}
