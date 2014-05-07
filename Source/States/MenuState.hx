@@ -10,7 +10,10 @@ class MenuState extends State
 {
     private var info: Bitmap;
 
+    private var swaps: TextField;
+
     private var score: TextField;
+    private var arrow: TextField;
     private var author: TextField;
 
     private var showInfo: Bool;
@@ -19,6 +22,7 @@ class MenuState extends State
     private var musicBtn: ToggleButton;
     private var vibroBtn: ToggleButton;
 
+    private var fadeDelay: Int;
     private var fadeSpeed: Float;
 
     private var sx: Int;
@@ -33,71 +37,42 @@ class MenuState extends State
 
     override private function begin()
     {
-        info = new Bitmap(G.graphics.info);
-        info.smoothing = true;
-        info.x = 768/2 - info.width/2;
-        info.y = 10;
-        info.alpha = 0.25;
-        info.bitmapData.colorTransform(info.bitmapData.rect, H.recolor(G.scheme().fg));
-        addChild(info);
+        // info = new Bitmap(G.graphics.info);
+        // info.smoothing = true;
+        // info.x = 768/2 - info.width/2;
+        // info.y = 10;
+        // info.alpha = 0.25;
+        // info.bitmapData.colorTransform(info.bitmapData.rect, H.recolor(G.scheme().fg));
+        // addChild(info);
 
-        showInfo = false;
+        // showInfo = false;
 
-        addChild(musicBtn = new ToggleButton(50, 10, "music", G.music)).alpha = 0;
-        addChild(vibroBtn = new ToggleButton(180, 10, "vibro", G.vibro)).alpha = 0;
+        addChild(musicBtn = new ToggleButton(50, 10, "music", G.music));
+        // addChild(vibroBtn = new ToggleButton(180, 10, "vibro", G.vibro)).alpha = 0;
 
-        score = H.newTextField(0, 546, 768, 92, G.scheme().fg, "center", Std.string(G.score));
-        addChild(score);
+        addChild(swaps = H.newTextField(0, 226, 768, 200, G.scheme().fg, "center", "SWAPS")).alpha = 0;
+        addChild(score = H.newTextField(0, 546, 768, 92, G.scheme().fg, "center", Std.string(G.score)));
+        addChild(arrow = H.newTextField(20, 546, 728, 86, G.scheme().fg, "right", ">")).alpha = 0;
 
-        author = H.newTextField(0, 1220, 768, 40, G.scheme().fg, "center", "a game by mapisoft");
-        author.alpha = 0;
-        addChild(author);
+        addChild(author = H.newTextField(0, 1220, 768, 40, G.scheme().fg, "center", "a game by mapisoft")).alpha = 0;
 
-        fadeSpeed = 0.05;
+        fadeDelay = 160;
+        fadeSpeed = 0.005;
     }
 
     override public function update()
     {
-        // if (showInfo) {
-        //     infoTimer--;
-        //     if (infoTimer <= 0) showInfo = false;
+        if (fadeDelay > 0) fadeDelay--;
+        else {
+            if (author.alpha < 0.5) author.alpha += fadeSpeed;
+            if (swaps.alpha < 0.4) swaps.alpha += fadeSpeed;
+            if (arrow.alpha < 0.3) arrow.alpha += fadeSpeed;
+        }
 
-        //     if (info.alpha > 0) info.alpha -= fadeSpeed;
-        //     if (author.alpha < 0.5) author.alpha += fadeSpeed;
-        //     if (G.music) {
-        //         if (musicBtn.alpha < 1) musicBtn.alpha += fadeSpeed;
-        //     } else {
-        //         if (musicBtn.alpha > 0.6) musicBtn.alpha -= fadeSpeed;
-        //         if (musicBtn.alpha < 0.6) musicBtn.alpha += fadeSpeed;
-        //     }
-        //     if (G.vibro) {
-        //         if (vibroBtn.alpha < 1) vibroBtn.alpha += fadeSpeed;
-        //     } else {
-        //         if (vibroBtn.alpha > 0.6) vibroBtn.alpha -= fadeSpeed;
-        //         if (vibroBtn.alpha < 0.6) vibroBtn.alpha += fadeSpeed;
-        //     }
-
-        //     updateButtons();
-        // } else {
-        //     infoTimer = 0;
-
-        //     if (info.alpha < 0.25) info.alpha += fadeSpeed;
-        //     if (author.alpha > 0) author.alpha -= fadeSpeed*0.5;
-        //     if (musicBtn.alpha > 0) musicBtn.alpha -= fadeSpeed*0.5;
-        //     if (vibroBtn.alpha > 0) vibroBtn.alpha -= fadeSpeed*0.5;
-        //     if (IO.x > 384-64 && IO.x < 384+64 && IO.y < 64 && IO.released) {
-        //         showInfo = true;
-        //         infoTimer = 420;
-        //     }
-        // }
-
-        // if (IO.x > 384-64 && IO.x < 384+64 && IO.y < 64 && IO.released) {
-        //     G.game.setState("info");
-        // }
-
-        // if (IO.y > 120 && IO.y < 1160 && IO.released) {
-        //     G.game.setState("game");
-        // }
+        musicBtn.update();
+        if (musicBtn.isDown()) {
+            G.music = musicBtn.state;
+        }
 
         if (IO.pressed) {
             sx = IO.x;
@@ -105,6 +80,7 @@ class MenuState extends State
         }
 
         if (IO.down) {
+            if (IO.x > sx) sx = IO.x;
             x = ox - (sx - IO.x) * scaleX;
         }
 
@@ -141,11 +117,15 @@ class MenuState extends State
 
     public function set()
     {
-        showInfo = false;
-        info.alpha = 0.25;
+        // showInfo = false;
+        // info.alpha = 0.25;
+        // author.alpha = 0;
+        // musicBtn.alpha = 0;
+        // vibroBtn.alpha = 0;
+        fadeDelay = 160;
         author.alpha = 0;
-        musicBtn.alpha = 0;
-        vibroBtn.alpha = 0;
+        swaps.alpha = 0;
+        arrow.alpha = 0;
         score.text = Std.string(G.score);
     }
 }

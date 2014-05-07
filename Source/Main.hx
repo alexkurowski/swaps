@@ -199,9 +199,9 @@ class Main extends Sprite {
 
 	private function update(e: Event)
 	{
-		menuState.x = H.lerp(menuState.x, (currentState == "menu" ? centerStateX : (currentState == "game" ? centerStateX - 1000 : centerStateX + 1000)), lerpSpeed);
-		gameState.x = H.lerp(gameState.x, (currentState == "game" ? centerStateX : centerStateX + 1000), lerpSpeed);
-		infoState.x = H.lerp(infoState.x, (currentState == "info" ? centerStateX : centerStateX - 1000), lerpSpeed);
+		menuState.x = H.lerp(menuState.x, (currentState == "menu" ? centerStateX : (currentState == "game" ? centerStateX - 700 : centerStateX + 700)), lerpSpeed);
+		gameState.x = H.lerp(gameState.x, (currentState == "game" ? centerStateX : centerStateX + 700), lerpSpeed);
+		infoState.x = H.lerp(infoState.x, (currentState == "info" ? centerStateX : centerStateX - 700), lerpSpeed);
 
 		var currentTime = Lib.getTimer();
 		var deltaTime = currentTime - previousTime;

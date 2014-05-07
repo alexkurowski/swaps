@@ -30,7 +30,7 @@ class ToggleButton extends Sprite
         addChild(bmp);
 
         state = isOn;
-        if (!isOn) bmp.alpha = 0.4;
+        bmp.alpha = 0.4;
 
         fadeSpeed = 0.1;
         down = false;
@@ -48,9 +48,9 @@ class ToggleButton extends Sprite
         }
 
         if (state) {
-            if (bmp.alpha < 1) bmp.alpha += fadeSpeed;
+            if (bmp.alpha < 0.8) bmp.alpha += fadeSpeed;
         } else {
-            if (bmp.alpha > 0.4) bmp.alpha -= fadeSpeed;
+            if (bmp.alpha > 0.3) bmp.alpha -= fadeSpeed;
         }
     }
 

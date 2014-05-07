@@ -28,9 +28,6 @@ class GameState extends State
 
     private var fadeSpeed: Float;
 
-    private var retryBtn: Bitmap;
-    private var menuBtn: Bitmap;
-
     public var selected: Bool;
     public var selectX: Int;
     public var selectY: Int;
@@ -155,7 +152,10 @@ class GameState extends State
             unselect();
         }
 
-        if (IO.x < 90 && IO.y < 80) begin();
+        if (IO.x < 90 && IO.y < 80) {
+            if (info.restartConfirm) begin();
+            else info.restartConfirm = true;
+        }
 
         if (IO.x > 678 && IO.y < 80) {
             G.game.setState('menu');
