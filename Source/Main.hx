@@ -108,6 +108,22 @@ class Main extends Sprite {
 		G.currentScheme = 0;
 
 
+		G.names = ["Jim",
+                   "Aaron",
+                   "Williams",
+                   "Martin",
+                   "Larry",
+                   "Lando",
+                   "Perry",
+                   "Mattew",
+                   "Peterson",
+                   "Dmitry",
+                   "Pixie",
+                   "Levy",
+                   "Dan",
+                   "Jumbo"];
+
+
 		G.file = SharedObject.getLocal("options");
 		var needSave: Bool = false;
 

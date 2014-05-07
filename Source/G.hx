@@ -18,7 +18,7 @@ class G
 
     static public var maxPopsNotPurchased: Int;
 
-    static public var name: String;
+    static public var names: Array<String>;
     static public var score: Int;
     static public var nextScore: Int;
     static public var level: Int;
@@ -49,5 +49,14 @@ class G
     static public function scheme(): Dynamic
     {
         return G.colorScheme[G.currentScheme];
+    }
+
+    static public function getName(s: Int): String
+    {
+        if (s == 62) s = 43;
+        for (i in 0...names.length) {
+            if (game.infoState.sizeList[i] == s) return names[i];
+        }
+        return "???";
     }
 }

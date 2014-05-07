@@ -34,7 +34,8 @@ class GameState extends State
 
     private var info: InfoBar;
 
-    private var rewardDelay: Int;
+    private var rewardTxt: TextField;
+    private var rewardTimer: Int;
     private var endDelay: Int;
 
 
@@ -58,7 +59,7 @@ class GameState extends State
 
         fadeSpeed = 0.1;
 
-        rewardDelay = 0;
+        rewardTimer = 0;
         endDelay = 0;
 
         mi = mj = 0;
@@ -71,6 +72,8 @@ class GameState extends State
         addChild(new Bitmap(new BitmapData(768, Math.floor(map.y)*2, false, G.scheme().bg))).y = -Math.floor(map.y);
 
         addChild(info = new InfoBar());
+
+        addChild(rewardTxt = H.newTextField(0, 1180, 768, 50, G.scheme().fg, "center", "a game by mapisoft")).alpha = 0;
     }
 
     override public function update()
@@ -112,7 +115,12 @@ class GameState extends State
 
         info.update(score, turn);
 
-        if (rewardDelay > 0) rewardUpdate();
+        if (rewardTimer > 0) {
+            rewardTimer--;
+            if (rewardTxt.alpha < 0.8) rewardTxt.alpha += fadeSpeed;
+        } else {
+            if (rewardTxt.alpha > 0) rewardTxt.alpha -= fadeSpeed;
+        }
         if (endDelay > 0) endUpdate();
 
         if (IO.key.BACK) {
@@ -179,12 +187,6 @@ class GameState extends State
                 if (txtScore[i].alpha <= 0) txtScore[i].visible = false;
             }
         }
-    }
-
-    private function rewardUpdate()
-    {
-        rewardDelay--;
-        if (rewardDelay <= 0) reward();
     }
 
     private function endUpdate()
@@ -293,8 +295,6 @@ class GameState extends State
         G.nextScore = G.level * 400;
 
         G.file.data.level++;
-
-        rewardDelay = 400;
     }
 
     private function reward()
@@ -306,11 +306,15 @@ class GameState extends State
     private function unlock(pop: Dynamic)
     {
         if (G.file.data.unlocked[pop.score] == null) {
+            rewardTimer = 260;
+            rewardTxt.text = G.getName(pop.w*10 + pop.h) + ' is added to the collection!';
             // unlock yay!
             G.file.data.unlocked[pop.score] = pop.color;
             try {
                 G.file.data.flush();
             } catch(e: Dynamic) {}
+
+            G.game.infoState.reset();
         }
     }
 

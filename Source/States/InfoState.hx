@@ -8,7 +8,9 @@ import objects.menu.*;
 
 class InfoState extends State
 {
-    private var sizeList: Array<Int>;
+    public var sizeList: Array<Int>;
+    public var names: Array<String>;
+
     private var sx: Int;
     private var sy: Int;
     private var ox: Float;
@@ -17,6 +19,7 @@ class InfoState extends State
     private var vScroll: Bool;
 
     private var square: Array<Square>;
+    private var label: Array<TextField>;
 
     public function new ()
     {
@@ -56,6 +59,11 @@ class InfoState extends State
             square[i].y = square[i].oy = 500 + 768*i;
             addChild(square[i]);
         }
+
+        label = [];
+        for (i in 0...sizeList.length) {
+            addChild(label[i] = H.newTextField( 0, Std.int(resolveY(i)), 768, 50, G.scheme().fg, "center", getName(i) ));
+        }
     }
 
     override public function update()
@@ -76,24 +84,42 @@ class InfoState extends State
                 x = ox - (sx - IO.x) * scaleX;
             }
             if (vScroll) {
-                for (i in 0...square.length) square[i].y += IO.y - sy;
+                for (i in 0...square.length) {
+                    square[i].y += IO.y - sy;
+                    label[i].y = resolveY(i);
+                }
 
                 sy = IO.y;
 
-                if (square[0].y > 500)
-                    for (i in 0...square.length) square[i].y = 500 + 768*i;
+                if (square[0].y > 500) 
+                    for (i in 0...square.length) {
+                        square[i].y = 500 + 768*i;
+                        label[i].y = resolveY(i);
+                    }
                 if (square[0].y < -9730)
-                    for (i in 0...square.length) square[i].y = -9730 + 768*i;
+                    for (i in 0...square.length) {
+                        square[i].y = -9730 + 768*i;
+                        label[i].y = resolveY(i);
+                    }
             }
         } else {
             if (Math.abs(drag) > 0.1) {
-                for (i in 0...square.length) square[i].y += drag;
+                for (i in 0...square.length) {
+                    square[i].y += drag;
+                    label[i].y = resolveY(i);
+                }
                 drag *= 0.95;
 
                 if (square[0].y > 500)
-                    for (i in 0...square.length) square[i].y = 500 + 768*i;
+                    for (i in 0...square.length) {
+                        square[i].y = 500 + 768*i;
+                        label[i].y = resolveY(i);
+                    }
                 if (square[0].y < -9730)
-                    for (i in 0...square.length) square[i].y = -9730 + 768*i;
+                    for (i in 0...square.length) {
+                        square[i].y = -9730 + 768*i;
+                        label[i].y = resolveY(i);
+                    }
             }
         }
 
@@ -105,8 +131,25 @@ class InfoState extends State
             if (vScroll) {
                 drag = IO.y - sy;
             }
+            if (!hScroll && !vScroll) {
+                // tap
+            }
             hScroll = vScroll = false;
         }
+    }
+
+    private function resolveY(i: Int): Float
+    {
+        return square[i].y + square[i].height - 10;
+    }
+
+    private function getName(i: Int): String
+    {
+        if (square[i].color != -1) return G.names[i];
+
+        var str = "";
+        for (j in 0...G.names[i].length) str += "x";
+        return str;
     }
 
     public function reset()
@@ -116,8 +159,14 @@ class InfoState extends State
         for (i in 0...square.length) {
             w = Math.floor(sizeList[i] / 10);
             h = sizeList[i] % 10;
-            if (G.file.data.unlocked[w*h] != null && square[i].color == -1)
+            if (G.file.data.unlocked[w*h] != null && square[i].color == -1) {
+                removeChild(square[i]);
                 square[i] = new Square(w, h, G.file.data.unlocked[w*h]);
+                square[i].x = 384 - square[i].width / 2;
+                square[i].y = square[i].oy = 500 + 768*i;
+                addChild(square[i]);
+                label[i].text = G.names[i];
+            }
         }
     }
 }
