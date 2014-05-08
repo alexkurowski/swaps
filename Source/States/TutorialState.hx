@@ -12,13 +12,15 @@ import objects.game.*;
 
 class TutorialState extends State
 {
-	private var map: Sprite;
-	private var block: Array<Array<Block>>;
+	private var map: Board;
 
 	private var text: TextField;
 	private var currentText: String;
 
 	private var fadeSpeed: Float;
+
+	private var moveSpeed: Float;
+	private var acceleration: Float;
 
 	private var mi: Int;
 	private var mj: Int;
@@ -26,8 +28,11 @@ class TutorialState extends State
 	private var selectX: Int;
 	private var selectY: Int;
 
-	private var currentSwap: Int;
+	private var currentState: Int;
 	private var fall: Bool;
+
+	private var addText: TextField;
+	private var lastTimer: Int;
 
 	public function new()
 	{
@@ -38,91 +43,140 @@ class TutorialState extends State
 
 	override public function begin()
 	{
-		addChild(map = new Sprite());
+		addChild(map = new Board());
 		map.x = 128;
 		map.y = 340;
 
-		block = [];
-		for (i in 0...4) {
-			block[i] = [];
-			for (j in 0...4) {
-				map.addChild(block[i][j] = new Block(i, j, 128*i, 128*j));
-			}
+		map.setColor(0, 0, 2); map.setColor(1, 0, 1); map.setColor(2, 0, 1); map.setColor(3, 0, 2);  map.setColor(4, 0, 0); map.setColor(5, 0, 1);
+		map.setColor(0, 1, 2); map.setColor(1, 1, 0); map.setColor(2, 1, 0); map.setColor(3, 1, 2);  map.setColor(4, 1, 0); map.setColor(5, 1, 2);
+		map.setColor(0, 2, 2); map.setColor(1, 2, 1); map.setColor(2, 2, 0); map.setColor(3, 2, 1);  map.setColor(4, 2, 2); map.setColor(5, 2, 1);
+		map.setColor(0, 3, 0); map.setColor(1, 3, 2); map.setColor(2, 3, 1); map.setColor(3, 3, 2);  map.setColor(4, 3, 0); map.setColor(5, 3, 2);
+		map.setColor(0, 4, 1); map.setColor(1, 4, 1); map.setColor(2, 4, 2); map.setColor(3, 4, 1);  map.setColor(4, 4, 2); map.setColor(5, 4, 0);
+		map.setColor(0, 5, 0); map.setColor(1, 5, 2); map.setColor(2, 5, 2); map.setColor(3, 5, 0);  map.setColor(4, 5, 1); map.setColor(5, 5, 2);
+
+		for (i in 0...6) {
+			map.block[4][i].visible = false;
+			map.block[5][i].visible = false;
+			map.block[i][4].visible = false;
+			map.block[i][5].visible = false;
 		}
 
-		block[0][0].setColor(2); block[1][0].setColor(1); block[2][0].setColor(1); block[3][0].setColor(2);
-		block[0][1].setColor(2); block[1][1].setColor(0); block[2][1].setColor(0); block[3][1].setColor(2);
-		block[0][2].setColor(2); block[1][2].setColor(1); block[2][2].setColor(0); block[3][2].setColor(1);
-		block[0][3].setColor(0); block[1][3].setColor(2); block[2][3].setColor(1); block[3][3].setColor(2);
-
-		currentText = "swap colors\nto form squares";
+		currentText = "swap colors\nto form a squares";
 		text = H.newTextField(0, 970, 768, 64, G.scheme().fg, "center", currentText);
 		addChild(text).alpha = 0;
 
-		fadeSpeed = 0.025;
+		fadeSpeed = 0.05;
 
-		currentSwap = 0;
+		currentState = 0;
 		fall = false;
+
+		moveSpeed = 1.5;
+		acceleration = 0.1;
+
+		addChild(addText = H.newTextField(0, -2540, 768, 50, G.scheme().fg, "center", G.names[0] + " was added to the collection!\n\n" + G.names[1] + " was added to the collection!"));
+		addText.alpha = 0;
+		lastTimer = 280;
 	}
 
 	override public function update()
 	{
-		for (i in 0...4) {
-			for (j in 0...4) {
-				block[i][j].update();
+		if (currentState == 2) {
+			y += moveSpeed;
+			moveSpeed += acceleration;
+			if (y > 1500) {
+				currentState = 3;
+				G.file.data.unlocked[4] = 0;
+				G.file.data.unlocked[6] = 1;
+				try {
+	                G.file.data.flush();
+	            } catch(e: Dynamic) {}
+	            G.game.infoState.reset();
 			}
+			return;
+		}
+
+		if (currentState == 3) {
+			y = 1500;
+			if (lastTimer > 0) {
+				lastTimer--;
+				if (addText.alpha < 0.8) addText.alpha += fadeSpeed;
+			} else {
+				if (addText.alpha > 0) addText.alpha -= fadeSpeed;
+				else {
+					visible = false;
+					G.game.setState("menu");
+				}
+			}
+			return;
 		}
 
 		if (text.text == currentText) {
 			if (text.alpha < 0.8) text.alpha += fadeSpeed;
 		} else {
-			if (text.alpha > 0) text.alpha -= fadeSpeed;
+			if (text.alpha > 0) text.alpha -= fadeSpeed*2;
 			else text.text = currentText;
 		}
 
-		if (IO.down) {
-			onDown();
+		if (!fall) {
+			if (IO.down) {
+				onDown();
+			}
+
+			if (IO.released) {
+				onRelease();
+			}
+		} else {
+			if (map.doneFalling()) {
+				for (i in 0...3) {
+                    for (j in 0...3) {
+                        map.checkSquares(i*2, j*2, false);
+                    }
+                }
+                if (currentState == 0) {
+	                currentState = 1;
+	                fall = false;
+	                currentText = "Try to expand this one.";
+	            } else
+	            if (currentState == 1) {
+	            	currentState = 2;
+	                currentText = "";
+	                fall = false;
+	            }
+			}
 		}
 
-		if (IO.released) {
-			onRelease();
-		}
+		map.update();
 
 		// have to switch & save G.file.data.firstStart to false on exit!
 	}
 
 	private function onDown()
 	{
-		resetScale();
 		if (insideMap()) {
 			mi = Math.floor((IO.x - 128) / 128);
             mj = Math.floor((IO.y - 340) / 128);
-            if (block[mi][mj].squared) return;
-            block[mi][mj].targetScale = 1.4;
-			if (selected) block[selectX][selectY].targetScale = 0.8;
-		} else {
-			if (selected) block[selectX][selectY].targetScale = 0.8;
+            map.resetScale();
+            map.setScale(mi, mj, 1.4);
+			if (selected) map.setScale(selectX, selectY, 0.8);
 		}
 	}
 
 	private function onRelease()
 	{
-		resetScale();
-		if (block[mi][mj].squared) {
-			pop();
+		if (insideMap()) {
+			map.resetScale();
+
+			if (map.block[mi][mj].squared && selected)
+				unselect();
+			else if (map.block[mi][mj].squared)
+				pop();
+			else if (selected)
+				swap();
+			else
+				select();
 		} else {
-			if (!selected) {
-				selected = true;
-				selectX = mi;
-				selectY = mj;
-			} else {
-				selected = false;
-				if (valid()) {
-					swap();
-					formSquare();
-				}
-			}
-			if (selected) block[selectX][selectY].targetScale = 0.8;
+			map.resetScale();
+			unselect();
 		}
 	}
 
@@ -130,37 +184,85 @@ class TutorialState extends State
 
 	private function swap()
 	{
-		var swapColor = block[mi][mj].color;
-		block[mi][mj].setColor(block[selectX][selectY].color);
-		block[selectX][selectY].setColor(swapColor);
+		if ((mi != selectX || mj != selectY) &&
+          map.block[mi][mj].color == map.block[selectX][selectY].color) {
+            select();
+            return;
+        }
+
+        if ((mi != selectX || mj != selectY) &&
+          map.block[mi][mj].color != map.block[selectX][selectY].color) {
+            map.swap(selectX, selectY, mi, mj);
+        }
+
+        var squared = false;
+        if (map.checkSquares(mi, mj)) squared = true;
+        if (map.checkSquares(selectX, selectY)) squared = true;
+
+        if (!squared && (mi != selectX || mj != selectY) &&
+          map.block[mi][mj].color != map.block[selectX][selectY].color) {
+            map.swap(selectX, selectY, mi, mj, false);
+            // turn--;
+        }
+
+        selected = false;
 	}
 
 	private function pop()
 	{
-		if (currentSwap == 0) {
-			
+		if (currentState == 0) {
+			map.pop(mi, mj);
+			fall = true;
+		} else if (currentState == 1 && (map.block[3][2].squared || map.block[2][3].squared)) {
+			map.pop(mi, mj);
+			fall = true;
+		}
+
+		if (currentState == 0) {
+			map.setColor(1, 0, 0); map.setColor(2, 0, 0);
+			map.setColor(1, 1, 1); map.setColor(2, 1, 1);
+		} else
+		if (currentState == 1) {
+			for (i in 0...4) {
+				for (j in 0...3) {
+					if (map.block[i][j].y < 0) map.setColor(i, j, -1);
+				}
+			}
 		}
 	}
 
+	private function select()
+    {
+        selectX = mi;
+        selectY = mj;
+        map.setScale(selectX, selectY, 0.8);
+        selected = true;
+    }
+
+    private function unselect()
+    {
+        selected = false;
+    }
+
 	private function formSquare()
 	{
-		if (currentSwap == 0) {
-			block[1][1].squared = true; block[1][1].setColorFrame(block[1][1].color, 0);
-			block[2][1].squared = true; block[2][1].setColorFrame(block[2][1].color, 2);
-			block[1][2].squared = true; block[1][2].setColorFrame(block[1][2].color, 6);
-			block[2][2].squared = true; block[2][2].setColorFrame(block[2][2].color, 8);
-			block[1][1].bmp.scaleX = block[1][1].bmp.scaleY = 0;
-			block[2][1].bmp.scaleX = block[2][1].bmp.scaleY = 0;
-			block[1][2].bmp.scaleX = block[1][2].bmp.scaleY = 0;
-			block[2][2].bmp.scaleX = block[2][2].bmp.scaleY = 0;
-			map.addChild(block[1][1]);
-			block[1][1].setFace(1, 1);
-		}
+		// if (currentState == 0) {
+		// 	block[1][1].squared = true; block[1][1].setColorFrame(block[1][1].color, 0);
+		// 	block[2][1].squared = true; block[2][1].setColorFrame(block[2][1].color, 2);
+		// 	block[1][2].squared = true; block[1][2].setColorFrame(block[1][2].color, 6);
+		// 	block[2][2].squared = true; block[2][2].setColorFrame(block[2][2].color, 8);
+		// 	block[1][1].bmp.scaleX = block[1][1].bmp.scaleY = 0;
+		// 	block[2][1].bmp.scaleX = block[2][1].bmp.scaleY = 0;
+		// 	block[1][2].bmp.scaleX = block[1][2].bmp.scaleY = 0;
+		// 	block[2][2].bmp.scaleX = block[2][2].bmp.scaleY = 0;
+		// 	map.addChild(block[1][1]);
+		// 	block[1][1].setFace(1, 1);
+		// }
 	}
 
 	private function valid(): Bool
 	{
-		if (currentSwap == 0) {
+		if (currentState == 0) {
 			if (selectX == 0 && selectY == 3 && mi == 1 && mj == 2) return true;
 			if (selectX == 1 && selectY == 2 && mi == 0 && mj == 3) return true;
 		}
@@ -175,8 +277,8 @@ class TutorialState extends State
 
 	private function resetScale()
 	{
-		for (i in 0...4)
-			for (j in 0...4)
-				block[i][j].targetScale = 1;
+		// for (i in 0...4)
+		// 	for (j in 0...4)
+		// 		block[i][j].targetScale = 1;
 	}
 }
