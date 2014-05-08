@@ -36,6 +36,7 @@ class Square extends Sprite
                 else frame = -1;
 
                 bg[i][j] = new Bitmap(G.graphics.square[frame].clone());
+                bg[i][j].smoothing = true;
                 bg[i][j].x = i*128;
                 bg[i][j].y = j*128;
                 if (color == -1) {
@@ -48,6 +49,7 @@ class Square extends Sprite
 		}
 
 		addChild(face = new Bitmap(G.graphics.face[w*h]));
+		face.smoothing = true;
 		face.x = (w*128) / 2 - 64;
         face.y = (h*128) / 2 - 64;
         if (color == -1) face.visible = false;

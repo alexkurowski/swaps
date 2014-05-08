@@ -18,6 +18,7 @@ class Square extends objects.menu.Square
         active = true;
 
         super(w, h, color);
+        scaleX = scaleY = 1.1;
         x = 384 - width / 2;
         y = -100 - height;
 

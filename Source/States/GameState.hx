@@ -27,6 +27,7 @@ class GameState extends State
     public var turn: Int;
 
     private var fadeSpeed: Float;
+    private var rotSpeed: Float;
 
     public var selected: Bool;
     public var selectX: Int;
@@ -38,7 +39,8 @@ class GameState extends State
     private var rewardTimer: Int;
     private var endDelay: Int;
 
-    private var rewardScreen: Bitmap;
+    private var rewardSprite: Sprite;
+    // private var rewardScreen: Array<Bitmap>;
     private var rewardSquare: Array<Square>;
 
 
@@ -60,7 +62,8 @@ class GameState extends State
         score = 0;
         turn = 0;
 
-        fadeSpeed = 0.1;
+        fadeSpeed = 0.06;
+        rotSpeed = 1;
 
         rewardTimer = 0;
         endDelay = 0;
@@ -75,6 +78,12 @@ class GameState extends State
         addChild(new Bitmap(new BitmapData(768, Math.floor(map.y)*2, false, G.scheme().bg))).y = -Math.floor(map.y);
 
         addChild(info = new InfoBar());
+
+        addChild(rewardSprite = new Sprite());
+        rewardSprite.x = 384;
+        rewardSprite.y = 640;
+        rewardSprite.alpha = 0;
+        for (i in 0...4) rewardSprite.addChild(new Bitmap(G.graphics.rewScreen.clone())).rotation = 90*i;
 
         addChild(rewardTxt = H.newTextField(0, 1180, 768, 50, G.scheme().fg, "center", "a game by mapisoft")).alpha = 0;
 
@@ -133,8 +142,11 @@ class GameState extends State
 
         if (rewardTimer > 0) {
             rewardTimer--;
-            if (rewardTxt.alpha < 0.8) rewardTxt.alpha += fadeSpeed;
+            if (rewardSprite.alpha < 0.6) rewardSprite.alpha += fadeSpeed;
+            rewardSprite.rotation += rotSpeed;
+            if (rewardTxt.alpha < 0.9) rewardTxt.alpha += fadeSpeed;
         } else {
+            if (rewardSprite.alpha > 0) rewardSprite.alpha -= fadeSpeed;
             if (rewardTxt.alpha > 0) rewardTxt.alpha -= fadeSpeed;
         }
         if (endDelay > 0) endUpdate();
@@ -177,8 +189,6 @@ class GameState extends State
         }
 
         if (IO.x < 90 && IO.y < 80) {
-            // if (info.restartConfirm) begin();
-            // else info.restartConfirm = true;
             begin();
         }
 
@@ -318,7 +328,7 @@ class GameState extends State
     {
         // Haptic.vibrate(1000, 1000);
         // play reward sound
-        rewardTimer = 260;
+        rewardTimer = 100;
         rewardTxt.text = G.getName(pop.score) + ' was added to the collection!';
 
         var i = 0;

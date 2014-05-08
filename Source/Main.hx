@@ -90,6 +90,8 @@ class Main extends Sprite {
 		G.graphics.retry = Assets.getBitmapData("assets/img/retry.png");
 		G.graphics.menu = Assets.getBitmapData("assets/img/menu.png");
 
+		G.graphics.rewScreen = Assets.getBitmapData("assets/img/rewscreenq.png");
+
 		// settings
 		G.graphics.music = Assets.getBitmapData("assets/img/music.png");
 		
