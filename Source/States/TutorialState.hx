@@ -75,8 +75,7 @@ class TutorialState extends State
 		moveSpeed = 1.5;
 		acceleration = 0.1;
 
-		addChild(addText = H.newTextField(0, -2540, 768, 50, G.scheme().fg, "center", G.names[0] + " was added to the collection\n\n" + G.names[1] + " was added to the collection"));
-		addText.alpha = 0;
+		addChild(addText = H.newTextField(0, -1580, 768, 50, G.scheme().fg, "center", G.names[0] + " was added to the collection\n\n" + G.names[1] + " was added to the collection")).alpha = 0;
 		lastTimer = 280;
 	}
 
