@@ -64,9 +64,6 @@ class Main extends Sprite {
 	{
 		G.graphics = {};
 
-		// menu
-		G.graphics.info = Assets.getBitmapData("assets/img/info.png");
-		
 		// game
 		G.graphics.block = Assets.getBitmapData("assets/img/block.png");
 
@@ -95,7 +92,6 @@ class Main extends Sprite {
 
 		// settings
 		G.graphics.music = Assets.getBitmapData("assets/img/music.png");
-		G.graphics.vibro = Assets.getBitmapData("assets/img/vibro.png");
 		
 
 		G.font = Assets.getFont("assets/Bariol_Bold.otf");
@@ -142,10 +138,10 @@ class Main extends Sprite {
 			needSave = true;
 		}
 
-		if (G.file.data.unlocked == null) {
+		// if (G.file.data.unlocked == null) {
 			G.file.data.unlocked = [];
 			needSave = true;
-		}
+		// }
 
 		if (G.file.data.purchased == null) {
 			#if android

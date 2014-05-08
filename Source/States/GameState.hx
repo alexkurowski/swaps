@@ -38,6 +38,9 @@ class GameState extends State
     private var rewardTimer: Int;
     private var endDelay: Int;
 
+    private var rewardScreen: Bitmap;
+    private var rewardSquare: Array<Square>;
+
 
     public function new()
     {
@@ -74,6 +77,8 @@ class GameState extends State
         addChild(info = new InfoBar());
 
         addChild(rewardTxt = H.newTextField(0, 1180, 768, 50, G.scheme().fg, "center", "a game by mapisoft")).alpha = 0;
+
+        rewardSquare = [];
     }
 
     override public function update()
@@ -114,6 +119,17 @@ class GameState extends State
         scoreUpdate();
 
         info.update(score, turn);
+
+        for (i in 0...rewardSquare.length) {
+            if (rewardSquare[i] != null) {
+                if (rewardSquare[i].active) {
+                    rewardSquare[i].update();
+                } else {
+                    removeChild(rewardSquare[i]);
+                    rewardSquare[i] = null;
+                }
+            }
+        }
 
         if (rewardTimer > 0) {
             rewardTimer--;
@@ -298,17 +314,23 @@ class GameState extends State
         G.file.data.level++;
     }
 
-    private function reward()
+    private function reward(pop: Dynamic)
     {
         // Haptic.vibrate(1000, 1000);
         // play reward sound
+        rewardTimer = 260;
+        rewardTxt.text = G.getName(pop.score) + ' was added to the collection!';
+
+        var i = 0;
+        while (rewardSquare[i] != null) i++;
+        
+        addChild(rewardSquare[i] = new Square(pop.w, pop.h, pop.color));
     }
 
     private function unlock(pop: Dynamic)
     {
-        if (G.file.data.unlocked[pop.score] == null) {
-            rewardTimer = 260;
-            rewardTxt.text = G.getName(pop.score) + ' is added to the collection!';
+        if (G.file.data.unlocked[pop.score] == null) {    
+            reward(pop);
             // unlock yay!
             G.file.data.unlocked[pop.score] = pop.color;
             try {
