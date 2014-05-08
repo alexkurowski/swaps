@@ -39,7 +39,6 @@ class GameState extends State
     private var endDelay: Int;
 
     private var rewardSprite: Sprite;
-    // private var rewardScreen: Array<Bitmap>;
     private var rewardSquare: Array<Square>;
 
 

@@ -133,7 +133,7 @@ class TutorialState extends State
                 if (currentState == 0) {
 	                currentState = 1;
 	                fall = false;
-	                currentText = "try to make this one bigger";
+	                currentText = "you can grow squares\ninto bigger rectangles";
 	                for (i in 0...3)
                     	for (j in 0...3)
                         	map.checkSquares(i*2, j*2, false);
@@ -201,7 +201,8 @@ class TutorialState extends State
         if (!squared && (mi != selectX || mj != selectY) &&
           map.block[mi][mj].color != map.block[selectX][selectY].color) {
             map.swap(selectX, selectY, mi, mj, false);
-            // turn--;
+        } else {
+        	if (currentState == 0) currentText = "now pop it";
         }
 
         selected = false;
