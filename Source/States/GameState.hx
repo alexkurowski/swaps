@@ -276,7 +276,8 @@ class GameState extends State
         G.file.data.score = G.score;
         try {
             G.file.flush();
-        } catch (e: Dynamic) {}
+            trace('saved');
+        } catch (e: Dynamic) {trace(e);}
     }
 
     private function showScore(i: Int, j: Int, w: Int, h: Int, score: Int)
@@ -329,7 +330,7 @@ class GameState extends State
             // unlock yay!
             G.file.data.unlocked[pop.score] = pop.color;
             try {
-                G.file.data.flush();
+                G.file.flush();
             } catch(e: Dynamic) {}
 
             G.game.infoState.reset();

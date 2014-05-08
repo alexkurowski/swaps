@@ -98,7 +98,7 @@ class TutorialState extends State
 				G.file.data.unlocked[6] = 1;
 				G.file.data.firstStart = false;
 				try {
-	                G.file.data.flush();
+	                G.file.flush();
 	            } catch(e: Dynamic) {}
 	            G.game.infoState.reset();
 			}

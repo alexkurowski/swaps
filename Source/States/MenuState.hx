@@ -90,7 +90,7 @@ class MenuState extends State
         // color scheme here
         try {
             G.file.flush();
-        } catch (e: Dynamic) {}
+        } catch (e: Dynamic) {trace(e);}
     }
 
     public function set()
