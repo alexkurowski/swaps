@@ -275,14 +275,9 @@ class GameState extends State
 
         G.score += pop.score;
         G.file.data.score = G.score;
-        if (G.score >= G.nextScore) nextLevel();
         try {
             G.file.flush();
         } catch (e: Dynamic) {}
-
-        if (!G.purchased && turn >= G.maxPopsNotPurchased) {
-            endDelay = 400;
-        }
     }
 
     private function showScore(i: Int, j: Int, w: Int, h: Int, score: Int)
@@ -313,14 +308,6 @@ class GameState extends State
         txtScore[t].width = w*128;
         txtScore[t].y = map.y + j*128 + h*64 - 32;
         txtScore[t].text = Std.string(score);
-    }
-
-    private function nextLevel()
-    {
-        G.level++;
-        G.nextScore = G.level * 400;
-
-        G.file.data.level++;
     }
 
     private function reward(pop: Dynamic)

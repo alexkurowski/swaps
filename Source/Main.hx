@@ -168,11 +168,8 @@ class Main extends Sprite {
 		G.music = G.file.data.music;
 		G.vibro = G.file.data.vibro;
 		G.score = G.file.data.score;
-		G.level = G.file.data.level;
 		firstStart = G.file.data.firstStart;
 		G.purchased = G.file.data.purchased;
-		G.nextScore = G.level * 400;
-		G.maxPopsNotPurchased = 20;
 	}
 
 	// game's entry point
