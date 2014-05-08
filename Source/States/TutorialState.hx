@@ -51,8 +51,8 @@ class TutorialState extends State
 		map.setColor(0, 1, 2); map.setColor(1, 1, 0); map.setColor(2, 1, 0); map.setColor(3, 1, 2);  map.setColor(4, 1, 0); map.setColor(5, 1, 2);
 		map.setColor(0, 2, 2); map.setColor(1, 2, 1); map.setColor(2, 2, 0); map.setColor(3, 2, 1);  map.setColor(4, 2, 2); map.setColor(5, 2, 1);
 		map.setColor(0, 3, 0); map.setColor(1, 3, 2); map.setColor(2, 3, 1); map.setColor(3, 3, 2);  map.setColor(4, 3, 0); map.setColor(5, 3, 2);
-		map.setColor(0, 4, 1); map.setColor(1, 4, 1); map.setColor(2, 4, 2); map.setColor(3, 4, 1);  map.setColor(4, 4, 2); map.setColor(5, 4, 0);
-		map.setColor(0, 5, 0); map.setColor(1, 5, 2); map.setColor(2, 5, 2); map.setColor(3, 5, 0);  map.setColor(4, 5, 1); map.setColor(5, 5, 2);
+		map.setColor(0, 4, 1); map.setColor(1, 4, 2); map.setColor(2, 4, 0); map.setColor(3, 4, 1);  map.setColor(4, 4, 0); map.setColor(5, 4, 0);
+		map.setColor(0, 5, 0); map.setColor(1, 5, 1); map.setColor(2, 5, 2); map.setColor(3, 5, 0);  map.setColor(4, 5, 1); map.setColor(5, 5, 2);
 
 		for (i in 0...6) {
 			map.block[4][i].visible = false;
@@ -61,7 +61,9 @@ class TutorialState extends State
 			map.block[i][5].visible = false;
 		}
 
-		currentText = "swap colors\nto form a squares";
+		addChild(new Bitmap(new BitmapData(768, Math.floor(map.y)*2, false, G.scheme().bg))).y = -Math.floor(map.y);
+
+		currentText = "swap colors\nto form a square";
 		text = H.newTextField(0, 970, 768, 64, G.scheme().fg, "center", currentText);
 		addChild(text).alpha = 0;
 
@@ -73,13 +75,20 @@ class TutorialState extends State
 		moveSpeed = 1.5;
 		acceleration = 0.1;
 
-		addChild(addText = H.newTextField(0, -2540, 768, 50, G.scheme().fg, "center", G.names[0] + " was added to the collection!\n\n" + G.names[1] + " was added to the collection!"));
+		addChild(addText = H.newTextField(0, -2540, 768, 50, G.scheme().fg, "center", G.names[0] + " was added to the collection\n\n" + G.names[1] + " was added to the collection"));
 		addText.alpha = 0;
 		lastTimer = 280;
 	}
 
 	override public function update()
 	{
+		if (text.text == currentText) {
+			if (text.alpha < 0.8) text.alpha += fadeSpeed;
+		} else {
+			if (text.alpha > 0) text.alpha -= fadeSpeed*2;
+			else text.text = currentText;
+		}
+
 		if (currentState == 2) {
 			y += moveSpeed;
 			moveSpeed += acceleration;
@@ -87,6 +96,7 @@ class TutorialState extends State
 				currentState = 3;
 				G.file.data.unlocked[4] = 0;
 				G.file.data.unlocked[6] = 1;
+				G.file.data.firstStart = false;
 				try {
 	                G.file.data.flush();
 	            } catch(e: Dynamic) {}
@@ -110,13 +120,6 @@ class TutorialState extends State
 			return;
 		}
 
-		if (text.text == currentText) {
-			if (text.alpha < 0.8) text.alpha += fadeSpeed;
-		} else {
-			if (text.alpha > 0) text.alpha -= fadeSpeed*2;
-			else text.text = currentText;
-		}
-
 		if (!fall) {
 			if (IO.down) {
 				onDown();
@@ -127,15 +130,13 @@ class TutorialState extends State
 			}
 		} else {
 			if (map.doneFalling()) {
-				for (i in 0...3) {
-                    for (j in 0...3) {
-                        map.checkSquares(i*2, j*2, false);
-                    }
-                }
                 if (currentState == 0) {
 	                currentState = 1;
 	                fall = false;
-	                currentText = "Try to expand this one.";
+	                currentText = "try to make this one bigger";
+	                for (i in 0...3)
+                    	for (j in 0...3)
+                        	map.checkSquares(i*2, j*2, false);
 	            } else
 	            if (currentState == 1) {
 	            	currentState = 2;
@@ -146,8 +147,6 @@ class TutorialState extends State
 		}
 
 		map.update();
-
-		// have to switch & save G.file.data.firstStart to false on exit!
 	}
 
 	private function onDown()
@@ -223,11 +222,11 @@ class TutorialState extends State
 			map.setColor(1, 1, 1); map.setColor(2, 1, 1);
 		} else
 		if (currentState == 1) {
-			for (i in 0...4) {
-				for (j in 0...3) {
-					if (map.block[i][j].y < 0) map.setColor(i, j, -1);
-				}
-			}
+			// for (i in 0...4) {
+			// 	for (j in 0...3) {
+			// 		if (map.block[i][j].y < 0) map.setColor(i, j, -1);
+			// 	}
+			// }
 		}
 	}
 

@@ -146,10 +146,10 @@ class Main extends Sprite {
 			needSave = true;
 		}
 
-		// if (G.file.data.unlocked == null) { !!!
+		if (G.file.data.unlocked == null) {
 			G.file.data.unlocked = [];
 			needSave = true;
-		// }
+		}
 
 		if (G.file.data.purchased == null) {
 			#if android
@@ -170,7 +170,6 @@ class Main extends Sprite {
 		G.score = G.file.data.score;
 		G.level = G.file.data.level;
 		firstStart = G.file.data.firstStart;
-		firstStart = true; // !!!
 		G.purchased = G.file.data.purchased;
 		G.nextScore = G.level * 400;
 		G.maxPopsNotPurchased = 20;
