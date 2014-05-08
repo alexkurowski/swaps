@@ -94,6 +94,7 @@ class Main extends Sprite {
 		G.graphics.rewScreen = Assets.getBitmapData("assets/img/rewscreenq.png");
 
 		// settings
+		G.graphics.logo = Assets.getBitmapData("assets/img/logo.png");
 		G.graphics.music = Assets.getBitmapData("assets/img/music.png");
 		
 

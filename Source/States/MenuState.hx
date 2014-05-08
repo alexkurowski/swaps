@@ -10,7 +10,7 @@ class MenuState extends State
 {
     private var info: Bitmap;
 
-    private var swaps: TextField;
+    private var swaps: Bitmap;
 
     private var score: TextField;
     private var arrowRight: TextField;
@@ -39,7 +39,10 @@ class MenuState extends State
     {
         addChild(musicBtn = new ToggleButton(50, 10, "music", G.music));
         
-        addChild(swaps = H.newTextField(0, 200, 768, 200, G.scheme().fg, "center", "SWAPS")).alpha = 0;
+        addChild(swaps = new Bitmap(G.graphics.logo)).y = 220;
+        swaps.smoothing = true;
+        swaps.bitmapData.colorTransform(swaps.bitmapData.rect, H.recolor(G.scheme().fg));
+        swaps.alpha = 0;
         addChild(score = H.newTextField(0, 548, 768, 92, G.scheme().fg, "center", Std.string(G.score)));
         addChild(arrowRight = H.newTextField(20, 548, 728, 86, G.scheme().fg, "right", ">")).alpha = 0;
         addChild(arrowLeft = H.newTextField(20, 548, 728, 86, G.scheme().fg, "left", "<")).alpha = 0;
@@ -90,7 +93,7 @@ class MenuState extends State
         // color scheme here
         try {
             G.file.flush();
-        } catch (e: Dynamic) {trace(e);}
+        } catch (e: Dynamic) {}
     }
 
     public function set()
