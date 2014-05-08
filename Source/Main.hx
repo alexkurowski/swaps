@@ -21,6 +21,7 @@ class Main extends Sprite {
 	public var menuState: MenuState;
 	public var gameState: GameState;
 	public var infoState: InfoState;
+	public var tutorialState: TutorialState;
 
 	private var currentState: String;
 
@@ -125,6 +126,11 @@ class Main extends Sprite {
 		G.file = SharedObject.getLocal("options");
 		var needSave: Bool = false;
 
+		if (G.file.data.firstStart == null) {
+			G.file.data.firstStart = true;
+			needSave = true;
+		}
+
 		if (G.file.data.music == null) {
 			G.file.data.music = true;
 			needSave = true;
@@ -140,7 +146,7 @@ class Main extends Sprite {
 			needSave = true;
 		}
 
-		// if (G.file.data.unlocked == null) {
+		// if (G.file.data.unlocked == null) { !!!
 			G.file.data.unlocked = [];
 			needSave = true;
 		// }
@@ -163,6 +169,8 @@ class Main extends Sprite {
 		G.vibro = G.file.data.vibro;
 		G.score = G.file.data.score;
 		G.level = G.file.data.level;
+		firstStart = G.file.data.firstStart;
+		firstStart = true; // !!!
 		G.purchased = G.file.data.purchased;
 		G.nextScore = G.level * 400;
 		G.maxPopsNotPurchased = 20;
@@ -181,8 +189,14 @@ class Main extends Sprite {
 		addChild(menuState = new MenuState());
 		addChild(gameState = new GameState()).x = 1000;
 		addChild(infoState = new InfoState()).x = -1000;
-
-		setState("menu");
+		addChild(tutorialState = new TutorialState()).x = -1000;
+		
+		if (!firstStart) setState("menu");
+		else {
+			setState("tutorial");
+			menuState.x = 1000;
+			tutorialState.x = 0;
+		}
 
 		IO.set();
 
@@ -202,11 +216,12 @@ class Main extends Sprite {
 		menuState.scaleX = menuState.scaleY = zoom;
 		gameState.scaleX = gameState.scaleY = zoom;
 		infoState.scaleX = infoState.scaleY = zoom;
+		tutorialState.scaleX = tutorialState.scaleY = zoom;
 
 		centerStateX = Std.int(Lib.current.stage.stageWidth / 2 - 768 * zoom / 2);
 		
 		// menuState.y = gameState.y = settingsState.y = aboutState.y = Lib.current.stage.stageHeight / 2 - 1280 * zoom / 2;
-		menuState.y = gameState.y = infoState.y = Lib.current.stage.stageHeight / 2 - 1280 * zoom / 2;
+		menuState.y = gameState.y = infoState.y = tutorialState.y = Lib.current.stage.stageHeight / 2 - 1280 * zoom / 2;
 
 		IO.setZoom(zoom, centerStateX, menuState.y);
 	}
@@ -216,6 +231,7 @@ class Main extends Sprite {
 		menuState.x = H.lerp(menuState.x, (currentState == "menu" ? centerStateX : (currentState == "game" ? centerStateX - 700 : centerStateX + 700)), lerpSpeed);
 		gameState.x = H.lerp(gameState.x, (currentState == "game" ? centerStateX : centerStateX + 700), lerpSpeed);
 		infoState.x = H.lerp(infoState.x, (currentState == "info" ? centerStateX : centerStateX - 700), lerpSpeed);
+		tutorialState.x = H.lerp(tutorialState.x, (currentState == "tutorial" ? centerStateX : centerStateX - 1400), lerpSpeed);
 
 		var currentTime = Lib.getTimer();
 		var deltaTime = currentTime - previousTime;
@@ -228,6 +244,7 @@ class Main extends Sprite {
 		if (currentState == "menu") menuState.update();
 		else if (currentState == "game" && gameState.x == centerStateX) gameState.update();
 		else if (currentState == "info") infoState.update();
+		else if (currentState == "tutorial") tutorialState.update();
 
 		IO.keyUpdate();
 	}

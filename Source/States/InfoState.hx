@@ -136,6 +136,11 @@ class InfoState extends State
             }
             hScroll = vScroll = false;
         }
+
+        if (IO.key.BACK) {
+            G.game.setState("menu");
+            G.game.menuState.set();
+        }
     }
 
     private function resolveY(i: Int): Float

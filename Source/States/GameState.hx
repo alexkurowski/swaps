@@ -7,7 +7,6 @@ import flash.events.Event;
 import flash.events.TimerEvent;
 import flash.utils.Timer;
 import flash.text.TextField;
-import openfl.feedback.Haptic;
 
 import objects.game.*;
 
