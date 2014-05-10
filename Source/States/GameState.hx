@@ -41,6 +41,10 @@ class GameState extends State
     private var rewardSprite: Sprite;
     private var rewardSquare: Array<Square>;
 
+    private var hScroll: Bool;
+    private var sx: Int;
+    private var ox: Int;
+
 
     public function new()
     {
@@ -68,6 +72,9 @@ class GameState extends State
 
         mi = mj = 0;
 
+        sx = ox = 0;
+        hScroll = false;
+
         map = new Board();
         addChild(map);
 
@@ -90,11 +97,10 @@ class GameState extends State
 
     override public function update()
     {
+        scrollUpdate();
+        
+        if (!hScroll)
         if (controlable) {
-            if (IO.pressed) {
-
-            }
-
             if (IO.down) {
                 onDown();
             }
@@ -186,13 +192,37 @@ class GameState extends State
             unselect();
         }
 
-        if (IO.x < 90 && IO.y < 80) {
-            begin();
+        // if (IO.x < 90 && IO.y < 80) {
+        //     begin();
+        // }
+
+        // if (IO.x > 678 && IO.y < 80) {
+        //     G.game.setState('menu');
+        //     G.game.menuState.set();
+        // }
+    }
+
+    private function scrollUpdate()
+    {
+        if (IO.pressed && IO.y < 300) {
+            hScroll = true;
+            sx = IO.x;
+            ox = Std.int(x);
         }
 
-        if (IO.x > 678 && IO.y < 80) {
-            G.game.setState('menu');
-            G.game.menuState.set();
+        if (IO.down && hScroll) {
+            if (IO.x < sx) {
+                sx = IO.x;
+            }
+            x = ox + (IO.x - sx)*scaleX;
+        }
+
+        if (IO.released && hScroll) {
+            hScroll = false;
+            if (IO.x - sx > 200) {
+                G.game.setState('menu');
+                G.game.menuState.set();    
+            }
         }
     }
 

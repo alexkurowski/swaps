@@ -239,7 +239,7 @@ class Main extends Sprite {
 		IO.touchUpdate();
 
 		if (currentState == "menu") menuState.update();
-		else if (currentState == "game" && gameState.x == centerStateX) gameState.update();
+		else if (currentState == "game") gameState.update();
 		else if (currentState == "info") infoState.update();
 		else if (currentState == "tutorial") tutorialState.update();
 

@@ -16,10 +16,10 @@ class InfoBar extends Sprite
 
     private var scores: Int;
 
-    private var restartBtn: Bitmap;
-    private var restartLabel: TextField;
-    private var restartDelay: Int;
-    private var menuBtn: Bitmap;
+    // private var restartBtn: Bitmap;
+    // private var restartLabel: TextField;
+    // private var restartDelay: Int;
+    // private var menuBtn: Bitmap;
 
     public function new()
     {
@@ -34,19 +34,19 @@ class InfoBar extends Sprite
         score.width = 768 / score.scaleX;
         addChild(score);
 
-        addChild(restartBtn = new Bitmap(G.graphics.retry));
-        restartBtn.smoothing = true;
-        restartBtn.alpha = 0.5;
-        restartBtn.bitmapData.colorTransform(restartBtn.bitmapData.rect, H.recolor(G.scheme().fg));
+        // addChild(restartBtn = new Bitmap(G.graphics.retry));
+        // restartBtn.smoothing = true;
+        // restartBtn.alpha = 0.5;
+        // restartBtn.bitmapData.colorTransform(restartBtn.bitmapData.rect, H.recolor(G.scheme().fg));
 
-        addChild(restartLabel = H.newTextField(95, 8, 200, 50, G.scheme().fg, "left", "restart")).alpha = 0.8;
-        restartDelay = 200;
+        // addChild(restartLabel = H.newTextField(95, 8, 200, 50, G.scheme().fg, "left", "restart")).alpha = 0.8;
+        // restartDelay = 200;
 
-        addChild(menuBtn = new Bitmap(G.graphics.menu));
-        menuBtn.x = 678;
-        menuBtn.smoothing = true;
-        menuBtn.alpha = 0.5;
-        menuBtn.bitmapData.colorTransform(menuBtn.bitmapData.rect, H.recolor(G.scheme().fg));
+        // addChild(menuBtn = new Bitmap(G.graphics.menu));
+        // menuBtn.x = 678;
+        // menuBtn.smoothing = true;
+        // menuBtn.alpha = 0.5;
+        // menuBtn.bitmapData.colorTransform(menuBtn.bitmapData.rect, H.recolor(G.scheme().fg));
     }
 
     public function update(stateScore: Int, turns: Int)
@@ -62,16 +62,16 @@ class InfoBar extends Sprite
             score.y = 136 + 72 * (1 - score.scaleY);
         }
 
-        if (restartDelay > 0) {
-            restartDelay--;
-        } else {
-            if (restartLabel.alpha > 0) restartLabel.alpha -= fadeSpeed;
-        }
+        // if (restartDelay > 0) {
+        //     restartDelay--;
+        // } else {
+        //     if (restartLabel.alpha > 0) restartLabel.alpha -= fadeSpeed;
+        // }
 
-        if (IO.down && IO.x < 90 && IO.y < 80) restartBtn.alpha = 0.8;
-        else restartBtn.alpha = 0.5;
+        // if (IO.down && IO.x < 90 && IO.y < 80) restartBtn.alpha = 0.8;
+        // else restartBtn.alpha = 0.5;
 
-        if (IO.down && IO.x > 678 && IO.y < 80) menuBtn.alpha = 0.8;
-        else menuBtn.alpha = 0.5;
+        // if (IO.down && IO.x > 678 && IO.y < 80) menuBtn.alpha = 0.8;
+        // else menuBtn.alpha = 0.5;
     }
 }
