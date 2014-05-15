@@ -45,6 +45,8 @@ class GameState extends State
     private var sx: Int;
     private var ox: Int;
 
+    private var popCount: Int;
+
 
     public function new()
     {
@@ -74,6 +76,8 @@ class GameState extends State
 
         sx = ox = 0;
         hScroll = false;
+
+        popCount = 0;
 
         map = new Board();
         addChild(map);
@@ -123,6 +127,7 @@ class GameState extends State
                         map.checkSquares(i*2, j*2, false);
                     }
                 }
+                popCount = 0;
                 controlable = true;
             }
         }
@@ -256,6 +261,8 @@ class GameState extends State
         selectY = mj;
         map.setScale(selectX, selectY, 0.8);
         selected = true;
+
+        // if (G.sound) G.sounds.pick.play(0, 0, new flash.media.SoundTransform(0.7));
     }
 
     private function unselect()
@@ -274,7 +281,6 @@ class GameState extends State
         if ((mi != selectX || mj != selectY) &&
           map.block[mi][mj].color != map.block[selectX][selectY].color) {
             map.swap(selectX, selectY, mi, mj);
-            // turn++;
         }
 
         var squared = false;
@@ -284,7 +290,6 @@ class GameState extends State
         if (!squared && (mi != selectX || mj != selectY) &&
           map.block[mi][mj].color != map.block[selectX][selectY].color) {
             map.swap(selectX, selectY, mi, mj, false);
-            // turn--;
         }
 
         selected = false;
@@ -297,6 +302,10 @@ class GameState extends State
         turn++;
         controlable = false;
         selected = false;
+
+        if (G.sound) G.sounds.pop[popCount].play(0, 0, new flash.media.SoundTransform(0.7));
+        popCount++;
+        if (popCount > 5) popCount = 5;
 
         showScore(pop.i, pop.j, pop.w, pop.h, pop.score);
 

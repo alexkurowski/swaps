@@ -55,6 +55,8 @@ class Main extends Sprite {
 
 	public function setState(newState: String)
 	{
+		if (G.sound) if (currentState == "menu" || currentState == "game" || currentState == "info") G.sounds.swipe.play(0, 0, new flash.media.SoundTransform(0.5));
+
 		currentState = newState;
 
 		resize();
@@ -97,6 +99,19 @@ class Main extends Sprite {
 		G.graphics.logo = Assets.getBitmapData("assets/img/logo.png");
 		G.graphics.music = Assets.getBitmapData("assets/img/music.png");
 		
+
+
+		G.sounds = {};
+
+		G.sounds.swipe = Assets.getSound("assets/snd/swoosh.wav");
+
+		G.sounds.pop = [Assets.getSound("assets/snd/pop0.wav"),
+		                Assets.getSound("assets/snd/pop1.wav"),
+		                Assets.getSound("assets/snd/pop2.wav"),
+		                Assets.getSound("assets/snd/pop3.wav"),
+		                Assets.getSound("assets/snd/pop4.wav"),
+		                Assets.getSound("assets/snd/pop5.wav")];
+
 
 		G.font = Assets.getFont("assets/Bariol_Bold.otf");
 
@@ -167,6 +182,7 @@ class Main extends Sprite {
 		}
 
 		G.music = G.file.data.music;
+		G.sound = true;
 		G.vibro = G.file.data.vibro;
 		G.score = G.file.data.score;
 		firstStart = G.file.data.firstStart;

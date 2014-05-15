@@ -20,6 +20,7 @@ class G
     static public var score: Int;
 
     static public var music: Bool;
+    static public var sound: Bool;
     static public var vibro: Bool;
 
     static public var file: SharedObject;
