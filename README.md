@@ -1,4 +1,4 @@
 swaps
 =====
 
-Simple game of swapping and popping.
+A simple game of swapping and popping.
