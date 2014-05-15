@@ -3,7 +3,7 @@
  + Swap squares on a 3x3 board
  + Make one square touch its neighbour
 
-= Visuals must be present
+= Visuals must present
  - Simple, recognizable
  - Tied to the gameplay
  + Glossy square, robot, smile on its screen, white/pink on dark background
