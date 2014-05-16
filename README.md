@@ -1,5 +1,4 @@
 swaps
 =====
 
-
-![screenshot](http://i.imgur.com/kqUVfAN.png)
+A simple game of swapping and popping.
