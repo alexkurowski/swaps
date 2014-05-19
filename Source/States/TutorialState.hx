@@ -202,6 +202,7 @@ class TutorialState extends State
             map.swap(selectX, selectY, mi, mj, false);
         } else {
         	if (currentState == 0) currentText = "now pop it";
+        	if (G.sound) G.sounds.swipe.play(0, 0, new flash.media.SoundTransform(0.7));
         }
 
         selected = false;
@@ -211,9 +212,11 @@ class TutorialState extends State
 	{
 		if (currentState == 0) {
 			map.pop(mi, mj);
+			if (G.sound) G.sounds.pop[0].play(0, 0, new flash.media.SoundTransform(0.7));
 			fall = true;
 		} else if (currentState == 1 && (map.block[3][2].squared || map.block[2][3].squared)) {
 			map.pop(mi, mj);
+			if (G.sound) G.sounds.pop[0].play(0, 0, new flash.media.SoundTransform(0.7));
 			fall = true;
 		}
 
@@ -236,6 +239,7 @@ class TutorialState extends State
         selectY = mj;
         map.setScale(selectX, selectY, 0.8);
         selected = true;
+        if (G.sound) G.sounds.select.play(0, 0, new flash.media.SoundTransform(0.7));
     }
 
     private function unselect()

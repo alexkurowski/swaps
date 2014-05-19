@@ -112,6 +112,9 @@ class Main extends Sprite {
 		                Assets.getSound("assets/snd/pop4.wav"),
 		                Assets.getSound("assets/snd/pop5.wav")];
 
+		G.sounds.select = Assets.getSound("assets/snd/sel.wav");
+		G.sounds.clear = Assets.getSound("assets/snd/rew.wav");
+
 
 		G.font = Assets.getFont("assets/Bariol_Bold.otf");
 
@@ -124,19 +127,19 @@ class Main extends Sprite {
 
 
 		G.names = ["Jim",
-                   "Aaron",
-                   "Williams",
-                   "Martin",
-                   "Larry",
-                   "Lando",
-                   "Perry",
-                   "Mattew",
-                   "Peterson",
-                   "Dmitry",
-                   "Pixie",
-                   "Levy",
-                   "Dan",
-                   "Jumbo"];
+               "Aaron",
+               "Williams",
+               "Martin",
+               "Larry",
+               "Lando",
+               "Perry",
+               "Mattew",
+               "Peterson",
+               "Dmitry",
+               "Pixie",
+               "Levy",
+               "Dan",
+               "Jumbo"];
 
 
 		G.file = SharedObject.getLocal("options");

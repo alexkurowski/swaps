@@ -37,7 +37,7 @@ class MenuState extends State
 
     override private function begin()
     {
-        addChild(musicBtn = new ToggleButton(50, 10, "music", G.music));
+        // addChild(musicBtn = new ToggleButton(50, 10, "music", G.music));
         
         addChild(swaps = new Bitmap(G.graphics.logo)).y = 220;
         swaps.smoothing = true;
@@ -66,10 +66,10 @@ class MenuState extends State
             if (arrowLeft.alpha < 0.3) arrowLeft.alpha += fadeSpeed;
         }
 
-        musicBtn.update();
-        if (musicBtn.isDown()) {
-            G.music = musicBtn.state;
-        }
+        // musicBtn.update();
+        // if (musicBtn.isDown()) {
+        //     G.music = musicBtn.state;
+        // }
 
         if (IO.pressed) {
             sx = IO.x;

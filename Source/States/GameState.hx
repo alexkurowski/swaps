@@ -262,7 +262,7 @@ class GameState extends State
         map.setScale(selectX, selectY, 0.8);
         selected = true;
 
-        // if (G.sound) G.sounds.pick.play(0, 0, new flash.media.SoundTransform(0.7));
+        if (G.sound) G.sounds.select.play(0, 0, new flash.media.SoundTransform(0.4));
     }
 
     private function unselect()
@@ -290,6 +290,8 @@ class GameState extends State
         if (!squared && (mi != selectX || mj != selectY) &&
           map.block[mi][mj].color != map.block[selectX][selectY].color) {
             map.swap(selectX, selectY, mi, mj, false);
+        } else {
+            if (G.sound) G.sounds.swipe.play(0, 0, new flash.media.SoundTransform(0.7));
         }
 
         selected = false;
@@ -352,6 +354,7 @@ class GameState extends State
     {
         // Haptic.vibrate(1000, 1000);
         // play reward sound
+        if (G.sound) G.sounds.clear.play(0, 0, new flash.media.SoundTransform(0.7));
         rewardTimer = 100;
         rewardTxt.text = G.getName(pop.score) + ' was added to the collection!';
 
