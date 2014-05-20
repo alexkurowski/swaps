@@ -45,6 +45,7 @@ class GameState extends State
     private var sx: Int;
     private var ox: Int;
 
+    private var nextSelSnd: Int;
     private var popCount: Int;
 
 
@@ -78,6 +79,8 @@ class GameState extends State
         hScroll = false;
 
         popCount = 0;
+
+        nextSelSnd = 1 + Std.random(5);
 
         map = new Board();
         addChild(map);
@@ -122,11 +125,13 @@ class GameState extends State
             }
 
             if (map.doneFalling()) {
+                var squared = false;
                 for (i in 0...3) {
                     for (j in 0...3) {
-                        map.checkSquares(i*2, j*2, false);
+                        if(map.checkSquares(i*2, j*2, false)) squared = true;
                     }
                 }
+                if (squared) if (G.sound) G.sounds.swipe.play(0, 0, new flash.media.SoundTransform(0.8));
                 popCount = 0;
                 controlable = true;
             }
@@ -209,7 +214,7 @@ class GameState extends State
 
     private function scrollUpdate()
     {
-        if (IO.pressed && IO.y < 300) {
+        if (IO.pressed && (IO.y < 300 || IO.y > 1140)) {
             hScroll = true;
             sx = IO.x;
             ox = Std.int(x);
@@ -262,7 +267,12 @@ class GameState extends State
         map.setScale(selectX, selectY, 0.8);
         selected = true;
 
-        if (G.sound) G.sounds.select.play(0, 0, new flash.media.SoundTransform(0.4));
+        if (G.sound) G.sounds.select[nextSelSnd].play(0, 0, new flash.media.SoundTransform(0.5));
+
+        var prevSelSnd = nextSelSnd;
+        do {
+            nextSelSnd = 1 + Std.random(5);
+        } while (nextSelSnd == prevSelSnd);
     }
 
     private function unselect()
@@ -291,7 +301,7 @@ class GameState extends State
           map.block[mi][mj].color != map.block[selectX][selectY].color) {
             map.swap(selectX, selectY, mi, mj, false);
         } else {
-            if (G.sound) G.sounds.swipe.play(0, 0, new flash.media.SoundTransform(0.7));
+            if (G.sound) G.sounds.swipe.play(0, 0, new flash.media.SoundTransform(0.8));
         }
 
         selected = false;
@@ -305,7 +315,7 @@ class GameState extends State
         controlable = false;
         selected = false;
 
-        if (G.sound) G.sounds.pop[popCount].play(0, 0, new flash.media.SoundTransform(0.7));
+        if (G.sound) G.sounds.select[popCount].play(0, 0, new flash.media.SoundTransform(0.7));
         popCount++;
         if (popCount > 5) popCount = 5;
 

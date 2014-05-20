@@ -55,7 +55,7 @@ class Main extends Sprite {
 
 	public function setState(newState: String)
 	{
-		if (G.sound) if (currentState == "menu" || currentState == "game" || currentState == "info") G.sounds.swipe.play(0, 0, new flash.media.SoundTransform(0.5));
+		if (G.sound) if (currentState == "menu" || currentState == "game" || currentState == "info") G.sounds.swipe.play(0, 0, new flash.media.SoundTransform(0.8));
 
 		currentState = newState;
 
@@ -105,14 +105,23 @@ class Main extends Sprite {
 
 		G.sounds.swipe = Assets.getSound("assets/snd/swoosh.wav");
 
-		G.sounds.pop = [Assets.getSound("assets/snd/pop0.wav"),
-		                Assets.getSound("assets/snd/pop1.wav"),
-		                Assets.getSound("assets/snd/pop2.wav"),
-		                Assets.getSound("assets/snd/pop3.wav"),
-		                Assets.getSound("assets/snd/pop4.wav"),
-		                Assets.getSound("assets/snd/pop5.wav")];
+		// G.sounds.pop = [Assets.getSound("assets/snd/pop0.wav"),
+		//                 Assets.getSound("assets/snd/pop1.wav"),
+		//                 Assets.getSound("assets/snd/pop2.wav"),
+		//                 Assets.getSound("assets/snd/pop3.wav"),
+		//                 Assets.getSound("assets/snd/pop4.wav"),
+		//                 Assets.getSound("assets/snd/pop5.wav")];
 
-		G.sounds.select = Assets.getSound("assets/snd/sel.wav");
+		// G.sounds.pop = Assets.getSound("assets/snd/pop_1.wav");
+
+		G.sounds.select = [Assets.getSound("assets/snd/c.wav"),
+											 Assets.getSound("assets/snd/d.wav"),
+											 Assets.getSound("assets/snd/e.wav"),
+											 Assets.getSound("assets/snd/f.wav"),
+											 Assets.getSound("assets/snd/g.wav"),
+											 Assets.getSound("assets/snd/a.wav"),
+											 Assets.getSound("assets/snd/b.wav")];
+
 		G.sounds.clear = Assets.getSound("assets/snd/rew.wav");
 
 

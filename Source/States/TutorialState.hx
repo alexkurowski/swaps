@@ -75,7 +75,7 @@ class TutorialState extends State
 		moveSpeed = 1.5;
 		acceleration = 0.1;
 
-		addChild(addText = H.newTextField(0, -1580, 768, 50, G.scheme().fg, "center", G.names[0] + " was added to the collection\n\n" + G.names[1] + " was added to the collection")).alpha = 0;
+		addChild(addText = H.newTextField(0, -2520, 768, 50, G.scheme().fg, "center", G.names[0] + " was added to the collection\n\n" + G.names[1] + " was added to the collection")).alpha = 0;
 		lastTimer = 280;
 	}
 
@@ -136,6 +136,7 @@ class TutorialState extends State
 	                for (i in 0...3)
                     	for (j in 0...3)
                         	map.checkSquares(i*2, j*2, false);
+                  if (G.sound) G.sounds.swipe.play(0, 0, new flash.media.SoundTransform(0.8));
 	            } else
 	            if (currentState == 1) {
 	            	currentState = 2;
@@ -202,7 +203,7 @@ class TutorialState extends State
             map.swap(selectX, selectY, mi, mj, false);
         } else {
         	if (currentState == 0) currentText = "now pop it";
-        	if (G.sound) G.sounds.swipe.play(0, 0, new flash.media.SoundTransform(0.7));
+        	if (G.sound) G.sounds.swipe.play(0, 0, new flash.media.SoundTransform(0.8));
         }
 
         selected = false;
@@ -212,11 +213,11 @@ class TutorialState extends State
 	{
 		if (currentState == 0) {
 			map.pop(mi, mj);
-			if (G.sound) G.sounds.pop[0].play(0, 0, new flash.media.SoundTransform(0.7));
+			if (G.sound) G.sounds.select[0].play(0, 0, new flash.media.SoundTransform(0.7));
 			fall = true;
 		} else if (currentState == 1 && (map.block[3][2].squared || map.block[2][3].squared)) {
 			map.pop(mi, mj);
-			if (G.sound) G.sounds.pop[0].play(0, 0, new flash.media.SoundTransform(0.7));
+			if (G.sound) G.sounds.select[0].play(0, 0, new flash.media.SoundTransform(0.7));
 			fall = true;
 		}
 
@@ -239,7 +240,7 @@ class TutorialState extends State
         selectY = mj;
         map.setScale(selectX, selectY, 0.8);
         selected = true;
-        if (G.sound) G.sounds.select.play(0, 0, new flash.media.SoundTransform(0.7));
+        if (G.sound) G.sounds.select[1 + Std.random(5)].play(0, 0, new flash.media.SoundTransform(0.5));
     }
 
     private function unselect()
