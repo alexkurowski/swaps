@@ -75,8 +75,7 @@ class TutorialState extends State
 		moveSpeed = 1.5;
 		acceleration = 0.1;
 
-		addChild(addText = H.newTextField(0, -2520, 768, 50, G.scheme().fg, "center", G.names[0] + " was added to the collection\n\n" + G.names[1] + " was added to the collection")).alpha = 0;
-		lastTimer = 280;
+		lastTimer = 260;
 	}
 
 	override public function update()
@@ -93,19 +92,21 @@ class TutorialState extends State
 			moveSpeed += acceleration;
 			if (y > 1500) {
 				currentState = 3;
+				removeChildren(0, numChildren-1);
+				addChild(addText = H.newTextField(0, 520, 768, 50, G.scheme().fg, "center", G.names[0] + " was added to the collection\n\n" + G.names[1] + " was added to the collection")).alpha = 0;
 				G.file.data.unlocked[4] = 0;
 				G.file.data.unlocked[6] = 1;
 				G.file.data.firstStart = false;
 				try {
-	                G.file.flush();
-	            } catch(e: Dynamic) {}
-	            G.game.infoState.reset();
+          G.file.flush();
+        } catch(e: Dynamic) {}
+	      G.game.infoState.reset();
 			}
 			return;
 		}
 
 		if (currentState == 3) {
-			y = 1500;
+			y = 0;
 			if (lastTimer > 0) {
 				lastTimer--;
 				if (addText.alpha < 0.8) addText.alpha += fadeSpeed;
