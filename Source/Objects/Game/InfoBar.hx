@@ -16,11 +16,6 @@ class InfoBar extends Sprite
 
     private var scores: Int;
 
-    // private var restartBtn: Bitmap;
-    // private var restartLabel: TextField;
-    // private var restartDelay: Int;
-    // private var menuBtn: Bitmap;
-
     public function new()
     {
         super();
